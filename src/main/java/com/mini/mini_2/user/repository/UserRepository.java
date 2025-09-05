@@ -7,5 +7,5 @@ import com.mini.mini_2.user.domain.entity.UserEntity;
 
 @Repository
 public interface UserRepository extends JpaRepository<UserEntity, Integer> {
-    
+    public UserEntity findByNameAndPassword(String username, String password);
 }

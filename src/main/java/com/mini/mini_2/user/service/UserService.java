@@ -16,8 +16,17 @@ public class UserService {
 
     public UserResponseDTO signup(UserRequestDTO request) {
         System.out.println("[UserService] sign up");
-
+        
         UserEntity entity = userRepository.save(request.toEntity());
         return UserResponseDTO.fromEntity(entity);
+    }
+    
+    public UserResponseDTO signin(UserRequestDTO request) {
+        System.out.println("[UserService] sign in");
+        
+        UserEntity entity = userRepository.findByNameAndPassword(request.getUsername(), request.getPassword());
+        UserResponseDTO response = UserResponseDTO.fromEntity(entity);
+        
+        return response;
     }
 }
