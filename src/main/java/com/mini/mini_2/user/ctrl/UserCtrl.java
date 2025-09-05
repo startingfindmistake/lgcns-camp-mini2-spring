@@ -11,6 +11,9 @@ import com.mini.mini_2.user.domain.dto.UserResponseDTO;
 import com.mini.mini_2.user.service.UserService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 
 @RestController
@@ -32,6 +35,16 @@ public class UserCtrl {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
             
         }
+    }
+    
+    @GetMapping("signin")
+    public ResponseEntity<UserResponseDTO> signin(UserRequestDTO request) {
+        System.out.println("[UserCtrl] signin : " + request);
+        
+        UserResponseDTO response = userService.signin(request);
+        
+        return ResponseEntity.status(HttpStatus.OK)
+                             .body(response);
     }
     
 }
