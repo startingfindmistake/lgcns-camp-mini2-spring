@@ -1,0 +1,36 @@
+package com.mini.mini_2.user;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.test.annotation.Rollback;
+
+import com.mini.mini_2.user.domain.dto.UserRequestDTO;
+import com.mini.mini_2.user.domain.dto.UserResponseDTO;
+import com.mini.mini_2.user.domain.entity.UserEntity;
+import com.mini.mini_2.user.repository.UserRepository;
+
+@SpringBootTest
+@Transactional
+@Rollback
+public class UserTest {
+        
+    @Autowired
+    private UserRepository userRepository;
+    
+    @Test
+    public void insertUser() {
+        UserRequestDTO request = UserRequestDTO.builder()
+                                            .username("minu")
+                                            .password("1234")
+                                            .build();
+
+        UserEntity entity = userRepository.save(request.toEntity());
+        UserResponseDTO response = UserResponseDTO.fromEntity(entity);       
+        
+        System.out.println("entity : " +  entity);
+        System.out.println("dto : " +  response);
+        
+    }
+}
