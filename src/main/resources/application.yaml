@@ -6,8 +6,8 @@ spring:
   datasource:
     driver-class-name: ${DRIVER}
     url: ${URL}
-    username: ${USER}
-    password: ${PASSWD}
+    username: ${USERNAME}
+    password: ${PASSWORD}
     
   jpa:
     hibernate:
