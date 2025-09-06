@@ -39,6 +39,11 @@ public class ReviewEntity {
     @JoinColumn(name = "user_id")       // 테이블 컬럼 이름
     private UserEntity user;            // UserEntity 의 mappedBy
     
+//     @ManyToOne(fetch = FetchType.LAZY,
+//                optional = false)
+//     @JoinColumn(name = "user_id")       // 테이블 컬럼 이름
+//     private UserEntity user;            // UserEntity 의 mappedBy
+    
     @Column(nullable = false, 
             length = 1)
     private int rating;
@@ -46,6 +51,8 @@ public class ReviewEntity {
     @Column(nullable = false, 
             length = 1000)
     private String comment;
+    
+    
 
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)
