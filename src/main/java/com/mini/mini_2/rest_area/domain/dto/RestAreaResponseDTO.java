@@ -23,12 +23,14 @@ public class RestAreaResponseDTO {
     private String  direction ;
     
    
-    public static RestAreaResponseDTO fromEntity(RestAreaEntity entity) { 
+    public static RestAreaResponseDTO fromEntity(RestAreaEntity rest) { 
         return RestAreaResponseDTO.builder()
-                .restAreaId(entity.getRest_area_id())
-                .name(entity.getName())
-                .comment(entity.getComment())
-                .direction(entity.getDirection())
+                .restAreaId(rest.getRestAreaId())
+                .name(rest.getName())
+                .comment(rest.getComment())
+                .direction(rest.getDirection())
                 .build() ; 
     }
 }
+
+

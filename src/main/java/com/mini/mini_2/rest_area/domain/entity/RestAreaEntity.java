@@ -31,30 +31,31 @@ public class RestAreaEntity {
     // PK
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer rest_area_id;
+    @Column(name="rest_area_id")
+    private Integer restAreaId;
 
 
     @Column(nullable = false , length = 50)
     private String name ;
     
-    @Column(length = 50)
+    @Column(length = 100)
     private String comment ;
 
-    @Column(length = 50)
+    @Column(nullable = false , length = 50)
     private String direction ;
 
     // 연동 예정 - 일대다
     /*
-    @OneToMany(mappedBy = "rest", orphanRemoval = false) 
+    @OneToMany(mappedBy = "restArea", orphanRemoval = false) 
     private List<ReviewEntity> reviews = new ArrayList<>();
 
-    @OneToMany(mappedBy = "rest", orphanRemoval = false) 
+    @OneToMany(mappedBy = "restArea", orphanRemoval = false) 
     private List<FavoriteEntity> favorites = new ArrayList<>();
 
-    @OneToMany(mappedBy = "rest", orphanRemoval = false) 
+    @OneToMany(mappedBy = "restArea", orphanRemoval = false) 
     private List<FoodEntity> foods = new ArrayList<>();
 
-    @OneToMany(mappedBy = "rest", orphanRemoval = false) 
+    @OneToMany(mappedBy = "restArea", orphanRemoval = false) 
     private List<FacilityEntity> facilities = new ArrayList<>();
     */
 
@@ -63,3 +64,5 @@ public class RestAreaEntity {
     
 
 }
+
+
