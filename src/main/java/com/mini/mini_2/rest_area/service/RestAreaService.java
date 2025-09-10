@@ -11,8 +11,7 @@ import com.mini.mini_2.rest_area.domain.dto.RestAreaResponseDTO;
 import com.mini.mini_2.rest_area.domain.entity.RestAreaEntity;
 import com.mini.mini_2.rest_area.repository.RestAreaRepository;
 
-import jakarta.transaction.Transactional;
-import lombok.RequiredArgsConstructor;
+;
 
 
 @Service
@@ -21,9 +20,9 @@ public class RestAreaService {
     @Autowired
     private RestAreaRepository restRepository ;
     
-    // INSERT 생성(등록)
+    // INSERT - 생성(등록)
     public RestAreaResponseDTO insert(RestAreaRequestDTO request){ 
-        System.out.println("[RestAreaService] insert >>> "+request); 
+        System.out.println("[RestAreaService] insert "); 
         
         RestAreaEntity restArea = restRepository.save( 
             RestAreaEntity.builder() 
@@ -40,9 +39,9 @@ public class RestAreaService {
                 .build(); 
     }
 
-    // LIST 전체 조회
+    // LIST - 전체 조회
     public List<RestAreaResponseDTO> list(){
-        System.out.println("[RestAreaService] LIST >>> ");
+        System.out.println("[RestAreaService] list");
 
         List<RestAreaEntity> list = restRepository.findAll() ;
         return list.stream()
@@ -56,9 +55,9 @@ public class RestAreaService {
     }
 
  
-    // FINDREST 휴게소 일부 조회
+    // FINDREST - 휴게소 일부 조회
     public RestAreaResponseDTO findRest(Integer restAreaId){
-        System.out.println("[RestAreaService] findRest >>> ");
+        System.out.println("[RestAreaService] findRest ");
 
         RestAreaEntity restAreaEntity =
             restRepository.findById(restAreaId)

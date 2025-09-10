@@ -31,8 +31,8 @@ public class RestAreaEntity {
     // PK
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="rest_area_id")
-    private Integer restAreaId;
+    @Column(name = "rest_area_id")
+    private int restAreaId;
 
 
     @Column(nullable = false , length = 50)

@@ -17,10 +17,13 @@ import lombok.ToString;
 @ToString
 public class RestAreaResponseDTO {
     
-    private Integer restAreaId ;
+    private Integer restAreaId; 
     private String  name; 
     private String  comment; 
     private String  direction ;
+
+    // [편의점, 화장실, ....]
+    // private List<String> facilityTypes ; 
     
    
     public static RestAreaResponseDTO fromEntity(RestAreaEntity rest) { 
