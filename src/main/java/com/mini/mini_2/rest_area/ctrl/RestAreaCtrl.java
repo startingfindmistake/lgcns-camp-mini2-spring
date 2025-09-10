@@ -60,7 +60,7 @@ public class RestAreaCtrl {
 
     
     // 휴게소 일부 조회(READ)
-    @GetMapping("/read/{restAreaId}")
+    @GetMapping("/rests/{restAreaId}")
     public ResponseEntity<RestAreaResponseDTO> read(@PathVariable("restAreaId") Integer restAreaId) {
         System.out.println("[RestAreaCtrl] /read ");
         RestAreaResponseDTO response = restAreaService.findRest(restAreaId) ;
