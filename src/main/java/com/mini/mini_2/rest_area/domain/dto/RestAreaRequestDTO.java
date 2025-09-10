@@ -18,7 +18,6 @@ import lombok.ToString;
 @ToString
 public class RestAreaRequestDTO {
     
-    
     private String name;
     private String comment;
     private String direction;

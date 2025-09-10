@@ -20,7 +20,7 @@ import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
-@RequestMapping("/api/v2/mini/food")
+@RequestMapping("/api/v1/mini/food")
 @Tag(name = "Food API", description = "음식 API")
 public class FoodCtrl {
 
@@ -30,11 +30,12 @@ public class FoodCtrl {
     // Create
     @PostMapping("/create")
     public ResponseEntity<FoodResponseDTO> create(@RequestBody FoodRequestDTO request) {
-
+        System.out.println("[FoodCtrl] POST create >>> " + request);
         try {
             FoodResponseDTO response = foodService.insert(request);
             return ResponseEntity.status(HttpStatus.CREATED).body(response);
         } catch (RuntimeException e) {
+            e.printStackTrace(); 
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null); 
         }
     }

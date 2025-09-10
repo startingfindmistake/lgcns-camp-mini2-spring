@@ -5,8 +5,6 @@ import org.springframework.stereotype.Repository;
 
 import com.mini.mini_2.rest_area.domain.entity.RestAreaEntity;
 
-
-
 @Repository
 public interface RestAreaRepository extends JpaRepository<RestAreaEntity, Integer>{
 

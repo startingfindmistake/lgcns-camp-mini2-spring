@@ -1,5 +1,7 @@
 package com.mini.mini_2.food.domain.dto;
 
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.mini.mini_2.food.domain.entity.FoodEntity;
 
 import lombok.AllArgsConstructor;
@@ -21,12 +23,13 @@ public class FoodResponseDTO {
     private Integer restAreaId;
     private String  foodName;
     private double  price;
+    @JsonProperty("signature")
     private boolean isSignature;
 
     public static FoodResponseDTO fromEntity(FoodEntity entity){
         return FoodResponseDTO.builder()
                     .foodId(entity.getFoodId())
-                    .restAreaId(entity.getRest() != null ? entity.getRest().getRest_area_id() : null)
+                    .restAreaId(entity.getRestArea() != null ? entity.getRestArea().getRestAreaId() : null)
                     .foodName(entity.getFoodName())
                     .price(entity.getPrice())
                     .isSignature(entity.isSignature())

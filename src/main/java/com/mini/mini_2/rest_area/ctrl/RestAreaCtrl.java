@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 
 @RestController
-@RequestMapping("/api/v2/mini/restarea")
+@RequestMapping("/api/v1/mini/restarea")
 @Tag(name = "RestArea API", description = "휴게소 API")
 
 public class RestAreaCtrl {
@@ -31,35 +31,47 @@ public class RestAreaCtrl {
     @Autowired
     private RestAreaService restAreaService ; 
 
+    
     // 생성(CREATE)
     @PostMapping("/create")
-    public ResponseEntity<Void> create(@RequestBody  RestAreaRequestDTO request) {
-        System.out.println("[RestAreaCtrl] POST create >>> "+request);
-        boolean ok = restAreaService.create(request) ;
+    public ResponseEntity<Void> create(@RequestBody RestAreaRequestDTO request) {
         
-        return ok ? ResponseEntity.status(HttpStatus.NO_CONTENT).body(null)
-                  : ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        System.out.println("[RestAreaCtrl] POST /create >>> ");
+        
+        RestAreaResponseDTO response = restAreaService.insert(request); 
+        if( response != null  ) {
+            return ResponseEntity.status(HttpStatus.CREATED).body(null) ; 
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }     
            
+    }
 
+
+    // 휴게소 전체 조회(RESTS)
+    @GetMapping("/rests")
+    public ResponseEntity<List<RestAreaResponseDTO>> rests() {
+        System.out.println("[RestAreaCtrl] /rests ");
+        
+        List<RestAreaResponseDTO> list = restAreaService.list();
+
+        return new ResponseEntity<List<RestAreaResponseDTO>>(list, HttpStatus.OK) ;
     }
 
     
-    // 전체 조회(LIST)
-    @GetMapping("/list")
-    public ResponseEntity<List<RestAreaResponseDTO>> list() {
-        System.out.println("[RestAreaCtrl] GET list >>> ");
-        return ResponseEntity.ok(restAreaService.list()) ;
+    // 휴게소 일부 조회(READ)
+    @GetMapping("/rests/{restAreaId}")
+    public ResponseEntity<RestAreaResponseDTO> read(@PathVariable("restAreaId") Integer restAreaId) {
+        System.out.println("[RestAreaCtrl] /read ");
+        RestAreaResponseDTO response = restAreaService.findRest(restAreaId) ;
+       
+        if(response != null) {
+            return new ResponseEntity<>(response , HttpStatus.OK);   // 200
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);       // 404 
+        }  
     }
+    
 
-    // 일부 조회(DETAIL)
-    @GetMapping("/{rest_area_id}")
-    public ResponseEntity<RestAreaResponseDTO> detail(@PathVariable("rest_area_id") Integer id) {
-        System.out.println("[RestAreaCtrl] GET {id} >>> "+id);
-        RestAreaResponseDTO response = restAreaService.get(id) ;
-        return (response == null) ? ResponseEntity.status(HttpStatus.NOT_FOUND).body(null)
-                                  : ResponseEntity.ok(response);
-    }
-    
-    
 }
 

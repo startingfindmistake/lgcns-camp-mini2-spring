@@ -14,6 +14,7 @@ import com.mini.mini_2.rest_area.domain.entity.RestAreaEntity;
 import com.mini.mini_2.rest_area.repository.RestAreaRepository;
 
 
+
 @Service
 public class FoodService {
 
@@ -30,7 +31,7 @@ public class FoodService {
                 .orElseThrow(() -> new RuntimeException("해당 값이 존재하지 않습니다. ID :" + request.getRestAreaId()));
 
         FoodEntity food = FoodEntity.builder()
-                .rest(restArea)
+                .restArea(restArea)
                 .foodName(request.getFoodName())
                 .price(request.getPrice())
                 .isSignature(request.isSignature())
@@ -62,11 +63,11 @@ public class FoodService {
         FoodEntity existing = foodRepository.findById(foodId)
                 .orElseThrow(() -> new RuntimeException("음식이 존재하지 않습니다. ID: " + foodId));
 
-        RestAreaEntity fixedRestArea = existing.getRest();
+        RestAreaEntity fixedRestArea = existing.getRestArea();
 
         FoodEntity updated = FoodEntity.builder()
                 .foodId(existing.getFoodId())
-                .rest(fixedRestArea)
+                .restArea(fixedRestArea)
                 .foodName(request.getFoodName())
                 .price(request.getPrice())
                 .isSignature(request.isSignature())

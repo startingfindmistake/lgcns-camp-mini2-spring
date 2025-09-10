@@ -1,6 +1,4 @@
-package com.mini.mini_2.food.domain.entity;
-
-
+package com.mini.mini_2.facility.domain.entity;
 
 import com.mini.mini_2.rest_area.domain.entity.RestAreaEntity;
 
@@ -21,7 +19,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Table(name = "food")
+@Table(name = "facility")
 
 @Builder
 @Setter
@@ -29,25 +27,23 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class FoodEntity {
-    
+
+public class FacilityEntity {
+
     // PK
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer foodId;
+    @Column(name = "facility_id")
+    private Integer facilityId;
+
+    // FK(rest_area_id)
+    @ManyToOne(fetch = FetchType.LAZY,
+               optional = false)
+    @JoinColumn(name = "rest_area_id")      
+    private RestAreaEntity restArea;          
+
     
-    // FK
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "rest_area_id", nullable = false)
-    private RestAreaEntity restArea;
+    @Column(name = "type", length = 50)
+    private String type; 
     
-    @Column(nullable = false , length = 50)
-    private String foodName ;
-
-    @Column(nullable = false)
-    private double price;
-
-    @Column(nullable = false)
-    private boolean isSignature;
-
 }
