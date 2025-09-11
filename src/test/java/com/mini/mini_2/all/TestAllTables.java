@@ -54,7 +54,7 @@ public class TestAllTables {
         // user
         UserRequestDTO userRequest = UserRequestDTO.builder()
                                             .userEmail("minu@naver.com")
-                                            .userNickName("holymoly")
+                                            .userNickname("holymoly")
                                             .password("1234")
                                             .build();
                                             
@@ -71,8 +71,11 @@ public class TestAllTables {
         // restarea
         RestAreaRequestDTO restAreaRequest = RestAreaRequestDTO.builder()
                                                                .name("서울휴게소")
-                                                               .comment("좋아용")
                                                                .direction("상행")
+                                                               .code("000001")
+                                                               .tel("01012345678")
+                                                               .address("경기도 어쩌구 저쩌구")
+                                                               .routeName("비내리는 호남선")
                                                                .build();
                                                                
         System.out.println("rest area request : " + restAreaRequest);
@@ -88,6 +91,7 @@ public class TestAllTables {
                                                       .restAreaId(restAreaResponse.getRestAreaId())
                                                       .price(1000)
                                                       .isSignature(true)
+                                                      .description("겉바속촉")
                                                       .build();
         FoodEntity foodEntity = foodRepository.save(foodRequest.toEntity(restAreaEntity));
         FoodResponseDTO foodResponse = FoodResponseDTO.fromEntity(foodEntity);
@@ -96,8 +100,9 @@ public class TestAllTables {
         
         // facility
         FacilityRequestDTO facilityRequest = FacilityRequestDTO.builder()
-                                                               .type("전기차충전소")
+                                                               .name("전기차충전소")
                                                                .restAreaId(restAreaResponse.getRestAreaId())
+                                                               .description("20분에 풀충")
                                                                .build();
         FacilityEntity facilityEntity = facilityRepository.save(facilityRequest.toEntity(restAreaEntity));
         FacilityResponseDTO facilityResponse = FacilityResponseDTO.fromEntity(facilityEntity);
@@ -108,6 +113,7 @@ public class TestAllTables {
         FavoriteRequestDTO favoriteRequest = FavoriteRequestDTO.builder()
                                                                .userId(userResponse.getUserId())
                                                                .restAreaId(restAreaResponse.getRestAreaId())
+                                                               .description("호두과자가 기막힘")
                                                                .build();
         FavoriteEntity favoriteEntity = favoriteRepository.save(favoriteRequest.toEntity(userEntity, restAreaEntity));
         FavoriteResponseDTO favoriteResponse = FavoriteResponseDTO.fromEntity(favoriteEntity);
