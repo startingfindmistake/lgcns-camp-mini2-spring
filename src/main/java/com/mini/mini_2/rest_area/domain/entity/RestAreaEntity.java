@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.mini.mini_2.facility.domain.entity.FacilityEntity;
+import com.mini.mini_2.favorite.domain.entity.FavoriteEntity;
 import com.mini.mini_2.food.domain.entity.FoodEntity;
+import com.mini.mini_2.review.domain.entity.ReviewEntity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -38,32 +40,34 @@ public class RestAreaEntity {
     // PK
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "rest_area_id")
     private Integer restAreaId;
 
 
-    @Column(nullable = false , length = 50)
+    @Column(nullable = false , 
+            length = 50)
     private String name ;
     
     @Column(length = 100)
     private String comment ;
 
-    @Column(nullable = false , length = 50)
+    @Column(nullable = false , 
+            length = 50)
     private String direction ;
 
-    // 연동 예정 - 일대다
-    /*
-    @OneToMany(mappedBy = "restArea", orphanRemoval = false) 
+    @OneToMany(mappedBy = "restArea", 
+               orphanRemoval = false) 
     private List<ReviewEntity> reviews = new ArrayList<>();
 
-    @OneToMany(mappedBy = "restArea", orphanRemoval = false) 
+    @OneToMany(mappedBy = "restArea", 
+               orphanRemoval = false) 
     private List<FavoriteEntity> favorites = new ArrayList<>();
 
-    */
-    @OneToMany(mappedBy = "restArea", orphanRemoval = false) 
+    @OneToMany(mappedBy = "restArea", 
+               orphanRemoval = false) 
     private List<FacilityEntity> facilities = new ArrayList<>();
 
-    @OneToMany(mappedBy = "restArea", orphanRemoval = false) 
+    @OneToMany(mappedBy = "restArea", 
+               orphanRemoval = false) 
     private List<FoodEntity> foods = new ArrayList<>();
 
     

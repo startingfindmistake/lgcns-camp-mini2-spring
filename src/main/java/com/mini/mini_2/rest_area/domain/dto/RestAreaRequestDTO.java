@@ -18,12 +18,14 @@ import lombok.ToString;
 @ToString
 public class RestAreaRequestDTO {
     
+    private Integer restAreaId;
     private String name;
     private String comment;
     private String direction;
     
     public RestAreaEntity toEntity() {
         return RestAreaEntity.builder()
+                             .restAreaId(this.restAreaId)
                              .name(this.name)
                              .comment(this.comment)
                              .direction(this.direction)
