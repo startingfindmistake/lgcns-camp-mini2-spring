@@ -1,11 +1,18 @@
 package com.mini.mini_2.rest_area.domain.entity;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.mini.mini_2.facility.domain.entity.FacilityEntity;
+import com.mini.mini_2.food.domain.entity.FoodEntity;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -52,12 +59,12 @@ public class RestAreaEntity {
     @OneToMany(mappedBy = "restArea", orphanRemoval = false) 
     private List<FavoriteEntity> favorites = new ArrayList<>();
 
-    @OneToMany(mappedBy = "restArea", orphanRemoval = false) 
-    private List<FoodEntity> foods = new ArrayList<>();
-
+    */
     @OneToMany(mappedBy = "restArea", orphanRemoval = false) 
     private List<FacilityEntity> facilities = new ArrayList<>();
-    */
+
+    @OneToMany(mappedBy = "restArea", orphanRemoval = false) 
+    private List<FoodEntity> foods = new ArrayList<>();
 
     
 
