@@ -16,8 +16,8 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 public class ReviewResponseDTO {
-    private int review_id;
-    private int rating;
+    private Integer review_id;
+    private String rating;
     private String comment;
     
     public static ReviewResponseDTO fromEntity(ReviewEntity entity) {

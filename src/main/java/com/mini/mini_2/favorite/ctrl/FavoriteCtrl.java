@@ -14,6 +14,9 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -38,9 +41,9 @@ public class FavoriteCtrl {
                          description = "Post Favorite Failed")
         }
     )
-    @PostMapping("post")
-    public ResponseEntity post(@RequestBody FavoriteRequestDTO request) {
-        System.out.println("[FavoriteCtrl] post : " + request);
+    @PostMapping("create")
+    public ResponseEntity create(@RequestBody FavoriteRequestDTO request) {
+        System.out.println("[FavoriteCtrl] create : " + request);
         FavoriteResponseDTO response = favoriteService.post(request);
         
         if(response != null) {
@@ -50,6 +53,15 @@ public class FavoriteCtrl {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
             
         }
+    }
+    
+    @DeleteMapping("delete/{favorite_id}")
+    public ResponseEntity<Void> delete(@PathVariable("favorite_id") Integer favorite_id) {
+        System.out.println("[FavoriteCtrl] delete : " + favorite_id);
+        
+        favoriteService.delete(favorite_id);
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
     }
     
 }

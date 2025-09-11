@@ -39,7 +39,7 @@ public class RestAreaEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "rest_area_id")
-    private int restAreaId;
+    private Integer restAreaId;
 
 
     @Column(nullable = false , length = 50)

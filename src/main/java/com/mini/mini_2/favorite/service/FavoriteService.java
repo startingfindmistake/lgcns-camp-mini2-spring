@@ -20,4 +20,11 @@ public class FavoriteService {
         FavoriteEntity entity = favoriteRepository.save(request.toEntity());
         return FavoriteResponseDTO.fromEntity(entity);
     }
+    
+    public void delete(Integer favorite_id) {
+        System.out.println("[FavoriteService] delete");
+        
+        favoriteRepository.deleteById(favorite_id);
+
+    }
 }

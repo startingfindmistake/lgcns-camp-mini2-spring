@@ -1,6 +1,8 @@
 package com.mini.mini_2.facility.service;
 
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,6 +43,16 @@ public class FacilityService {
         FacilityEntity entity = facilityRepository.save(facility);
         return FacilityResponseDTO.fromEntity(entity);
            
+        
+    }
+    
+    public List<FacilityResponseDTO> find(Integer rest_area_id) {
+        
+        List<FacilityEntity> facilities = facilityRepository.findByRestArea_RestAreaId(rest_area_id);
+        
+        return facilities.stream()
+                         .map(entity -> FacilityResponseDTO.fromEntity(entity))
+                         .toList();
         
     }
 

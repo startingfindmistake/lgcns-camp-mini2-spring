@@ -19,6 +19,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -45,8 +46,8 @@ public class ReviewCtrl {
                          description = "Post Review Failed")
         }
     )
-    @PostMapping("post")
-    public ResponseEntity post(@RequestBody ReviewRequestDTO request) {
+    @PostMapping("create")
+    public ResponseEntity create(@RequestBody ReviewRequestDTO request) {
         System.out.println("[ReviewCtrl] post : " + request);
         ReviewResponseDTO response = reviewService.post(request);
         
@@ -59,13 +60,28 @@ public class ReviewCtrl {
         }
     }
     
-    @GetMapping("getReviewByRestArea/{rest_area_id}")
-    public ResponseEntity<List<ReviewResponseDTO>> getReviewByRestArea(@PathVariable("rest_area_id") int rest_area_id) {
-        System.out.println("[ReviewCtrl] getReviewByRestArea : id -> " + rest_area_id);
+    @GetMapping("reviewsByRestAreaId/{rest_area_id}")
+    public ResponseEntity<List<ReviewResponseDTO>> reviewsByRestAreaId(@PathVariable("rest_area_id") Integer rest_area_id) {
+        System.out.println("[ReviewCtrl] reviewsByRestAreaId : id -> " + rest_area_id);
         
         // TODO: after initialize rest_area table.
         
         
+        return null;
+    }
+    
+    @GetMapping("reviewsByUserId/{user_id}")
+    public ResponseEntity<List<ReviewResponseDTO>> reviewsByUserId(@PathVariable("user_id") Integer user_id) {
+        System.out.println("[ReviewCtrl] reviewsByUserId : id -> " + user_id);
+        
+        
+        return null;
+    }
+    
+    @DeleteMapping("delete/{review_id}")
+    public ResponseEntity<Void> delete(@PathVariable("review_id") Integer review_id) {
+        System.out.println("[ReviewCtrl] reviewsByUserId : id -> " + review_id);
+
         return null;
     }
     

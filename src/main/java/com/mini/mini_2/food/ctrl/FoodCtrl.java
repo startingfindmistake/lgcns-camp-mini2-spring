@@ -41,14 +41,14 @@ public class FoodCtrl {
     }
 
     // 전체 조회
-    @GetMapping("/list")
-    public ResponseEntity<List<FoodResponseDTO>> list() {
+    @GetMapping("/foods")
+    public ResponseEntity<List<FoodResponseDTO>> foods() {
         List<FoodResponseDTO> foods = foodService.list();
         return ResponseEntity.ok(foods);
     }
 
     // 일부 조회
-    @GetMapping("/{foodId}")
+    @GetMapping("/foods/{foodId}")
     public ResponseEntity<FoodResponseDTO> detail(@PathVariable("foodId") Integer foodId) {
         FoodResponseDTO response = foodService.get(foodId);
         if (response == null) {

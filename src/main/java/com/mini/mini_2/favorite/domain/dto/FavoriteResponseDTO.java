@@ -16,7 +16,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 public class FavoriteResponseDTO {
-    private int favorite_id;
+    private Integer favorite_id;
     
     public static FavoriteResponseDTO fromEntity(FavoriteEntity entity) {
         return FavoriteResponseDTO.builder()
