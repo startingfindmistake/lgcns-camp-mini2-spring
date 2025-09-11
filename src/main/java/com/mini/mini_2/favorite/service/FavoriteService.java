@@ -21,10 +21,10 @@ public class FavoriteService {
         return FavoriteResponseDTO.fromEntity(entity);
     }
     
-    public void delete(Integer favorite_id) {
+    public void delete(Integer favoriteId) {
         System.out.println("[FavoriteService] delete");
         
-        favoriteRepository.deleteById(favorite_id);
+        favoriteRepository.deleteById(favoriteId);
 
     }
 }

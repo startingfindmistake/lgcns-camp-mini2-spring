@@ -46,9 +46,9 @@ public class FacilityService {
         
     }
     
-    public List<FacilityResponseDTO> find(Integer rest_area_id) {
+    public List<FacilityResponseDTO> find(Integer restAreaId) {
         
-        List<FacilityEntity> facilities = facilityRepository.findByRestArea_RestAreaId(rest_area_id);
+        List<FacilityEntity> facilities = facilityRepository.findByRestArea_RestAreaId(restAreaId);
         
         return facilities.stream()
                          .map(entity -> FacilityResponseDTO.fromEntity(entity))

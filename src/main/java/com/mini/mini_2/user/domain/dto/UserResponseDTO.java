@@ -16,13 +16,13 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 public class UserResponseDTO {
-    private Integer user_id;
+    private Integer userId;
     private String password;
     private String username;
     
     public static UserResponseDTO fromEntity(UserEntity entity) {
         return UserResponseDTO.builder()
-                              .user_id(entity.getUser_id())
+                              .userId(entity.getUserId())
                               .password(entity.getPassword())
                               .username(entity.getUsername())
                               .build();

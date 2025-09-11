@@ -36,7 +36,7 @@ import lombok.ToString;
 public class ReviewEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer review_id;
+    private Integer reviewId;
 
     @ManyToOne(fetch = FetchType.LAZY,
                optional = false)

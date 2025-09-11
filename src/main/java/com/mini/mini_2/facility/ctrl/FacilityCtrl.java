@@ -56,11 +56,11 @@ public class FacilityCtrl {
         }
     }
     
-    @GetMapping("facilities/{rest_area_id}")
-    public ResponseEntity<List<FacilityResponseDTO>> facilities(@PathVariable("rest_area_id") Integer rest_area_id) {
+    @GetMapping("facilities/{restAreaId}")
+    public ResponseEntity<List<FacilityResponseDTO>> facilities(@PathVariable("restAreaId") Integer restAreaId) {
         System.out.println("[FacilityCtrl] find all ");
         
-        List<FacilityResponseDTO> responses = facilityService.find(rest_area_id);
+        List<FacilityResponseDTO> responses = facilityService.find(restAreaId);
         
         if (responses != null) {
             return ResponseEntity.status(HttpStatus.OK).body(responses);

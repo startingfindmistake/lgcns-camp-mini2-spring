@@ -12,5 +12,4 @@ public interface FacilityRepository extends JpaRepository<FacilityEntity, Intege
 
     // restAreaId로 해당 휴게소 시설 목록 조회
     List<FacilityEntity> findByRestArea_RestAreaId(Integer restAreaId);
-    
 }

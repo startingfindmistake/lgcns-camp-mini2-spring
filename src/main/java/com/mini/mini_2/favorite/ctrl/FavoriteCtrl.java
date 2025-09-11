@@ -55,11 +55,11 @@ public class FavoriteCtrl {
         }
     }
     
-    @DeleteMapping("delete/{favorite_id}")
-    public ResponseEntity<Void> delete(@PathVariable("favorite_id") Integer favorite_id) {
-        System.out.println("[FavoriteCtrl] delete : " + favorite_id);
+    @DeleteMapping("delete/{favoriteId}")
+    public ResponseEntity<Void> delete(@PathVariable("favoriteId") Integer favoriteId) {
+        System.out.println("[FavoriteCtrl] delete : " + favoriteId);
         
-        favoriteService.delete(favorite_id);
+        favoriteService.delete(favoriteId);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
     }

@@ -16,13 +16,13 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 public class ReviewRequestDTO {
-    private Integer review_id;
+    private Integer reviewId;
     private String rating;
     private String comment;
     
     public ReviewEntity toEntity() {
         return ReviewEntity.builder()
-                         .review_id(this.review_id)
+                         .reviewId(this.reviewId)
                          .rating(this.rating)
                          .comment(this.comment)
                          .build();

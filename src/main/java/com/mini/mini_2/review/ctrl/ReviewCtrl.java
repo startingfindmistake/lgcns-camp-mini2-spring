@@ -60,29 +60,41 @@ public class ReviewCtrl {
         }
     }
     
-    @GetMapping("reviewsByRestAreaId/{rest_area_id}")
-    public ResponseEntity<List<ReviewResponseDTO>> reviewsByRestAreaId(@PathVariable("rest_area_id") Integer rest_area_id) {
-        System.out.println("[ReviewCtrl] reviewsByRestAreaId : id -> " + rest_area_id);
+    @GetMapping("reviewsByRestAreaId/{restAreaId}")
+    public ResponseEntity<List<ReviewResponseDTO>> reviewsByRestAreaId(@PathVariable("restAreaId") Integer restAreaId) {
+        System.out.println("[ReviewCtrl] reviewsByRestAreaId : id -> " + restAreaId);
         
-        // TODO: after initialize rest_area table.
+        List<ReviewResponseDTO> responses = reviewService.findByRestAreaId(restAreaId);
         
-        
-        return null;
-    }
-    
-    @GetMapping("reviewsByUserId/{user_id}")
-    public ResponseEntity<List<ReviewResponseDTO>> reviewsByUserId(@PathVariable("user_id") Integer user_id) {
-        System.out.println("[ReviewCtrl] reviewsByUserId : id -> " + user_id);
-        
-        
-        return null;
-    }
-    
-    @DeleteMapping("delete/{review_id}")
-    public ResponseEntity<Void> delete(@PathVariable("review_id") Integer review_id) {
-        System.out.println("[ReviewCtrl] reviewsByUserId : id -> " + review_id);
+        if (responses != null) {
+            return ResponseEntity.status(HttpStatus.OK).body(responses);
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
 
-        return null;
+        }
+    }
+    
+    @GetMapping("reviewsByUserId/{userId}")
+    public ResponseEntity<List<ReviewResponseDTO>> reviewsByUserId(@PathVariable("userId") Integer userId) {
+        System.out.println("[ReviewCtrl] reviewsByUserId : id -> " + userId);
+        
+        List<ReviewResponseDTO> responses = reviewService.findByUserId(userId);
+        
+        if (responses != null) {
+            return ResponseEntity.status(HttpStatus.OK).body(responses);
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+
+        }
+    }
+    
+    @DeleteMapping("delete/{reviewId}")
+    public ResponseEntity<Void> delete(@PathVariable("reviewId") Integer reviewId) {
+        System.out.println("[ReviewCtrl] reviewsByUserId : id -> " + reviewId);
+        
+        reviewService.delete(reviewId);
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
     }
     
     

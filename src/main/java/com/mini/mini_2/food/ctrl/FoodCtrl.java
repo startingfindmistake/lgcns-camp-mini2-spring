@@ -60,11 +60,11 @@ public class FoodCtrl {
     // Update
     @PostMapping("/update/{foodId}")
     public ResponseEntity<FoodResponseDTO> update(
-            @PathVariable("foodId") Integer id,
+            @PathVariable("foodId") Integer foodId,
             @RequestBody FoodRequestDTO request) {
 
         try {
-            FoodResponseDTO response = foodService.update(id, request);
+            FoodResponseDTO response = foodService.update(foodId, request);
             return ResponseEntity.ok(response);
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);

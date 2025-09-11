@@ -30,7 +30,7 @@ public class FavoriteEntity {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer favorite_id;
+    private Integer favoriteId;
 
     @ManyToOne(fetch = FetchType.LAZY,
                optional = false)
