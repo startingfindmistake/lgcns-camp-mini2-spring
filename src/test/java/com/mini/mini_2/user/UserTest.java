@@ -27,18 +27,19 @@ public class UserTest {
     @Test
     public void insertUser() {
         
-        System.out.println("[ENV TEST] string : " + envString);
+        // System.out.println("[ENV TEST] string : " + envString);
         
-        UserRequestDTO request = UserRequestDTO.builder()
-                                            .username("minu")
-                                            .password("1234")
-                                            .build();
+        // UserRequestDTO request = UserRequestDTO.builder()
+        //                                     .userEmail("minu@naa.com")
+        //                                     .userNickName("holy")
+        //                                     .password("1234")
+        //                                     .build();
 
-        UserEntity entity = userRepository.save(request.toEntity());
-        UserResponseDTO response = UserResponseDTO.fromEntity(entity);       
+        // UserEntity entity = userRepository.save(request.toEntity());
+        // UserResponseDTO response = UserResponseDTO.fromEntity(entity);       
         
-        System.out.println("entity : " +  entity);
-        System.out.println("dto : " +  response);
+        // System.out.println("entity : " +  entity);
+        // System.out.println("dto : " +  response);
         
     }
 }

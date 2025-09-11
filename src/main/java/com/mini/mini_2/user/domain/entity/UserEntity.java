@@ -38,13 +38,22 @@ public class UserEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer userId;
 
-    @Column(nullable = false, length = 50)
+    @Column(nullable = false, 
+            length = 50)
     private String password;
-    @Column(nullable = false, length = 50, unique = true)
-    private String username;
+    @Column(nullable = false, 
+            length = 50, 
+            unique = true)
+    private String userEmail;
+    @Column(nullable = false, 
+            length = 50,
+            unique = true)
+    private String userNickname;
     
     @CreationTimestamp
-    @Column(name = "created_at", nullable = false, updatable = false)
+    @Column(name = "created_at", 
+            nullable = false, 
+            updatable = false)
     private LocalDateTime createdAt;
 
     @OneToMany(orphanRemoval = true,

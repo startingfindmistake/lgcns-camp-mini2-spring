@@ -22,9 +22,9 @@ public class FoodRequestDTO {
     
     private Integer restAreaId;  
     private String  foodName;     
-    private double  price;   
-    @JsonProperty("signature")
+    private double  price;
     private boolean isSignature;
+    private String description;
 
     public FoodEntity toEntity(RestAreaEntity restArea) {
         return FoodEntity.builder()
@@ -32,6 +32,7 @@ public class FoodRequestDTO {
                 .foodName(this.foodName)
                 .price(this.price)
                 .isSignature(this.isSignature)
+                .description(this.description)
                 .build();
     }
    

@@ -53,7 +53,8 @@ public class TestAllTables {
         
         // user
         UserRequestDTO userRequest = UserRequestDTO.builder()
-                                            .username("minu")
+                                            .userEmail("minu@naver.com")
+                                            .userNickName("holymoly")
                                             .password("1234")
                                             .build();
                                             

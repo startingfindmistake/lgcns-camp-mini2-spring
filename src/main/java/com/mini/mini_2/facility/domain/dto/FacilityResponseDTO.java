@@ -18,13 +18,15 @@ import lombok.ToString;
 public class FacilityResponseDTO {
     private Integer  facilityId;
     private Integer  restAreaId;
-    private String   type;
+    private String   name;
+    private String   description;
     
     public static FacilityResponseDTO fromEntity(FacilityEntity entity) {
         return FacilityResponseDTO.builder()
                                   .facilityId(entity.getFacilityId())
                                   .restAreaId(entity.getRestArea().getRestAreaId())
-                                  .type(entity.getType())
+                                  .name(entity.getName())
+                                  .description(entity.getDescription())
                                   .build();
     }
     

@@ -24,7 +24,7 @@ public class UserService {
     public UserResponseDTO signin(UserRequestDTO request) {
         System.out.println("[UserService] sign in");
         
-        UserEntity entity = userRepository.findByUsernameAndPassword(request.getUsername(), request.getPassword());
+        UserEntity entity = userRepository.findByUserEmailAndPassword(request.getUserEmail(), request.getPassword());
         UserResponseDTO response = UserResponseDTO.fromEntity(entity);
         
         return response;

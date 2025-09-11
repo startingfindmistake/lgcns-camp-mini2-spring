@@ -37,11 +37,14 @@ public class FoodEntity {
     private Integer foodId;
     
     // FK
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "rest_area_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY, 
+               optional = false)
+    @JoinColumn(name = "rest_area_id", 
+                nullable = false)
     private RestAreaEntity restArea;
     
-    @Column(nullable = false , length = 50)
+    @Column(nullable = false , 
+            length = 50)
     private String foodName ;
 
     @Column(nullable = false)
@@ -49,5 +52,8 @@ public class FoodEntity {
 
     @Column(nullable = false)
     private boolean isSignature;
+
+    @Column(length = 1000)
+    private String description;
 
 }

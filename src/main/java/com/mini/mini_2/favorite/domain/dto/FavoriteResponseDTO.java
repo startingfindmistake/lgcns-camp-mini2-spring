@@ -18,9 +18,17 @@ import lombok.ToString;
 public class FavoriteResponseDTO {
     private Integer favoriteId;
     
+    private Integer userId;
+    private Integer restAreaId;
+
+    private String description;
+    
     public static FavoriteResponseDTO fromEntity(FavoriteEntity entity) {
         return FavoriteResponseDTO.builder()
                                   .favoriteId(entity.getFavoriteId())
+                                  .userId(entity.getUser().getUserId())
+                                  .restAreaId(entity.getRestArea().getRestAreaId())
+                                  .description(entity.getDescription())
                                   .build();
     }
 }

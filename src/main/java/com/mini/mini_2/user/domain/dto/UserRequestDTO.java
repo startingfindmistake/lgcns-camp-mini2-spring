@@ -16,15 +16,15 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 public class UserRequestDTO {
-    private Integer userId;
     private String password;
-    private String username;
+    private String userEmail;
+    private String userNickname;
     
     public UserEntity toEntity() {
         return UserEntity.builder()
-                         .userId(this.userId)
                          .password(this.password)
-                         .username(this.username)
+                         .userEmail(this.userEmail)
+                         .userNickname(this.userNickname)
                          .build();
     }
 }

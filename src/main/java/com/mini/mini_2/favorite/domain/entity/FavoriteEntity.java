@@ -3,6 +3,7 @@ package com.mini.mini_2.favorite.domain.entity;
 import com.mini.mini_2.rest_area.domain.entity.RestAreaEntity;
 import com.mini.mini_2.user.domain.entity.UserEntity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -31,6 +32,9 @@ public class FavoriteEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer favoriteId;
+    
+    @Column(length = 500)
+    private String description;
 
     @ManyToOne(fetch = FetchType.LAZY,
                optional = false)

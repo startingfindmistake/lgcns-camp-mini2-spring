@@ -36,7 +36,7 @@ public class FacilityService {
 
         // facilityEntity에 FK       
         FacilityEntity facility = FacilityEntity.builder()
-                .type(request.getType())
+                .name(request.getName())
                 .restArea(restArea)
                 .build();
 

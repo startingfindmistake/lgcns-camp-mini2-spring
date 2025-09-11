@@ -44,15 +44,29 @@ public class RestAreaEntity {
 
 
     @Column(nullable = false , 
+            unique = true,
             length = 50)
     private String name ;
     
-    @Column(length = 100)
-    private String comment ;
-
     @Column(nullable = false , 
             length = 50)
     private String direction ;
+
+    @Column(nullable = false,
+            unique = true,
+            length = 100)
+    private String code ;
+
+    @Column(length = 50)
+    private String tel ;
+    
+    @Column(length = 100)
+    private String address ;
+
+    @Column(length = 100)
+    private String routeName ;
+
+
 
     @OneToMany(mappedBy = "restArea", 
                orphanRemoval = false) 

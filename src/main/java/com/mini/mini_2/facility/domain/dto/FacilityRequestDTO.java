@@ -21,12 +21,14 @@ import lombok.ToString;
 public class FacilityRequestDTO {
 
     private Integer restAreaId;
-    private String  type;
+    private String  name;
+    private String  description;
     
     public FacilityEntity toEntity(RestAreaEntity restArea) {
         return FacilityEntity.builder()
                 .restArea(restArea)
-                .type(this.type)
+                .name(this.name)
+                .description(this.description)
                 .build();
     }
     

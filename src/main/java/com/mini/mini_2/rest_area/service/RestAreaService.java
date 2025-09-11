@@ -24,19 +24,8 @@ public class RestAreaService {
     public RestAreaResponseDTO insert(RestAreaRequestDTO request){ 
         System.out.println("[RestAreaService] insert "); 
         
-        RestAreaEntity restArea = restRepository.save( 
-            RestAreaEntity.builder() 
-                .name(request.getName()) 
-                .comment(request.getComment()) 
-                .direction(request.getDirection()) 
-                .build() 
-        ); 
-        return RestAreaResponseDTO.builder() 
-                .restAreaId(restArea.getRestAreaId())
-                .name(restArea.getName()) 
-                .comment(restArea.getComment()) 
-                .direction(restArea.getDirection()) 
-                .build(); 
+        RestAreaEntity restArea = restRepository.save( request.toEntity() ); 
+        return RestAreaResponseDTO.fromEntity(restArea);
     }
 
     // LIST - 전체 조회
@@ -45,12 +34,7 @@ public class RestAreaService {
 
         List<RestAreaEntity> list = restRepository.findAll() ;
         return list.stream()
-                .map(entity -> RestAreaResponseDTO.builder()
-                                .restAreaId(entity.getRestAreaId())
-                                .name(entity.getName())
-                                .comment(entity.getComment())
-                                .direction(entity.getDirection()) 
-                                .build())
+                .map(entity -> RestAreaResponseDTO.fromEntity(entity))
                 .toList() ; 
     }
 

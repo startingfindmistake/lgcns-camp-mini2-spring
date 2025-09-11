@@ -43,7 +43,10 @@ public class FacilityEntity {
     private RestAreaEntity restArea;          
 
     
-    @Column(name = "type", length = 50)
-    private String type; 
+    @Column(length = 50)
+    private String name; 
+    
+    @Column(length = 1000)
+    private String description; 
     
 }

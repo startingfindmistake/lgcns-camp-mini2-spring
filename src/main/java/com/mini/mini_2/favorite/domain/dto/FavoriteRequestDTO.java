@@ -21,10 +21,13 @@ public class FavoriteRequestDTO {
     private Integer userId;
     private Integer restAreaId;
     
+    private String description;
+    
     public FavoriteEntity toEntity(UserEntity userEntity, RestAreaEntity restAreaEntity) {
         return FavoriteEntity.builder()
                              .user(userEntity)
                              .restArea(restAreaEntity)
+                             .description(this.description)
                              .build();
     }
 }

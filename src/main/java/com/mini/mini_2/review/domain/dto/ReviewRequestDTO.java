@@ -20,6 +20,7 @@ import lombok.ToString;
 public class ReviewRequestDTO {
     private Integer userId;
     private Integer restAreaId;
+    
     private String rating;
     private String comment;
     

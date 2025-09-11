@@ -18,13 +18,15 @@ import lombok.ToString;
 public class UserResponseDTO {
     private Integer userId;
     private String password;
-    private String username;
+    private String userEmail;
+    private String userNickname;
     
     public static UserResponseDTO fromEntity(UserEntity entity) {
         return UserResponseDTO.builder()
                               .userId(entity.getUserId())
                               .password(entity.getPassword())
-                              .username(entity.getUsername())
+                              .userEmail(entity.getUserEmail())
+                              .userNickname(entity.getUserNickname())
                               .build();
     }
 }
