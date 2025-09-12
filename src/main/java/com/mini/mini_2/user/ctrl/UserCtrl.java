@@ -51,7 +51,6 @@ public class UserCtrl {
         }
         else {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-            
         }
     }
     
@@ -71,8 +70,11 @@ public class UserCtrl {
         
         UserResponseDTO response = userService.signin(request);
         
-        return ResponseEntity.status(HttpStatus.OK)
-                             .body(response);
+        if (response != null) {
+            return ResponseEntity.status(HttpStatus.OK).body(response);
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
     }
     
 }
