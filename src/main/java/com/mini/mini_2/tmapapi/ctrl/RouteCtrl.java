@@ -26,9 +26,9 @@ public class RouteCtrl {
     private RouteService routeService;
     
     @PostMapping("route")
-    public ResponseEntity<RouteResponseDTO> route(@RequestBody RouteRequestDTO entity) {
+    public ResponseEntity<RouteResponseDTO> route(@RequestBody RouteRequestDTO request) {
         
-        RouteResponseDTO response = routeService.route(entity);
+        RouteResponseDTO response = routeService.route(request);
         
         System.out.println("[TMAP DEBUG] result : " + response);
         
@@ -39,6 +39,5 @@ public class RouteCtrl {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
 
         }
-    }
-    
+    } 
 }

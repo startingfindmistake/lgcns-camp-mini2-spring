@@ -10,7 +10,7 @@ import com.mini.mini_2.tmapapi.domain.dto.RouteResponseDTO;
 @Service
 public class RouteService {
 
-    private final WebClient webClient;
+    private final WebClient routeWebClient;
     private final String tmapRouteUrl;
     private final String appKey;
 
@@ -19,7 +19,7 @@ public class RouteService {
                         @Value("${TMAPAPI_ROUTE_URL}") String tmapRouteUrl) {
         this.appKey = appKey;
         this.tmapRouteUrl = tmapRouteUrl;
-        this.webClient = builder
+        this.routeWebClient = builder
                 .defaultHeader("appKey", this.appKey)
                 .build();
     }
@@ -27,7 +27,7 @@ public class RouteService {
     public RouteResponseDTO route(RouteRequestDTO request) {
         String url = tmapRouteUrl + "?version=1&format=json";
         System.out.println("[WEB CLIENT] POST URL " + url);
-        return webClient.post()
+        return routeWebClient.post()
                 .uri(url)
                 .bodyValue(request)
                 .retrieve()

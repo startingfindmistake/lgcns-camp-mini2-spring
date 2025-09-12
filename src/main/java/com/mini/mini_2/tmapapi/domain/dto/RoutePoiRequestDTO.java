@@ -14,5 +14,14 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 public class RoutePoiRequestDTO {
-    private String a;
+    private String startX;
+    private String startY;
+    private String endX;
+    private String endY;
+    private String userX;
+    private String userY;
+    private String radius;
+    private String searchType;
+    private String searchKeyword;
+    private String lineString;
 }
