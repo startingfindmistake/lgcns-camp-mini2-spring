@@ -4,11 +4,11 @@ spring:
 
   # maria db    
   datasource:
-    driver-class-name: ${DRIVER}
-    url: ${URL}
-    username: ${USERNAME}
-    password: ${PASSWORD}
-    
+    driver-class-name: ${SPRING_DRIVER}
+    url: ${SPRING_URL}
+    username: ${SPRING_USERNAME}
+    password: ${SPRING_PASSWORD}
+  
   jpa:
     hibernate:
     # create, create-drop, update, none
@@ -24,7 +24,7 @@ spring:
     import: optional:file:.env[.properties]
         
 server:
-  port: ${PORT}
+  port: ${SPRING_PORT}
   
 jwt:
   secret: ${JWT_SECRET_KEY}
