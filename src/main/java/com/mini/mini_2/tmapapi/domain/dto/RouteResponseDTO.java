@@ -3,144 +3,93 @@ package com.mini.mini_2.tmapapi.domain.dto;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Data;
 
 @Data
 public class RouteResponseDTO {
+    @JsonProperty("usedFavoriteRouteVertices")
     private String usedFavoriteRouteVertices;
+    
+    @JsonProperty("type")
     private String type;
+    
+    @JsonProperty("features")
     private List<FeatureDTO> features;
 
     @Data
     public static class FeatureDTO {
+        @JsonProperty("type")
         private String type;
+        
+        @JsonProperty("geometry")
         private GeometryDTO geometry;
+
+        @JsonProperty("properties")
         private PropertiesDTO properties;
     }
 
     @Data
     public static class GeometryDTO {
+        @JsonProperty("type")
         private String type;
+
+        @JsonProperty("coordinates")
         private List<Object> coordinates;
 
-        @JsonInclude(JsonInclude.Include.NON_NULL)
+        @JsonProperty("traffic")
         private List<List<Integer>> traffic;
     }
 
     @Data
     public static class PropertiesDTO {
+        @JsonProperty("index")
         private Integer index;
+
+        @JsonProperty("name")
         private String name;
+
+        @JsonProperty("description")
         private String description;
 
-        @JsonInclude(JsonInclude.Include.NON_NULL)
+        @JsonProperty("totalDistance")
         private Integer totalDistance;
 
-        @JsonInclude(JsonInclude.Include.NON_NULL)
+        @JsonProperty("totalTime")
         private Integer totalTime;
 
-        @JsonInclude(JsonInclude.Include.NON_NULL)
+        @JsonProperty("totalFare")
         private Integer totalFare;
 
-        @JsonInclude(JsonInclude.Include.NON_NULL)
+        @JsonProperty("taxiFare")
         private Integer taxiFare;
 
-        @JsonInclude(JsonInclude.Include.NON_NULL)
+        @JsonProperty("pointIndex")
         private Integer pointIndex;
 
-        @JsonInclude(JsonInclude.Include.NON_NULL)
+        @JsonProperty("nextRoadName")
         private String nextRoadName;
 
-        @JsonInclude(JsonInclude.Include.NON_NULL)
+        @JsonProperty("turnType")
         private Integer turnType;
 
-        @JsonInclude(JsonInclude.Include.NON_NULL)
+        @JsonProperty("pointType")
         private String pointType;
 
-        // LineString 전용
-        @JsonInclude(JsonInclude.Include.NON_NULL)
+        @JsonProperty("lineIndex")
         private Integer lineIndex;
 
-        @JsonInclude(JsonInclude.Include.NON_NULL)
+        @JsonProperty("distance")
         private Integer distance;
 
-        @JsonInclude(JsonInclude.Include.NON_NULL)
+        @JsonProperty("time")
         private Integer time;
 
-        @JsonInclude(JsonInclude.Include.NON_NULL)
+        @JsonProperty("roadType")
         private Integer roadType;
 
-        @JsonInclude(JsonInclude.Include.NON_NULL)
+        @JsonProperty("facilityType")
         private Integer facilityType;
     }
 }
-// @Data
-// public class RouteResponseDTO {
-//     private String usedFavoriteRouteVertices;
-//     private String type;
-//     private List<FeatureDTO> features;
-
-//     @Data
-//     public static class FeatureDTO {
-//         private String type;
-//         private GeometryDTO geometry;
-//         private PropertiesDTO properties;
-//     }
-
-//     @Data
-//     public static class GeometryDTO {
-//         private String type;
-//         private List<Object> coordinates;
-
-//         @JsonInclude(JsonInclude.Include.NON_NULL)
-//         private List<List<Integer>> traffic;
-//     }
-
-//     @Data
-//     public static class PropertiesDTO {
-//         private Integer index;
-//         private String name;
-//         private String description;
-
-//         @JsonInclude(JsonInclude.Include.NON_NULL)
-//         private Integer totalDistance;
-
-//         @JsonInclude(JsonInclude.Include.NON_NULL)
-//         private Integer totalTime;
-
-//         @JsonInclude(JsonInclude.Include.NON_NULL)
-//         private Integer totalFare;
-
-//         @JsonInclude(JsonInclude.Include.NON_NULL)
-//         private Integer taxiFare;
-
-//         @JsonInclude(JsonInclude.Include.NON_NULL)
-//         private Integer pointIndex;
-
-//         @JsonInclude(JsonInclude.Include.NON_NULL)
-//         private String nextRoadName;
-
-//         @JsonInclude(JsonInclude.Include.NON_NULL)
-//         private Integer turnType;
-
-//         @JsonInclude(JsonInclude.Include.NON_NULL)
-//         private String pointType;
-
-//         // LineString 전용
-//         @JsonInclude(JsonInclude.Include.NON_NULL)
-//         private Integer lineIndex;
-
-//         @JsonInclude(JsonInclude.Include.NON_NULL)
-//         private Integer distance;
-
-//         @JsonInclude(JsonInclude.Include.NON_NULL)
-//         private Integer time;
-
-//         @JsonInclude(JsonInclude.Include.NON_NULL)
-//         private Integer roadType;
-
-//         @JsonInclude(JsonInclude.Include.NON_NULL)
-//         private Integer facilityType;
-//     }
-// }
