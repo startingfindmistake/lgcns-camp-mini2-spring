@@ -4,36 +4,37 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
-import com.mini.mini_2.openapi.domain.dto.FoodApiRequest;
-import com.mini.mini_2.openapi.domain.dto.FoodApiResponseDTO;
+import com.mini.mini_2.openapi.domain.dto.FacilityApiRequestDTO;
+import com.mini.mini_2.openapi.domain.dto.FacilityApiResponseDTO;
 
 @Service
 public class FacilityApiService {
-    private final WebClient routeWebClient;
-    private final String openApiFoodUrl;
+    private final WebClient facilityWebClient;
+    private final String openApiFacilityUrl;
     private final String appKey;
     
     public FacilityApiService(WebClient.Builder builder,
                         @Value("${OPENAPI_KEY}") String appKey,
-                        @Value("${OPENAPI_FOOD_URL}") String openApiFoodUrl) {
+                        @Value("${OPENAPI_FACILITY_URL}") String openApiFacilityUrl) {
         this.appKey = appKey;
-        this.openApiFoodUrl = openApiFoodUrl;
-        this.routeWebClient = builder
+        this.openApiFacilityUrl = openApiFacilityUrl;
+        this.facilityWebClient = builder
                 .build();
     }
     
-    public FoodApiResponseDTO food(FoodApiRequest request) {
-        String url = openApiFoodUrl + 
-                    "?type=json" + 
-                    "&key=" + appKey +
-                    "&numOfRows=" + request.getNumOfRows() +
-                    "&pageNo=" + request.getPageNo();
+    public FacilityApiResponseDTO facility(FacilityApiRequestDTO request) {
+        String url = openApiFacilityUrl +
+                "?type=json" +
+                "&key=" + appKey;
+        if (request.getStdRestCd() != "") {
+            url = url + "&stdRestCd=" + request.getStdRestCd();
+        }
         System.out.println("[WEB CLIENT] GET URL " + url);
         
-        return routeWebClient.get()
+        return facilityWebClient.get()
                 .uri(url)
                 .retrieve()
-                .bodyToMono(FoodApiResponseDTO.class)
+                .bodyToMono(FacilityApiResponseDTO.class)
                 .block();
     }
 }

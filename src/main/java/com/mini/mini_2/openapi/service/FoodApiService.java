@@ -4,12 +4,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
-import com.mini.mini_2.openapi.domain.dto.FoodApiRequest;
+import com.mini.mini_2.openapi.domain.dto.FoodApiRequestDTO;
 import com.mini.mini_2.openapi.domain.dto.FoodApiResponseDTO;
 
 @Service
 public class FoodApiService {
-    private final WebClient routeWebClient;
+    private final WebClient foodWebClient;
     private final String openApiFoodUrl;
     private final String appKey;
     
@@ -18,19 +18,20 @@ public class FoodApiService {
                         @Value("${OPENAPI_FOOD_URL}") String openApiFoodUrl) {
         this.appKey = appKey;
         this.openApiFoodUrl = openApiFoodUrl;
-        this.routeWebClient = builder
+        this.foodWebClient = builder
                 .build();
     }
     
-    public FoodApiResponseDTO food(FoodApiRequest request) {
-        String url = openApiFoodUrl + 
-                    "?type=json" + 
-                    "&key=" + appKey +
-                    "&numOfRows=" + request.getNumOfRows() +
-                    "&pageNo=" + request.getPageNo();
+    public FoodApiResponseDTO food(FoodApiRequestDTO request) {
+        String url = openApiFoodUrl +
+                "?type=json" +
+                "&key=" + appKey;
+        if (request.getStdRestCd() != "") {
+            url = url + "&stdRestCd=" + request.getStdRestCd();
+        }
         System.out.println("[WEB CLIENT] GET URL " + url);
         
-        return routeWebClient.get()
+        return foodWebClient.get()
                 .uri(url)
                 .retrieve()
                 .bodyToMono(FoodApiResponseDTO.class)

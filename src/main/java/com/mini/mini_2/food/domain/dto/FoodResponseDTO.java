@@ -1,6 +1,5 @@
 package com.mini.mini_2.food.domain.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.mini.mini_2.food.domain.entity.FoodEntity;
 
 import lombok.AllArgsConstructor;

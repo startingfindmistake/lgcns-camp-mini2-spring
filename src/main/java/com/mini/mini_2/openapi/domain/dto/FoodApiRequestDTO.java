@@ -13,7 +13,6 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class FoodApiRequest {
-    private String numOfRows;
-    private String pageNo;
+public class FoodApiRequestDTO {
+    private String stdRestCd;
 }

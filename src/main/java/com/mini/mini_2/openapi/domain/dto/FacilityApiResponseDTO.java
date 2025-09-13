@@ -12,43 +12,41 @@ import lombok.Data;
 public class FacilityApiResponseDTO {
     
     @JsonProperty("list")
-    private List<FoodDTO> list;
+    private List<FacilityDTO> list;
     @JsonProperty("code")
     private String code;
     @JsonProperty("message")
     private String message;
     @JsonProperty("count")
     private String count;
+    
     @Data
-    public static class FoodDTO {
+    public static class FacilityDTO {
         @JsonProperty("stdRestCd")
         private String stdRestCd;
-        @JsonProperty("foodNm")
-        private String foodNm;
-        @JsonProperty("foodCost")
-        private String foodCost;
-        @JsonProperty("etc")
-        private String etc;
-        @JsonProperty("recommendyn")
-        private String recommendyn;
-        @JsonProperty("seasonMenu")
-        private String seasonMenu;
-        @JsonProperty("bestfoodyn")
-        private String bestfoodyn;
-        @JsonProperty("premiumyn")
-        private String premiumyn;
-        @JsonProperty("restCd")
-        private String restCd;
-        @JsonProperty("foodMaterial")
-        private String foodMaterial;
-        @JsonProperty("stdRestNm")
-        private String stdRestNm;
-        @JsonProperty("svarAddr")
-        private String svarAddr;
+        @JsonProperty("stime")
+        private String stime;
         @JsonProperty("routeCd")
         private String routeCd;
+        @JsonProperty("svarAddr")
+        private String svarAddr;
         @JsonProperty("routeNm")
         private String routeNm;
-
+        @JsonProperty("stdRestNm")
+        private String stdRestNm;
+        @JsonProperty("etime")
+        private String etime;
+        @JsonProperty("redId")
+        private String redId;
+        @JsonProperty("redDtime")
+        private String redDtime;
+        @JsonProperty("lsttmAltrDttm")
+        private String lsttmAltrDttm;
+        @JsonProperty("psCode")
+        private String psCode;
+        @JsonProperty("psName")
+        private String psName;
+        @JsonProperty("psDesc")
+        private String psDesc;
     }
 }

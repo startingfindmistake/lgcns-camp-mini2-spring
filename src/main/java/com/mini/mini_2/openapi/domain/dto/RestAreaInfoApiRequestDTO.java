@@ -1,4 +1,4 @@
-package com.mini.mini_2.tmapapi.domain.dto;
+package com.mini.mini_2.openapi.domain.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,9 +13,6 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class RouteRequestDTO {
-    private String startX;
-    private String startY;
-    private String endX;
-    private String endY;
+public class RestAreaInfoApiRequestDTO {
+    private String stdRestCd;
 }
