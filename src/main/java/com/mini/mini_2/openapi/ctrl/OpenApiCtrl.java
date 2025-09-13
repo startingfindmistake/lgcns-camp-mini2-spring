@@ -32,7 +32,7 @@ public class OpenApiCtrl {
     @Autowired
     private FacilityApiService facilityApiService;
     
-    @GetMapping("restarea")
+    @GetMapping("location")
     public ResponseEntity<RestAreaLocationApiResponseDTO> restarea(@ModelAttribute RestAreaLocationApiRequestDTO request) {
         RestAreaLocationApiResponseDTO response = restAreaLocationApiService.location(request);
         
