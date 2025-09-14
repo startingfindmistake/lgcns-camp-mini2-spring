@@ -7,10 +7,13 @@ import com.mini.mini_2.openapi.domain.dto.FacilityApiRequestDTO;
 import com.mini.mini_2.openapi.domain.dto.FacilityApiResponseDTO;
 import com.mini.mini_2.openapi.domain.dto.FoodApiRequestDTO;
 import com.mini.mini_2.openapi.domain.dto.FoodApiResponseDTO;
+import com.mini.mini_2.openapi.domain.dto.RestAreaInfoApiRequestDTO;
+import com.mini.mini_2.openapi.domain.dto.RestAreaInfoApiResponseDTO;
 import com.mini.mini_2.openapi.domain.dto.RestAreaLocationApiRequestDTO;
 import com.mini.mini_2.openapi.domain.dto.RestAreaLocationApiResponseDTO;
 import com.mini.mini_2.openapi.service.FacilityApiService;
 import com.mini.mini_2.openapi.service.FoodApiService;
+import com.mini.mini_2.openapi.service.RestAreaInfoApiService;
 import com.mini.mini_2.openapi.service.RestAreaLocationApiService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +34,22 @@ public class OpenApiCtrl {
     
     @Autowired
     private FacilityApiService facilityApiService;
+    
+    @Autowired
+    public RestAreaInfoApiService restAreaInfoApiService;
+    
+    @GetMapping("info")
+    public ResponseEntity<RestAreaInfoApiResponseDTO> restarea(@ModelAttribute RestAreaInfoApiRequestDTO request) {
+        RestAreaInfoApiResponseDTO response = restAreaInfoApiService.info(request);
+        
+        System.out.println("[OPENAPI INFO] result : " + response);
+
+        if (response != null) {
+            return ResponseEntity.status(HttpStatus.OK).body(response);
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
     
     @GetMapping("location")
     public ResponseEntity<RestAreaLocationApiResponseDTO> restarea(@ModelAttribute RestAreaLocationApiRequestDTO request) {

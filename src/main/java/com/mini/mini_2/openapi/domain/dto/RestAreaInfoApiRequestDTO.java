@@ -14,5 +14,5 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 public class RestAreaInfoApiRequestDTO {
-    private String stdRestCd;
+    private String svarCd;
 }
