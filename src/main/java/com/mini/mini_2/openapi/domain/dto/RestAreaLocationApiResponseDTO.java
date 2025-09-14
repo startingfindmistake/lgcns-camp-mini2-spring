@@ -18,6 +18,12 @@ public class RestAreaLocationApiResponseDTO {
     private String message;
     @JsonProperty("count")
     private String count;
+    @JsonProperty("pageNo")
+    private String pageNo;
+    @JsonProperty("numOfRows")
+    private String numOfRows;
+    @JsonProperty("pageSize")
+    private String pageSize;
     
     @Data
     public static class RestAreaLocationDTO{

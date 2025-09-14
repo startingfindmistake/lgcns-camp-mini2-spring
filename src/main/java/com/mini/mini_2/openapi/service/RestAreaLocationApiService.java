@@ -17,21 +17,22 @@ public class RestAreaLocationApiService {
     public RestAreaLocationApiService(WebClient.Builder builder,
             @Value("${OPENAPI_KEY}") String appKey,
             @Value("${OPENAPI_LOCATION_URL}") String openApiRestAreaUrl) {
-        ExchangeStrategies strategies = ExchangeStrategies.builder()
-                .codecs(configurer -> configurer.defaultCodecs().maxInMemorySize(16 * 1024 * 1024)) // 16MB
-                .build();
+        // ExchangeStrategies strategies = ExchangeStrategies.builder()
+        //         .codecs(configurer -> configurer.defaultCodecs().maxInMemorySize(16 * 1024 * 1024)) // 16MB
+        //         .build();
         
         this.appKey = appKey;
         this.openApiRestAreaLocationUrl = openApiRestAreaUrl;
         this.restAreaWebClient = builder
-                .exchangeStrategies(strategies)
+                // .exchangeStrategies(strategies)
                 .build();
     }
     
     public RestAreaLocationApiResponseDTO location(RestAreaLocationApiRequestDTO request) {
         String url = openApiRestAreaLocationUrl +
                     "?type=json" +
-                    "&key=" + appKey;
+                    "&key=" + appKey +
+                    "&numOfRows=99";
         if(request.getStdRestCd() != "") { 
             url = url + "&stdRestCd=" + request.getStdRestCd();
         }
