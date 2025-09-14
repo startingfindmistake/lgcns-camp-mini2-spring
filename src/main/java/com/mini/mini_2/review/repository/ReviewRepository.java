@@ -12,4 +12,6 @@ public interface ReviewRepository extends JpaRepository<ReviewEntity, Integer> {
     
     List<ReviewEntity> findByRestArea_RestAreaId(Integer restAreaId);
     List<ReviewEntity> findByUser_userId(Integer userId);
+
+    //List<ReviewEntity> findByRestArea_RestAreaIdOrderByCreatedAtDesc(Integer restAreaId);
 }

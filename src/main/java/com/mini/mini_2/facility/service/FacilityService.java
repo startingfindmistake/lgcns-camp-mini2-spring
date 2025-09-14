@@ -2,6 +2,7 @@ package com.mini.mini_2.facility.service;
 
 
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,8 +37,9 @@ public class FacilityService {
 
         // facilityEntity에 FK       
         FacilityEntity facility = FacilityEntity.builder()
-                .name(request.getName())
                 .restArea(restArea)
+                .name(request.getName())
+                .description(request.getDescription())   // description 추가
                 .build();
 
         FacilityEntity entity = facilityRepository.save(facility);
@@ -54,6 +56,22 @@ public class FacilityService {
                          .map(entity -> FacilityResponseDTO.fromEntity(entity))
                          .toList();
         
+    }
+
+    // [추가 - 필터링 작업] 주어진 편의시설을 갖춘 휴게소 ID 반환
+    @Transactional
+    public List<Integer> findRestIdByType(List<String> types) {
+
+        // 시설 공백이나 중복 필터
+        List<String> cleandTypes = (types == null ? List.<String>of() : types)
+                .stream()
+                .filter(Objects::nonNull)
+                .map(String::trim)
+                .distinct()
+                .toList() ;
+
+        if (cleandTypes.isEmpty()) return List.of() ;        
+        return facilityRepository.findRestAreaIdsByTypes(cleandTypes) ;
     }
 
 

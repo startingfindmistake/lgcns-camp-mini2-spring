@@ -69,5 +69,15 @@ public class FacilityCtrl {
 
         }
     }
+
+    // [필터링] 주어진 시설 유형을 모두 갖춘 휴게소 ID 목록 반환
+    @GetMapping("searchIds")
+    public ResponseEntity<List<Integer>> searchIds(@RequestParam("types") List<String> types) {
+        System.out.println("[FacilityCtrl] searchIds ");
+        
+        List<Integer> ids = facilityService.findRestIdByType(types);
+        return ResponseEntity.ok(ids);
+    }
+    
     
 }
