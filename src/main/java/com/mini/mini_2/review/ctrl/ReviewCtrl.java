@@ -59,12 +59,19 @@ public class ReviewCtrl {
             
         }
     }
+
+    @Operation(
+        summary = "휴게소별 리뷰(기본: 최신순/ 선택: 평점순)",
+        description = "휴게소별 리뷰(기본: 최신순/ 선택: 평점순)"
+    )
     
     @GetMapping("reviewsByRestAreaId/{restAreaId}")
-    public ResponseEntity<List<ReviewResponseDTO>> reviewsByRestAreaId(@PathVariable("restAreaId") Integer restAreaId) {
-        System.out.println("[ReviewCtrl] reviewsByRestAreaId : id -> " + restAreaId);
+    public ResponseEntity<List<ReviewResponseDTO>> reviewsByRestAreaId(
+            @PathVariable("restAreaId") Integer restAreaId,
+            @RequestParam(name= "sort", defaultValue = "latest") String sort) {
+        System.out.println("[ReviewCtrl] reviewsByRestAreaId : id -> " + restAreaId + ", sort -> " + sort);
         
-        List<ReviewResponseDTO> responses = reviewService.findByRestAreaId(restAreaId);
+        List<ReviewResponseDTO> responses = reviewService.findByRestAreaId(restAreaId, sort);
         
         if (responses != null) {
             return ResponseEntity.status(HttpStatus.OK).body(responses);
@@ -74,6 +81,11 @@ public class ReviewCtrl {
         }
     }
     
+    @Operation(
+        summary = "사용자별 작성한 리뷰 조회",
+        description = "사용자별 작성한 리뷰 조회"
+    )
+
     @GetMapping("reviewsByUserId/{userId}")
     public ResponseEntity<List<ReviewResponseDTO>> reviewsByUserId(@PathVariable("userId") Integer userId) {
         System.out.println("[ReviewCtrl] reviewsByUserId : id -> " + userId);
@@ -87,6 +99,31 @@ public class ReviewCtrl {
 
         }
     }
+
+    @Operation(
+        summary = "리뷰 수정",
+        description = "리뷰 수정"
+    )
+
+    @PostMapping("update/{reviewId}")
+    public ResponseEntity<ReviewResponseDTO> update(
+            @PathVariable("reviewId") Integer reviewId,
+            @RequestBody ReviewRequestDTO request) {
+        System.out.println("[ReviewCtrl] update : id -> " + reviewId);
+
+        try {
+            ReviewResponseDTO response = reviewService.update(reviewId, request) ;
+            return ResponseEntity.status(HttpStatus.OK).body(response);
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+    }
+
+    @Operation(
+        summary = "리뷰 삭제",
+        description = "리뷰 삭제"
+    )
     
     @DeleteMapping("delete/{reviewId}")
     public ResponseEntity<Void> delete(@PathVariable("reviewId") Integer reviewId) {

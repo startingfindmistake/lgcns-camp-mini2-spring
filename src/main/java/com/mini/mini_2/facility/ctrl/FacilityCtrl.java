@@ -80,8 +80,8 @@ public class FacilityCtrl {
     }
 
     @Operation(
-        summary = "시설 필터로 휴게소 ID 찾기",
-        description = "시설 필터로 휴게소 ID 찾기"
+        summary = "시설 필터로 시설 존재 휴게소 찾기",
+        description = "시설 필터로 시설 존재 휴게소 찾기"
     )
 
     // [필터링] 주어진 시설 유형을 모두 갖춘 휴게소 ID 목록 반환
