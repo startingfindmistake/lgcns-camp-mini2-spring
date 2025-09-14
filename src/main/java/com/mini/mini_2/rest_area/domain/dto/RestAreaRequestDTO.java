@@ -3,7 +3,6 @@ package com.mini.mini_2.rest_area.domain.dto;
 
 import com.mini.mini_2.rest_area.domain.entity.RestAreaEntity;
 
-import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

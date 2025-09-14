@@ -1,6 +1,8 @@
 package com.mini.mini_2.food.service;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -87,6 +89,36 @@ public class FoodService {
         foodRepository.delete(food);
 
         return true;
+    }
+
+    // 조회 (정규표현식)
+   public List<FoodResponseDTO> searchFoodsByKeyword(String keyword) {
+        Pattern pattern = Pattern.compile(Pattern.quote(keyword));
+
+        return foodRepository.findAll().stream()
+                .filter(f -> f.getFoodName() != null)
+                .filter(f -> {
+                    Matcher matcher = pattern.matcher(f.getFoodName());
+                    return matcher.find(); 
+                })
+                .map(FoodResponseDTO::fromEntity) 
+                .collect(Collectors.toList());
+    }
+
+    // 시그니쳐 유뮤
+    public List<FoodResponseDTO> getSignatureFood(Integer restAreaId) {
+        return foodRepository.findAll().stream()
+                .filter(r -> r.getRestArea() != null && r.getRestArea().getRestAreaId().equals(restAreaId))
+                .filter(FoodEntity::isSignature)
+                .map(FoodResponseDTO::fromEntity)
+                .collect(Collectors.toList());
+    }
+    // 가격 필터
+    public List<FoodResponseDTO> searchFoodsByPrice(double maxPrice) {
+        return foodRepository.findAll().stream()
+                .filter(f -> f.getPrice() <= maxPrice)
+                .map(FoodResponseDTO::fromEntity)
+                .collect(Collectors.toList());
     }
 }
 

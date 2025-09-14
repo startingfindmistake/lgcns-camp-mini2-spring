@@ -1,6 +1,5 @@
 package com.mini.mini_2.rest_area.domain.entity;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,8 +22,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-
-
 @Entity
 @Table(name = "rest_area")
 
@@ -36,58 +33,41 @@ import lombok.ToString;
 @ToString
 
 public class RestAreaEntity {
-    
-    // PK
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer restAreaId;
 
 
-    @Column(nullable = false , 
-            unique = true,
-            length = 50)
-    private String name ;
-    
-    @Column(nullable = false , 
-            length = 50)
-    private String direction ;
+        // PK
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        private Integer restAreaId;
 
-    @Column(nullable = false,
-            unique = true,
-            length = 100)
-    private String code ;
+        @Column(nullable = false, unique = true, length = 50)
+        private String name;
 
-    @Column(length = 50)
-    private String tel ;
-    
-    @Column(length = 100)
-    private String address ;
+        @Column(nullable = false, length = 50)
+        private String direction;
 
-    @Column(length = 100)
-    private String routeName ;
+        @Column(nullable = false, unique = true, length = 100)
+        private String code;
 
+        @Column(length = 50)
+        private String tel;
 
+        @Column(length = 100)
+        private String address;
 
-    @OneToMany(mappedBy = "restArea", 
-               orphanRemoval = false) 
-    private List<ReviewEntity> reviews = new ArrayList<>();
+        @Column(length = 100)
+        private String routeName;
 
-    @OneToMany(mappedBy = "restArea", 
-               orphanRemoval = false) 
-    private List<FavoriteEntity> favorites = new ArrayList<>();
+        @OneToMany(mappedBy = "restArea", orphanRemoval = false)
+        private List<ReviewEntity> reviews = new ArrayList<>();
 
-    @OneToMany(mappedBy = "restArea", 
-               orphanRemoval = false) 
-    private List<FacilityEntity> facilities = new ArrayList<>();
+        @OneToMany(mappedBy = "restArea", orphanRemoval = false)
+        private List<FavoriteEntity> favorites = new ArrayList<>();
 
-    @OneToMany(mappedBy = "restArea", 
-               orphanRemoval = false) 
-    private List<FoodEntity> foods = new ArrayList<>();
+        @OneToMany(mappedBy = "restArea", orphanRemoval = false)
+        private List<FacilityEntity> facilities = new ArrayList<>();
 
-    
-
-    
+        @OneToMany(mappedBy = "restArea", orphanRemoval = false)
+        private List<FoodEntity> foods = new ArrayList<>();
 
 }
-
-
