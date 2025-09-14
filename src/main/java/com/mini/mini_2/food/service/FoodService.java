@@ -30,12 +30,7 @@ public class FoodService {
         RestAreaEntity restArea = restAreaRepository.findById(request.getRestAreaId())
                 .orElseThrow(() -> new RuntimeException("해당 값이 존재하지 않습니다. ID :" + request.getRestAreaId()));
 
-        FoodEntity food = FoodEntity.builder()
-                .restArea(restArea)
-                .foodName(request.getFoodName())
-                .price(request.getPrice())
-                .isSignature(request.isSignature())
-                .build();
+        FoodEntity food = request.toEntity(restArea);
 
         foodRepository.save(food);
 
