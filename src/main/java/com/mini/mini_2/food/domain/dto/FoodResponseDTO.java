@@ -20,8 +20,8 @@ public class FoodResponseDTO {
     private Integer foodId;
     private Integer restAreaId;
     private String foodName;
-    private double price;
-    private boolean isSignature;
+    private String price;
+    private String isSignature;
     private String description;
 
     public static FoodResponseDTO fromEntity(FoodEntity entity) {
@@ -30,7 +30,7 @@ public class FoodResponseDTO {
                 .restAreaId(entity.getRestArea().getRestAreaId())
                 .foodName(entity.getFoodName())
                 .price(entity.getPrice())
-                .isSignature(entity.isSignature())
+                .isSignature(entity.getIsSignature())
                 .description(entity.getDescription())
                 .build();
     }

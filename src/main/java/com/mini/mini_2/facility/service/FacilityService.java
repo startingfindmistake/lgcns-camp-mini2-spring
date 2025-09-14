@@ -35,10 +35,7 @@ public class FacilityService {
                 .orElseThrow(() -> new RuntimeException("휴게소가 존재하지 않습니다. ID= " + request.getRestAreaId()));
 
         // facilityEntity에 FK       
-        FacilityEntity facility = FacilityEntity.builder()
-                .name(request.getName())
-                .restArea(restArea)
-                .build();
+        FacilityEntity facility = request.toEntity(restArea);
 
         FacilityEntity entity = facilityRepository.save(facility);
         return FacilityResponseDTO.fromEntity(entity);

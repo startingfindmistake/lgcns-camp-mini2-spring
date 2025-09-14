@@ -65,7 +65,7 @@ public class FoodService {
                 .restArea(fixedRestArea)
                 .foodName(request.getFoodName())
                 .price(request.getPrice())
-                .isSignature(request.isSignature())
+                .isSignature(request.getIsSignature())
                 .build();
 
         FoodEntity saved = foodRepository.save(updated);

@@ -72,6 +72,20 @@ public class RestAreaService {
         
         
     }
+    public RestAreaResponseDTO findByCode(String code){
+        System.out.println("[RestAreaService] findByCode ");
+
+        RestAreaEntity restAreaEntity =
+            restRepository.findByCode(code)
+                .orElseThrow(() -> 
+                    new RuntimeException("해당 휴게소가 존재하지 않습니다"));
+                  
+        RestAreaResponseDTO response = 
+            RestAreaResponseDTO.fromEntity(restAreaEntity) ;
+        return response ;
+        
+        
+    }
 
     // delete 구성 후 추가
 

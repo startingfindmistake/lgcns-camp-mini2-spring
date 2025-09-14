@@ -20,8 +20,8 @@ public class FoodRequestDTO {
     
     private Integer restAreaId;  
     private String  foodName;     
-    private double  price;
-    private boolean isSignature;
+    private String  price;
+    private String isSignature;
     private String description;
 
     public FoodEntity toEntity(RestAreaEntity restArea) {
