@@ -11,10 +11,16 @@ import com.mini.mini_2.openapi.domain.dto.RestAreaInfoApiRequestDTO;
 import com.mini.mini_2.openapi.domain.dto.RestAreaInfoApiResponseDTO;
 import com.mini.mini_2.openapi.domain.dto.RestAreaLocationApiRequestDTO;
 import com.mini.mini_2.openapi.domain.dto.RestAreaLocationApiResponseDTO;
+import com.mini.mini_2.openapi.domain.dto.RestAreaInfoApiResponseDTO.RestAreaInfoDTO;
+import com.mini.mini_2.openapi.domain.dto.RestAreaLocationApiResponseDTO.RestAreaLocationDTO;
 import com.mini.mini_2.openapi.service.FacilityApiService;
 import com.mini.mini_2.openapi.service.FoodApiService;
 import com.mini.mini_2.openapi.service.RestAreaInfoApiService;
 import com.mini.mini_2.openapi.service.RestAreaLocationApiService;
+import com.mini.mini_2.rest_area.domain.dto.RestAreaRequestDTO;
+import com.mini.mini_2.rest_area.service.RestAreaService;
+
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,15 +34,63 @@ public class OpenApiCtrl {
     
     @Autowired
     private FoodApiService foodApiService;
-    
     @Autowired
     private RestAreaLocationApiService restAreaLocationApiService;
-    
     @Autowired
     private FacilityApiService facilityApiService;
-    
     @Autowired
     public RestAreaInfoApiService restAreaInfoApiService;
+    
+    @Autowired
+    public RestAreaService restAreaService;
+    
+    @GetMapping("restarea_update")
+    public ResponseEntity<Void> restarea_update(@ModelAttribute RestAreaLocationApiRequestDTO request) {
+        RestAreaLocationApiResponseDTO response = restAreaLocationApiService.location(request);
+        // System.out.println("[UPDATE TEST] request : " + response);
+        
+        for (RestAreaLocationDTO restarea : response.getList()) {
+            String xValue = restarea.getXValue();
+            String yValue = restarea.getYValue();
+            
+            // System.out.println("[RESTAREA] : " + restarea);
+            RestAreaInfoApiRequestDTO requestForInfo = RestAreaInfoApiRequestDTO.builder()
+                                                                                .svarCd(restarea.getStdRestCd())
+                                                                                .build();
+            RestAreaInfoApiResponseDTO responseforInfo = restAreaInfoApiService.info(requestForInfo);
+
+            // System.out.println("[RESTAREA LOCATION REPONSE] : " + responseforLocation);
+            // System.out.println("[RESTAREA LOCATION REPONSE GET LIST] : " + responseforLocation.getList());
+            // System.out.println("[RESTAREA LOCATION REPONSE GET COUNT] : " + responseforLocation.getCount());
+
+
+            // if (responseforLocation == null || responseforLocation.getList() == null || responseforLocation.getList().isEmpty()) {
+            //     continue;
+            // }
+
+            String name = responseforInfo.getList().get(0).getSvarNm();
+            String direction = responseforInfo.getList().get(0).getGudClssNm();
+            String code = responseforInfo.getList().get(0).getSvarCd();
+            String tel = responseforInfo.getList().get(0).getRprsTelNo();
+            String address = responseforInfo.getList().get(0).getSvarAddr();
+            String routeName = responseforInfo.getList().get(0).getRouteNm();
+
+            RestAreaRequestDTO restAreaRequest = RestAreaRequestDTO.builder()
+                    .name(name)
+                    .direction(direction)
+                    .code(code)
+                    .tel(tel)
+                    .address(address)
+                    .routeName(routeName)
+                    .xValue(xValue)
+                    .yValue(yValue)
+                    .build();
+            restAreaService.insert(restAreaRequest);
+        }      
+        return null;
+    }
+    
+    
     
     @GetMapping("info")
     public ResponseEntity<RestAreaInfoApiResponseDTO> restarea(@ModelAttribute RestAreaInfoApiRequestDTO request) {

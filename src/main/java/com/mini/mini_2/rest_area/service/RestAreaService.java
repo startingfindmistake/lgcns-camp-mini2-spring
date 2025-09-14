@@ -2,6 +2,7 @@ package com.mini.mini_2.rest_area.service;
 
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,7 +25,24 @@ public class RestAreaService {
     public RestAreaResponseDTO insert(RestAreaRequestDTO request){ 
         System.out.println("[RestAreaService] insert "); 
         
-        RestAreaEntity restArea = restRepository.save( request.toEntity() ); 
+        String code = request.getCode();
+        Optional<RestAreaEntity> existData = restRepository.findByCode(code);
+        RestAreaEntity entityToSave;
+        if (existData.isPresent()) {
+            RestAreaEntity originData = existData.get();
+            originData.setName(request.getName());
+            originData.setDirection(request.getDirection());
+            originData.setTel(request.getTel());
+            originData.setAddress(request.getAddress());
+            originData.setRouteName(request.getRouteName());
+            originData.setXValue(request.getXValue());
+            originData.setYValue(request.getYValue());
+            entityToSave = originData;
+        } else {
+            entityToSave = request.toEntity();
+        }
+
+        RestAreaEntity restArea = restRepository.save(entityToSave);
         return RestAreaResponseDTO.fromEntity(restArea);
     }
 
