@@ -27,9 +27,8 @@ public class FoodService {
     // Create
     public FoodResponseDTO insert(FoodRequestDTO request) {
 
-        RestAreaEntity restArea = restAreaRepository.findById(request.getRestAreaId())
-                .orElseThrow(() -> new RuntimeException("해당 값이 존재하지 않습니다. ID :" + request.getRestAreaId()));
-
+        RestAreaEntity restArea = restAreaRepository.findById(request.getRestAreaId()).get();
+        
         FoodEntity food = request.toEntity(restArea);
 
         foodRepository.save(food);

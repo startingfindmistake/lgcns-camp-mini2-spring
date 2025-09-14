@@ -106,6 +106,8 @@ public class OpenApiCtrl {
     public ResponseEntity<Void> food_update(@ModelAttribute FoodApiRequestDTO request) {
         FoodApiResponseDTO responses = foodApiService.food(request);
         for (FoodDTO food : responses.getList()) {
+            System.out.println("[DEBUG] food.getStdRestCd -> " + food.getStdRestCd());
+            System.out.println("[DEBUG] food.getStdRestCd length -> " + food.getStdRestCd().length());
             RestAreaResponseDTO restarea = restAreaService.findByCode(food.getStdRestCd());
             
             FoodRequestDTO foodRequest = FoodRequestDTO.builder()
@@ -115,6 +117,7 @@ public class OpenApiCtrl {
                                                        .description(food.getEtc())
                                                        .restAreaId(restarea.getRestAreaId())
                                                        .build();
+            System.out.println("[FOOD] : " + foodRequest);
             foodService.insert(foodRequest);
         }
         
@@ -133,7 +136,6 @@ public class OpenApiCtrl {
                                                                    .restAreaId(restarea.getRestAreaId())
                                                                    .build();
             System.out.println("[FACILITY] : " + facilityRequest);
-            System.out.println("[FACILITY DESC] : " + facilityRequest.getDescription());
             facilityService.post(facilityRequest);
         }
         
