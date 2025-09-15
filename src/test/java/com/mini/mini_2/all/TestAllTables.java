@@ -33,7 +33,8 @@ import com.mini.mini_2.user.repository.UserRepository;
 
 
 @SpringBootTest
-// @Transactional
+@Transactional
+@Rollback(true)
 public class TestAllTables {
     
     @Autowired

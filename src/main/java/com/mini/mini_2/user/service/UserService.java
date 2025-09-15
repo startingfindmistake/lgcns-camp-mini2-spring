@@ -29,4 +29,15 @@ public class UserService {
         
         return response;
     }
+    
+    public UserResponseDTO updatePassword(UserRequestDTO request) {
+        System.out.println("[UserService] change password");
+        
+        UserEntity entity = userRepository.findByUserEmail(request.getUserEmail());
+
+        entity.setUserNickname(request.getUserNickname());
+        entity.setPassword(request.getPassword());
+
+        return UserResponseDTO.fromEntity(userRepository.save(entity));
+    }
 }
