@@ -3,6 +3,7 @@ package com.mini.mini_2.all;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.mini.mini_2.facility.domain.dto.FacilityRequestDTO;
@@ -32,7 +33,8 @@ import com.mini.mini_2.user.repository.UserRepository;
 
 
 @SpringBootTest
-// @Transactional
+@Transactional
+@Rollback(true)
 public class TestAllTables {
     
     @Autowired
@@ -53,8 +55,8 @@ public class TestAllTables {
         
         // user
         UserRequestDTO userRequest = UserRequestDTO.builder()
-                                            .userEmail("minu@naver.com")
-                                            .userNickname("holymoly")
+                                            .userEmail("minu@naver.com123")
+                                            .userNickname("holymol123y")
                                             .password("1234")
                                             .build();
                                             
@@ -72,7 +74,7 @@ public class TestAllTables {
         RestAreaRequestDTO restAreaRequest = RestAreaRequestDTO.builder()
                                                                .name("서울휴게소")
                                                                .direction("상행")
-                                                               .code("000001")
+                                                               .code("123456789")
                                                                .tel("01012345678")
                                                                .address("경기도 어쩌구 저쩌구")
                                                                .routeName("비내리는 호남선")
