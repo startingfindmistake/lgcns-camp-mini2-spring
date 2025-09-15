@@ -46,6 +46,7 @@ public class TmapApiCtrl {
 
     @PostMapping("poi")
     public ResponseEntity<RoutePoiResponseDTO> poi(@RequestBody RoutePoiRequestDTO request) {
+        System.out.println("[TMAP DEBUG] request : " + request);
         
         RoutePoiResponseDTO response = routePoiService.poi(request);
         
