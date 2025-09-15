@@ -58,8 +58,17 @@ public class RestAreaEntity {
         @Column(length = 100)
         private String routeName;
 
-        @OneToMany(mappedBy = "restArea", orphanRemoval = false)
-        private List<ReviewEntity> reviews = new ArrayList<>();
+    @Column(length = 100)
+    private String xValue ;
+
+    @Column(length = 100)
+    private String yValue ;
+
+
+
+    @OneToMany(mappedBy = "restArea", 
+               orphanRemoval = false) 
+    private List<ReviewEntity> reviews = new ArrayList<>();
 
         @OneToMany(mappedBy = "restArea", orphanRemoval = false)
         private List<FavoriteEntity> favorites = new ArrayList<>();

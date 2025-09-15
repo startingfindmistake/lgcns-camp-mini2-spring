@@ -1,6 +1,7 @@
 package com.mini.mini_2.rest_area.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,10 +21,27 @@ public class RestAreaService {
     private RestAreaRepository restRepository;
 
     // INSERT - 생성(등록)
-    public RestAreaResponseDTO insert(RestAreaRequestDTO request) {
-        System.out.println("[RestAreaService] insert ");
+    public RestAreaResponseDTO insert(RestAreaRequestDTO request){ 
+        System.out.println("[RestAreaService] insert "); 
+        
+        String code = request.getCode();
+        Optional<RestAreaEntity> existData = restRepository.findByCode(code);
+        RestAreaEntity entityToSave;
+        if (existData.isPresent()) {
+            RestAreaEntity originData = existData.get();
+            originData.setName(request.getName());
+            originData.setDirection(request.getDirection());
+            originData.setTel(request.getTel());
+            originData.setAddress(request.getAddress());
+            originData.setRouteName(request.getRouteName());
+            originData.setXValue(request.getXValue());
+            originData.setYValue(request.getYValue());
+            entityToSave = originData;
+        } else {
+            entityToSave = request.toEntity();
+        }
 
-        RestAreaEntity restArea = restRepository.save(request.toEntity());
+        RestAreaEntity restArea = restRepository.save(entityToSave);
         return RestAreaResponseDTO.fromEntity(restArea);
     }
 
@@ -41,12 +59,30 @@ public class RestAreaService {
     public RestAreaResponseDTO findRest(Integer restAreaId) {
         System.out.println("[RestAreaService] findRest ");
 
-        RestAreaEntity restAreaEntity = restRepository.findById(restAreaId)
-                .orElseThrow(() -> new RuntimeException("해당 휴게소가 존재하지 않습니다"));
+        RestAreaEntity restAreaEntity =
+            restRepository.findById(restAreaId)
+                .orElseThrow(() -> 
+                    new RuntimeException("해당 휴게소가 존재하지 않습니다"));
+                  
+        RestAreaResponseDTO response = 
+            RestAreaResponseDTO.fromEntity(restAreaEntity) ;
+        return response ;
+        
+        
+    }
+    public RestAreaResponseDTO findByCode(String code){
+        System.out.println("[RestAreaService] findByCode ");
 
-        RestAreaResponseDTO response = RestAreaResponseDTO.fromEntity(restAreaEntity);
-        return response;
-
+        RestAreaEntity restAreaEntity =
+            restRepository.findByCode(code)
+                .orElseThrow(() -> 
+                    new RuntimeException("해당 휴게소가 존재하지 않습니다"));
+                  
+        RestAreaResponseDTO response = 
+            RestAreaResponseDTO.fromEntity(restAreaEntity) ;
+        return response ;
+        
+        
     }
 
     // update
@@ -91,8 +127,12 @@ public class RestAreaService {
                         rest.getCode(),
                         rest.getTel(),
                         rest.getAddress(),
-                        rest.getRouteName()))
+                        rest.getRouteName(),
+                        rest.getXValue(),
+                        rest.getYValue()))
                 .collect(Collectors.toList());
     }
 
+
+            
 }

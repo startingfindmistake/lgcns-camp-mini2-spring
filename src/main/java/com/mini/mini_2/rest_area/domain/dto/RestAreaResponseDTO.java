@@ -25,6 +25,8 @@ public class RestAreaResponseDTO {
     private String tel;
     private String address;
     private String routeName;
+    private String xValue;
+    private String yValue;
 
     // [편의점, 화장실, ....]
     // private List<String> facilityTypes ; 
@@ -39,6 +41,8 @@ public class RestAreaResponseDTO {
                                   .tel(entity.getTel())
                                   .address(entity.getAddress())
                                   .routeName(entity.getRouteName())
+                                  .xValue(entity.getXValue())
+                                  .yValue(entity.getYValue())
                                   .build() ; 
     }
 }

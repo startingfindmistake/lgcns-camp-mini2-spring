@@ -10,10 +10,10 @@ import com.mini.mini_2.user.repository.UserRepository;
 
 @Service
 public class UserService {
-
+    
     @Autowired
     private UserRepository userRepository;
-
+    
     public UserResponseDTO signup(UserRequestDTO request) {
         System.out.println("[UserService] sign up");
         

@@ -9,9 +9,8 @@ import com.mini.mini_2.rest_area.domain.entity.RestAreaEntity;
 
 @Repository
 public interface RestAreaRepository extends JpaRepository<RestAreaEntity, Integer>{
-    List<RestAreaEntity> findByDirection(String direction);
-    
-
+    List<RestAreaEntity> findByDirection(String direction);	
+    java.util.Optional<RestAreaEntity> findByCode(String code);
 }
 
 

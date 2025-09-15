@@ -29,15 +29,9 @@ public class FoodService {
     // Create
     public FoodResponseDTO insert(FoodRequestDTO request) {
 
-        RestAreaEntity restArea = restAreaRepository.findById(request.getRestAreaId())
-                .orElseThrow(() -> new RuntimeException("해당 값이 존재하지 않습니다. ID :" + request.getRestAreaId()));
-
-        FoodEntity food = FoodEntity.builder()
-                .restArea(restArea)
-                .foodName(request.getFoodName())
-                .price(request.getPrice())
-                .isSignature(request.isSignature())
-                .build();
+        RestAreaEntity restArea = restAreaRepository.findById(request.getRestAreaId()).get();
+        
+        FoodEntity food = request.toEntity(restArea);
 
         foodRepository.save(food);
 
@@ -72,7 +66,7 @@ public class FoodService {
                 .restArea(fixedRestArea)
                 .foodName(request.getFoodName())
                 .price(request.getPrice())
-                .isSignature(request.isSignature())
+                .isSignature(request.getIsSignature())
                 .build();
 
         FoodEntity saved = foodRepository.save(updated);
@@ -109,14 +103,16 @@ public class FoodService {
     public List<FoodResponseDTO> getSignatureFood(Integer restAreaId) {
         return foodRepository.findAll().stream()
                 .filter(r -> r.getRestArea() != null && r.getRestArea().getRestAreaId().equals(restAreaId))
-                .filter(FoodEntity::isSignature)
+                .filter(f -> {String sign = f.getIsSignature();
+                    return sign == "Y";})
                 .map(FoodResponseDTO::fromEntity)
                 .collect(Collectors.toList());
     }
     // 가격 필터
     public List<FoodResponseDTO> searchFoodsByPrice(double maxPrice) {
         return foodRepository.findAll().stream()
-                .filter(f -> f.getPrice() <= maxPrice)
+                .filter(f -> {double price = Double.parseDouble(f.getPrice());
+                    return price <= maxPrice;})
                 .map(FoodResponseDTO::fromEntity)
                 .collect(Collectors.toList());
     }
