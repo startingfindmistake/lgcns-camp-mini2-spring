@@ -36,16 +36,16 @@ public class FacilityService {
         // rest_area 있는지 확인
         System.out.println("[facility service] : " + request);
         System.out.println("[facility service get rest area id] : " + request.getRestAreaId());
-        RestAreaEntity restArea = restAreaRepository.findById(request.getRestAreaId())
-                .orElseThrow(() -> new RuntimeException("휴게소가 존재하지 않습니다. ID= " + request.getRestAreaId()));
+        Optional<RestAreaEntity> restArea = restAreaRepository.findById(request.getRestAreaId());
 
-        // facilityEntity에 FK       
-        FacilityEntity facility = request.toEntity(restArea);
-
-        FacilityEntity entity = facilityRepository.save(facility);
-        return FacilityResponseDTO.fromEntity(entity);
-           
-        
+        if(restArea.isPresent()) {
+            // facilityEntity에 FK       
+            FacilityEntity facility = request.toEntity(restArea.get());
+            return FacilityResponseDTO.fromEntity(facilityRepository.save(facility));
+        }
+        else {
+            return null;
+        }
     }
     
     public List<FacilityResponseDTO> find(Integer restAreaId) {

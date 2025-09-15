@@ -1,8 +1,8 @@
 package com.mini.mini_2.rest_area.service;
 
-
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,13 +14,12 @@ import com.mini.mini_2.rest_area.repository.RestAreaRepository;
 
 ;
 
-
 @Service
 public class RestAreaService {
 
     @Autowired
-    private RestAreaRepository restRepository ;
-    
+    private RestAreaRepository restRepository;
+
     // INSERT - 생성(등록)
     public RestAreaResponseDTO insert(RestAreaRequestDTO request){ 
         System.out.println("[RestAreaService] insert "); 
@@ -47,18 +46,17 @@ public class RestAreaService {
     }
 
     // LIST - 전체 조회
-    public List<RestAreaResponseDTO> list(){
+    public List<RestAreaResponseDTO> list() {
         System.out.println("[RestAreaService] list");
 
-        List<RestAreaEntity> list = restRepository.findAll() ;
+        List<RestAreaEntity> list = restRepository.findAll();
         return list.stream()
                 .map(entity -> RestAreaResponseDTO.fromEntity(entity))
-                .toList() ; 
+                .toList();
     }
 
- 
     // FINDREST - 휴게소 일부 조회
-    public RestAreaResponseDTO findRest(Integer restAreaId){
+    public RestAreaResponseDTO findRest(Integer restAreaId) {
         System.out.println("[RestAreaService] findRest ");
 
         RestAreaEntity restAreaEntity =
@@ -75,19 +73,64 @@ public class RestAreaService {
     public RestAreaResponseDTO findByCode(String code){
         System.out.println("[RestAreaService] findByCode ");
 
-        RestAreaEntity restAreaEntity =
-            restRepository.findByCode(code)
-                .orElseThrow(() -> 
-                    new RuntimeException("해당 휴게소가 존재하지 않습니다"));
-                  
-        RestAreaResponseDTO response = 
-            RestAreaResponseDTO.fromEntity(restAreaEntity) ;
-        return response ;
+        Optional<RestAreaEntity> restAreaEntity = restRepository.findByCode(code);
         
-        
+        if(restAreaEntity.isPresent()) {
+            return RestAreaResponseDTO.fromEntity(restAreaEntity.get()) ;
+            
+        }
+        else {
+            return null;
+        }
     }
 
-    // delete 구성 후 추가
+    // update
+    public RestAreaResponseDTO update(Integer restAreaId, RestAreaRequestDTO request) {
+        System.out.println("[RestAreaService] updateRest ");
+
+        RestAreaEntity updated = RestAreaEntity.builder()
+                .restAreaId(restAreaId)
+                .name(request.getName())
+                .direction(request.getDirection())
+                .code(request.getCode())
+                .tel(request.getTel())
+                .address(request.getAddress())
+                .routeName(request.getRouteName())
+                .build();
+
+        RestAreaEntity saved = restRepository.save(updated);
+
+        return RestAreaResponseDTO.fromEntity(saved);
+
+    }
+
+    // delete
+    public boolean delete(Integer restAreaId) {
+
+        RestAreaEntity rest = restRepository.findById(restAreaId)
+                .orElseThrow(() -> new RuntimeException("휴게소가 존재하지 않습니다. ID: " + restAreaId));
+
+        restRepository.delete(rest);
+
+        return true;
+    }
+
+    // 상하행
+    public List<RestAreaResponseDTO> dircetion(String direction) {
+        return restRepository.findAll().stream()
+                .filter(rest -> rest.getDirection().equalsIgnoreCase(direction))
+                .map(rest -> new RestAreaResponseDTO(
+                        rest.getRestAreaId(),
+                        rest.getName(),
+                        rest.getDirection(),
+                        rest.getCode(),
+                        rest.getTel(),
+                        rest.getAddress(),
+                        rest.getRouteName(),
+                        rest.getXValue(),
+                        rest.getYValue()))
+                .collect(Collectors.toList());
+    }
 
 
             

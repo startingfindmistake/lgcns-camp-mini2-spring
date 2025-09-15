@@ -29,4 +29,28 @@ public class UserService {
         
         return response;
     }
+    
+    public UserResponseDTO updatePassword(UserRequestDTO request) {
+        System.out.println("[UserService] change password");
+        
+        UserEntity entity = userRepository.findByUserEmail(request.getUserEmail());
+
+        entity.setUserNickname(request.getUserNickname());
+        entity.setPassword(request.getPassword());
+
+        return UserResponseDTO.fromEntity(userRepository.save(entity));
+    }
+    
+    public Integer delete(UserRequestDTO request) {
+        System.out.println("[UserService] delete user");
+        
+        UserEntity entity = userRepository.findByUserEmail(request.getUserEmail());
+        
+        if (entity == null) return 0;
+        
+        userRepository.deleteById(entity.getUserId());
+        
+        return 1;
+        
+    }
 }

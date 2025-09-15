@@ -1,5 +1,6 @@
 package com.mini.mini_2.favorite.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +42,17 @@ public class FavoriteService {
         System.out.println("[FavoriteService] delete");
         
         favoriteRepository.deleteById(favoriteId);
+        
+    }
+    
+    public List<FavoriteResponseDTO> findAllById(Integer userId) {
+        System.out.println("[FavoriteService] find favorites");
 
+        List<FavoriteEntity> entities = favoriteRepository.findAllByUser_UserId(userId);
+        
+        return entities.stream()
+                       .map(entity -> FavoriteResponseDTO.fromEntity(entity))
+                       .toList();
+        
     }
 }
