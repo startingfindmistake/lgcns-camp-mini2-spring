@@ -124,7 +124,7 @@ public class TestAllTables {
         ReviewRequestDTO reviewRequest = ReviewRequestDTO.builder()
                                                          .userId(userResponse.getUserId())
                                                          .restAreaId(restAreaResponse.getRestAreaId())
-                                                         .rating(4.5)
+                                                         .rating("4.5")
                                                          .comment("아주 편해용")
                                                          .build();
         ReviewEntity reviewEntity = reviewRepository.save(reviewRequest.toEntity(userEntity, restAreaEntity));

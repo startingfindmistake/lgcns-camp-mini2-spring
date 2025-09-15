@@ -49,7 +49,7 @@ public class ReviewEntity {
     private RestAreaEntity restArea;            // UserEntity 의 mappedBy
     
     @Column(nullable = false)               // 평점순 정렬을 위해 double로 변환
-    private Double rating;
+    private String rating;
     
     @Column(nullable = false, 
             length = 1000)

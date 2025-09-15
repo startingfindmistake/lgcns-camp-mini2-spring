@@ -21,7 +21,7 @@ public class ReviewResponseDTO {
     private Integer userId;
     private Integer restAreaId;
 
-    private Double rating;
+    private String rating;
     private String comment;
     
     public static ReviewResponseDTO fromEntity(ReviewEntity entity) {

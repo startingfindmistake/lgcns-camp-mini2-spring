@@ -21,7 +21,7 @@ public class ReviewRequestDTO {
     private Integer userId;
     private Integer restAreaId;
     
-    private Double rating;
+    private String rating;
     private String comment;
     
     public ReviewEntity toEntity(UserEntity userEntity, RestAreaEntity restAreaEntity) {
