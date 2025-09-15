@@ -89,8 +89,8 @@ public class TestAllTables {
         FoodRequestDTO foodRequest = FoodRequestDTO.builder()
                                                       .foodName("치킨")
                                                       .restAreaId(restAreaResponse.getRestAreaId())
-                                                      .price(1000)
-                                                      .isSignature(true)
+                                                      .price("1000")
+                                                      .isSignature("true")
                                                       .description("겉바속촉")
                                                       .build();
         FoodEntity foodEntity = foodRepository.save(foodRequest.toEntity(restAreaEntity));

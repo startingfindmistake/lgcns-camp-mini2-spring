@@ -27,15 +27,9 @@ public class FoodService {
     // Create
     public FoodResponseDTO insert(FoodRequestDTO request) {
 
-        RestAreaEntity restArea = restAreaRepository.findById(request.getRestAreaId())
-                .orElseThrow(() -> new RuntimeException("해당 값이 존재하지 않습니다. ID :" + request.getRestAreaId()));
-
-        FoodEntity food = FoodEntity.builder()
-                .restArea(restArea)
-                .foodName(request.getFoodName())
-                .price(request.getPrice())
-                .isSignature(request.isSignature())
-                .build();
+        RestAreaEntity restArea = restAreaRepository.findById(request.getRestAreaId()).get();
+        
+        FoodEntity food = request.toEntity(restArea);
 
         foodRepository.save(food);
 
@@ -70,7 +64,7 @@ public class FoodService {
                 .restArea(fixedRestArea)
                 .foodName(request.getFoodName())
                 .price(request.getPrice())
-                .isSignature(request.isSignature())
+                .isSignature(request.getIsSignature())
                 .build();
 
         FoodEntity saved = foodRepository.save(updated);

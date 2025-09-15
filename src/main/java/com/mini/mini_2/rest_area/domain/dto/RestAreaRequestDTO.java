@@ -3,7 +3,6 @@ package com.mini.mini_2.rest_area.domain.dto;
 
 import com.mini.mini_2.rest_area.domain.entity.RestAreaEntity;
 
-import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -25,10 +24,8 @@ public class RestAreaRequestDTO {
     private String tel ;
     private String address ;
     private String routeName ;
-    
-    
-    
-    
+    private String xValue ;
+    private String yValue ;
     
     public RestAreaEntity toEntity() {
         return RestAreaEntity.builder()
@@ -38,6 +35,8 @@ public class RestAreaRequestDTO {
                              .tel(this.tel)
                              .address(this.address)
                              .routeName(this.routeName)
+                             .xValue(this.xValue)
+                             .yValue(this.yValue)
                              .build();
     }
 }

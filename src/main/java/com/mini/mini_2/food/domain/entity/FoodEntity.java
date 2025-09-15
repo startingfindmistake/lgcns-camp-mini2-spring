@@ -48,10 +48,10 @@ public class FoodEntity {
     private String foodName ;
 
     @Column(nullable = false)
-    private double price;
+    private String price;
 
     @Column(nullable = false)
-    private boolean isSignature;
+    private String isSignature;
 
     @Column(length = 1000)
     private String description;

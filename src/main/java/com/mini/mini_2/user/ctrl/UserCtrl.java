@@ -64,7 +64,7 @@ public class UserCtrl {
                          description = "Login Success")
         }
     )
-    @GetMapping("signin")
+    @PostMapping("signin")
     public ResponseEntity<UserResponseDTO> signin(@RequestBody UserRequestDTO request) {
         System.out.println("[UserCtrl] signin : " + request);
         
