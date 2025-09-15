@@ -28,3 +28,8 @@ server:
   
 jwt:
   secret: ${JWT_SECRET_KEY}
+
+openai:
+    api-key: ${OPEN_AI_KEY}
+    url: ${OPEN_AI_URL}
+    model: ${OPEN_AI_MODEL}

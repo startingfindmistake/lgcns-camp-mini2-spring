@@ -44,6 +44,10 @@ dependencies {
 	// 보안 상 중요한 정호를 github에 올리지 않도록
 	implementation 'io.github.cdimascio:dotenv-java:3.0.0'
 	
+	// open ai
+	implementation 'com.squareup.okhttp3:okhttp:4.12.0'
+	implementation 'com.fasterxml.jackson.core:jackson-databind'
+
 	// web client
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
 	
