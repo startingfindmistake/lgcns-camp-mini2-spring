@@ -22,9 +22,8 @@ import lombok.ToString;
 @JsonIgnoreProperties(ignoreUnknown = true) // json에 정의되지 않은 필드는 무시 
 public class ChatResponseDTO {
 
-    private String location ; 
-    private String weather  ; 
-    private List<Restaurant> restaurants ; 
+    private String restArea ; 
+    private List<Recommend> recommends ; 
 
     @Builder
     @Setter
@@ -33,9 +32,8 @@ public class ChatResponseDTO {
     @AllArgsConstructor
     @ToString
     @JsonIgnoreProperties(ignoreUnknown = true) // json에 정의되지 않은 필드는 무시 
-    public static class Restaurant {
-        private String name ; 
-        private String category ; 
+    public static class Recommend {
+        private String name ;  
         private String reason ; 
     }
 }
