@@ -29,10 +29,10 @@ public class PoiService {
                     //  "&appKey" + appKey;
         System.out.println("[WEB CLIENT] GET URL " + url);
         PoiResponseDTO result = poiWebClient.get()
-                .uri(url)
-                .retrieve()
-                .bodyToMono(PoiResponseDTO.class)
-                .block();
+                                            .uri(url)
+                                            .retrieve()
+                                            .bodyToMono(PoiResponseDTO.class)
+                                            .block();
                 
         System.out.println("[POI SERVICE] result : " + result);
                 
