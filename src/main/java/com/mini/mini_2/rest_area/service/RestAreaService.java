@@ -132,6 +132,15 @@ public class RestAreaService {
                 .collect(Collectors.toList());
     }
 
+    public RestAreaResponseDTO findByAddress(String addr) {
+        
+        Optional<RestAreaEntity> response = restRepository.findByAddress(addr);
+        
+        if(response.isPresent()) {
+            return RestAreaResponseDTO.fromEntity(response.get());
+        }
+        return null;
+    }
 
             
 }

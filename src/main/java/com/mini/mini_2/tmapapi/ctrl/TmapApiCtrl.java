@@ -2,6 +2,7 @@ package com.mini.mini_2.tmapapi.ctrl;
 
 import org.springframework.web.bind.annotation.RestController;
 
+import com.mini.mini_2.rest_area.domain.dto.RestAreaResponseDTO;
 import com.mini.mini_2.tmapapi.domain.dto.PoiRequestDTO;
 import com.mini.mini_2.tmapapi.domain.dto.PoiResponseDTO;
 import com.mini.mini_2.tmapapi.domain.dto.RoutePoiRequestDTO;
@@ -11,6 +12,8 @@ import com.mini.mini_2.tmapapi.domain.dto.RouteResponseDTO;
 import com.mini.mini_2.tmapapi.service.PoiService;
 import com.mini.mini_2.tmapapi.service.RoutePoiService;
 import com.mini.mini_2.tmapapi.service.RouteService;
+
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -54,16 +57,16 @@ public class TmapApiCtrl {
     } 
 
     @PostMapping("poi_of_route")
-    public ResponseEntity<RoutePoiResponseDTO> poi_of_route(@RequestBody RoutePoiRequestDTO request) {
+    public ResponseEntity<List<RestAreaResponseDTO>> poi_of_route(@RequestBody RoutePoiRequestDTO request) {
         System.out.println("[TMAP POI OF ROUTE] request : " + request);
         
-        RoutePoiResponseDTO response = routePoiService.poiOfRoute(request);
+        List<RestAreaResponseDTO> responses = routePoiService.poiOfRoute(request);
         
         // System.out.println("[TMAP DEBUG] result : " + response);
         
         
-        if (response != null) {
-            return ResponseEntity.status(HttpStatus.OK).body(response);
+        if (responses != null) {
+            return ResponseEntity.status(HttpStatus.OK).body(responses);
         } else {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
