@@ -66,6 +66,12 @@ public class RestAreaEntity {
     @Column(length = 100)
     private String routeName ;
 
+    @Column(length = 100)
+    private String xValue ;
+
+    @Column(length = 100)
+    private String yValue ;
+
 
 
     @OneToMany(mappedBy = "restArea", 
