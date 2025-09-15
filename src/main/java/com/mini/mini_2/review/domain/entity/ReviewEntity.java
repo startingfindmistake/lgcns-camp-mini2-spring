@@ -48,8 +48,7 @@ public class ReviewEntity {
     @JoinColumn(name = "rest_area_id")       // 테이블 컬럼 이름
     private RestAreaEntity restArea;            // UserEntity 의 mappedBy
     
-    @Column(nullable = false, 
-            length = 10)
+    @Column(nullable = false)               // 평점순 정렬을 위해 double로 변환
     private String rating;
     
     @Column(nullable = false, 
