@@ -104,7 +104,7 @@ public class FoodService {
         return foodRepository.findAll().stream()
                 .filter(r -> r.getRestArea() != null && r.getRestArea().getRestAreaId().equals(restAreaId))
                 .filter(f -> {String sign = f.getIsSignature();
-                    return sign == "Y";})
+                    return "Y".equals(sign);})
                 .map(FoodResponseDTO::fromEntity)
                 .collect(Collectors.toList());
     }

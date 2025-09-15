@@ -11,6 +11,7 @@ import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.mini.mini_2.food.domain.dto.FoodRequestDTO;
 import com.mini.mini_2.food.domain.dto.FoodResponseDTO;
@@ -21,6 +22,7 @@ import com.mini.mini_2.rest_area.domain.entity.RestAreaEntity;
 import com.mini.mini_2.rest_area.repository.RestAreaRepository;
 
 @SpringBootTest
+@Transactional
 public class FoodTest {
     @Autowired
     private FoodService foodService;
@@ -48,8 +50,8 @@ public class FoodTest {
         FoodRequestDTO foodRequest = FoodRequestDTO.builder()
                 .restAreaId(restArea.getRestAreaId())
                 .foodName("치즈돈가스")
-                .price(8000)
-                .isSignature(true)
+                .price("8000")
+                .isSignature("Y")
                 .build();
 
         FoodResponseDTO foodResponse = foodService.insert(foodRequest);
@@ -65,8 +67,8 @@ public class FoodTest {
         FoodRequestDTO updateRequest = FoodRequestDTO.builder()
                 .restAreaId(restArea.getRestAreaId())
                 .foodName("김치돈가스")
-                .price(8500)
-                .isSignature(false)
+                .price("8500")
+                .isSignature("Y")
                 .build();
 
         FoodResponseDTO updateFood = foodService.update(foodResponse.getFoodId(), updateRequest);
@@ -84,7 +86,7 @@ public class FoodTest {
     
     @Test
     public void testSignatureFood() {
-        List<FoodResponseDTO> signatureFoods = foodService.getSignatureFood(1);
+        List<FoodResponseDTO> signatureFoods = foodService.getSignatureFood(281);
         System.out.println("시그니처 음식 목록: " + signatureFoods);
     }
 

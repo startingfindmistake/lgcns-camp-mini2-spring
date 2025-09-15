@@ -11,6 +11,7 @@ import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.mini.mini_2.rest_area.domain.dto.RestAreaRequestDTO;
 import com.mini.mini_2.rest_area.domain.entity.RestAreaEntity;
@@ -20,6 +21,7 @@ import lombok.Data;
 
 @SpringBootTest
 @Data
+@Transactional
 public class RestAreaTest {
 
     @Autowired
