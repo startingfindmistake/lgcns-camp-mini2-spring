@@ -17,7 +17,11 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+
 
 
 
@@ -77,4 +81,30 @@ public class UserCtrl {
         }
     }
     
+    @PutMapping("update_password")
+    public ResponseEntity<UserResponseDTO> update_password(@RequestBody UserRequestDTO request) {
+        System.out.println("[UserCtrl] update password : " + request);
+
+        UserResponseDTO response = userService.updatePassword(request);
+
+        if (response != null) {
+            return ResponseEntity.status(HttpStatus.OK).body(response);
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+    
+    @DeleteMapping("delete")
+    public ResponseEntity<Void> delete(@RequestBody UserRequestDTO request) {
+        System.out.println("[UserCtrl] delete : " + request);
+        
+        Integer result = userService.delete(request);
+
+        if (result == 1) {
+            return ResponseEntity.status(HttpStatus.OK).body(null);
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+
+    }
 }

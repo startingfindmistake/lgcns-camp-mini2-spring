@@ -24,7 +24,7 @@ public class RoutePoiService {
                 .build();
     }
     
-    public RoutePoiResponseDTO poi(RoutePoiRequestDTO request) {
+    public RoutePoiResponseDTO poiOfRoute(RoutePoiRequestDTO request) {
         String url = tmapRoutePoiUrl + "?version=1";
         System.out.println("[WEB CLIENT] POST URL " + url);
         RoutePoiResponseDTO result = poiWebClient.post()
@@ -34,7 +34,7 @@ public class RoutePoiService {
                 .bodyToMono(RoutePoiResponseDTO.class)
                 .block();
                 
-        System.out.println("[POI SERVICE] result : " + result);
+        System.out.println("[POI ROUTE SERVICE] result : " + result);
                 
         return result;
     }

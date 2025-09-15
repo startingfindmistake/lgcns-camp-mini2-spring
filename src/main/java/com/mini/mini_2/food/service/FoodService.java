@@ -1,6 +1,7 @@
 package com.mini.mini_2.food.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,20 +55,17 @@ public class FoodService {
     // Update
     public FoodResponseDTO update(Integer foodId, FoodRequestDTO request) {
 
-        FoodEntity existing = foodRepository.findById(foodId)
-                .orElseThrow(() -> new RuntimeException("음식이 존재하지 않습니다. ID: " + foodId));
+        Optional<FoodEntity> existing = foodRepository.findById(foodId);
 
-        RestAreaEntity fixedRestArea = existing.getRestArea();
+        // RestAreaEntity fixedRestArea = existing.getRestArea();
 
-        FoodEntity updated = FoodEntity.builder()
-                .foodId(existing.getFoodId())
-                .restArea(fixedRestArea)
-                .foodName(request.getFoodName())
-                .price(request.getPrice())
-                .isSignature(request.getIsSignature())
-                .build();
+        FoodEntity existFood = existing.get();
+        existFood.setFoodName(request.getFoodName());
+        existFood.setIsSignature(request.getIsSignature());
+        existFood.setPrice(request.getPrice());
+        existFood.setDescription(request.getDescription());
 
-        FoodEntity saved = foodRepository.save(updated);
+        FoodEntity saved = foodRepository.save(existFood);
 
         return FoodResponseDTO.fromEntity(saved);
     }

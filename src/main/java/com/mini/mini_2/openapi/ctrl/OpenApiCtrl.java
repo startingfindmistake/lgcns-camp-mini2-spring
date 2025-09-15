@@ -17,6 +17,7 @@ import com.mini.mini_2.openapi.domain.dto.RestAreaLocationApiRequestDTO;
 import com.mini.mini_2.openapi.domain.dto.RestAreaLocationApiResponseDTO;
 import com.mini.mini_2.openapi.domain.dto.FacilityApiResponseDTO.FacilityDTO;
 import com.mini.mini_2.openapi.domain.dto.FoodApiResponseDTO.FoodDTO;
+import com.mini.mini_2.openapi.domain.dto.RestAreaInfoApiResponseDTO.RestAreaInfoDTO;
 import com.mini.mini_2.openapi.domain.dto.RestAreaLocationApiResponseDTO.RestAreaLocationDTO;
 import com.mini.mini_2.openapi.service.FacilityApiService;
 import com.mini.mini_2.openapi.service.FoodApiService;
@@ -57,35 +58,34 @@ public class OpenApiCtrl {
     public FacilityService facilityService;
     
     @GetMapping("restarea_update")
-    public ResponseEntity<Void> restarea_update(@ModelAttribute RestAreaLocationApiRequestDTO request) {
-        RestAreaLocationApiResponseDTO responses = restAreaLocationApiService.location(request);
+    public ResponseEntity<Void> restarea_update(@ModelAttribute RestAreaInfoApiRequestDTO request) {
+        RestAreaInfoApiResponseDTO responses = restAreaInfoApiService.info(request);
         // System.out.println("[UPDATE TEST] request : " + response);
         
-        for (RestAreaLocationDTO restarea : responses.getList()) {
-            String xValue = restarea.getXValue();
-            String yValue = restarea.getYValue();
+        for (RestAreaInfoDTO restarea : responses.getList()) {
+            String name = restarea.getSvarNm();
+            String direction = restarea.getGudClssNm();
+            String code = restarea.getSvarCd();
+            String tel = restarea.getRprsTelNo();
+            String address = restarea.getSvarAddr();
+            String routeName = restarea.getRouteNm();
             
             // System.out.println("[RESTAREA] : " + restarea);
-            RestAreaInfoApiRequestDTO requestForInfo = RestAreaInfoApiRequestDTO.builder()
-                                                                                .svarCd(restarea.getStdRestCd())
-                                                                                .build();
-            RestAreaInfoApiResponseDTO responseforInfo = restAreaInfoApiService.info(requestForInfo);
+            RestAreaLocationApiRequestDTO requestForLocation = RestAreaLocationApiRequestDTO.builder()
+                                                                                            .stdRestCd(restarea.getSvarCd())
+                                                                                            .build();
+            RestAreaLocationApiResponseDTO responseforLocation = restAreaLocationApiService.location(requestForLocation);
 
             // System.out.println("[RESTAREA LOCATION REPONSE] : " + responseforLocation);
             // System.out.println("[RESTAREA LOCATION REPONSE GET LIST] : " + responseforLocation.getList());
             // System.out.println("[RESTAREA LOCATION REPONSE GET COUNT] : " + responseforLocation.getCount());
 
-
-            // if (responseforLocation == null || responseforLocation.getList() == null || responseforLocation.getList().isEmpty()) {
-            //     continue;
-            // }
-
-            String name = responseforInfo.getList().get(0).getSvarNm();
-            String direction = responseforInfo.getList().get(0).getGudClssNm();
-            String code = responseforInfo.getList().get(0).getSvarCd();
-            String tel = responseforInfo.getList().get(0).getRprsTelNo();
-            String address = responseforInfo.getList().get(0).getSvarAddr();
-            String routeName = responseforInfo.getList().get(0).getRouteNm();
+            String xValue = null;
+            String yValue = null;
+            if (responseforLocation.getList() != null && !responseforLocation.getList().isEmpty()) {
+                xValue = responseforLocation.getList().get(0).getXValue();
+                yValue = responseforLocation.getList().get(0).getYValue();
+            }
 
             RestAreaRequestDTO restAreaRequest = RestAreaRequestDTO.builder()
                     .name(name)
@@ -110,6 +110,8 @@ public class OpenApiCtrl {
             System.out.println("[DEBUG] food.getStdRestCd length -> " + food.getStdRestCd().length());
             RestAreaResponseDTO restarea = restAreaService.findByCode(food.getStdRestCd());
             
+            if (restarea == null) continue;
+            
             FoodRequestDTO foodRequest = FoodRequestDTO.builder()
                                                        .foodName(food.getFoodNm())
                                                        .price(food.getFoodCost())
@@ -128,7 +130,11 @@ public class OpenApiCtrl {
     public ResponseEntity<Void> facility_update(@ModelAttribute FacilityApiRequestDTO request) {
         FacilityApiResponseDTO responses = facilityApiService.facility(request);
         for (FacilityDTO facility : responses.getList()) {
+            System.out.println("[DEBUG] facility.getStdRestCd -> " + facility.getStdRestCd());
+            System.out.println("[DEBUG] facility.getStdRestCd length -> " + facility.getStdRestCd().length());
             RestAreaResponseDTO restarea = restAreaService.findByCode(facility.getStdRestCd());
+            
+            if(restarea == null) continue;
             
             FacilityRequestDTO facilityRequest = FacilityRequestDTO.builder()
                                                                    .name(facility.getPsName())
