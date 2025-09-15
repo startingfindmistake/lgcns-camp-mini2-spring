@@ -38,10 +38,11 @@ public class TmapApiCtrl {
     
     @PostMapping("route")
     public ResponseEntity<RouteResponseDTO> route(@RequestBody RouteRequestDTO request) {
+        System.out.println("[TMAP ROUTE] request : " + request);
         
         RouteResponseDTO response = routeService.route(request);
         
-        System.out.println("[TMAP DEBUG] result : " + response);
+        // System.out.println("[TMAP DEBUG] result : " + response);
         
         
         if (response != null) {
@@ -54,11 +55,11 @@ public class TmapApiCtrl {
 
     @PostMapping("poi_of_route")
     public ResponseEntity<RoutePoiResponseDTO> poi_of_route(@RequestBody RoutePoiRequestDTO request) {
-        System.out.println("[TMAP DEBUG] request : " + request);
+        System.out.println("[TMAP POI OF ROUTE] request : " + request);
         
         RoutePoiResponseDTO response = routePoiService.poiOfRoute(request);
         
-        System.out.println("[TMAP DEBUG] result : " + response);
+        // System.out.println("[TMAP DEBUG] result : " + response);
         
         
         if (response != null) {
@@ -74,7 +75,7 @@ public class TmapApiCtrl {
         
         PoiResponseDTO response = poiService.poi(request);
         
-        System.out.println("[TMAP POI] result : " + response);
+        // System.out.println("[TMAP POI] result : " + response);
         
         
         if (response != null) {

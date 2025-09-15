@@ -34,7 +34,7 @@ public class PoiService {
                                             .bodyToMono(PoiResponseDTO.class)
                                             .block();
                 
-        System.out.println("[POI SERVICE] result : " + result);
+        // System.out.println("[POI SERVICE] result : " + result);
                 
         return result;
     }
