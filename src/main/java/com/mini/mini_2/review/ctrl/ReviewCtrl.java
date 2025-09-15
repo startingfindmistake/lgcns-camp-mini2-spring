@@ -52,7 +52,7 @@ public class ReviewCtrl {
         ReviewResponseDTO response = reviewService.post(request);
         
         if(response != null) {
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+            return ResponseEntity.status(HttpStatus.OK).body(response);
         }
         else {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
