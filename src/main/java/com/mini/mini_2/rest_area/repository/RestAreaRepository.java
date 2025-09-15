@@ -1,5 +1,7 @@
 package com.mini.mini_2.rest_area.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -7,7 +9,8 @@ import com.mini.mini_2.rest_area.domain.entity.RestAreaEntity;
 
 @Repository
 public interface RestAreaRepository extends JpaRepository<RestAreaEntity, Integer>{
-	java.util.Optional<RestAreaEntity> findByCode(String code);
+    List<RestAreaEntity> findByDirection(String direction);	
+    java.util.Optional<RestAreaEntity> findByCode(String code);
 }
 
 
