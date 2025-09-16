@@ -47,7 +47,7 @@ public class ReviewCtrl {
         }
     )
     @PostMapping("/create")
-    public ResponseEntity create(@RequestBody ReviewRequestDTO request) {
+    public ResponseEntity<ReviewResponseDTO> create(@RequestBody ReviewRequestDTO request) {
         System.out.println("[ReviewCtrl] create : " + request);
         ReviewResponseDTO response = reviewService.create(request);
         

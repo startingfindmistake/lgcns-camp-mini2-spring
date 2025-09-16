@@ -6,7 +6,6 @@ import com.mini.mini_2.rest_area.domain.dto.RestAreaResponseDTO;
 import com.mini.mini_2.tmapapi.domain.dto.PoiRequestDTO;
 import com.mini.mini_2.tmapapi.domain.dto.PoiResponseDTO;
 import com.mini.mini_2.tmapapi.domain.dto.RoutePoiRequestDTO;
-import com.mini.mini_2.tmapapi.domain.dto.RoutePoiResponseDTO;
 import com.mini.mini_2.tmapapi.domain.dto.RouteRequestDTO;
 import com.mini.mini_2.tmapapi.domain.dto.RouteResponseDTO;
 import com.mini.mini_2.tmapapi.service.PoiService;
