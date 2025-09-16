@@ -8,6 +8,11 @@ spring:
     url: ${SPRING_URL}
     username: ${SPRING_USERNAME}
     password: ${SPRING_PASSWORD}
+    hikari:
+      # 15분
+      max-lifetime: 1500000   
+      # 10
+      idle-timeout: 600000 
   
   jpa:
     hibernate:
@@ -22,9 +27,16 @@ spring:
         format_sql: true
   config:
     import: optional:file:.env[.properties]
-        
+    
+  data:
+    redis:
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT}
+      
 server:
   port: ${SPRING_PORT}
   
 jwt:
   secret: ${JWT_SECRET_KEY}
+  access-ttl-ms: ${JWT_ACCESS_TTL_MS}
+  refresh-ttl-ms: ${JWT_REFRESH_TTL_MS}

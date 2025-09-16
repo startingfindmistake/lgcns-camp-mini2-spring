@@ -45,6 +45,21 @@ public class RestAreaResponseDTO {
                                   .yValue(entity.getYValue())
                                   .build() ; 
     }
+    
+    
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        
+        RestAreaResponseDTO that = (RestAreaResponseDTO) o;
+        return restAreaId != null && restAreaId.equals(that.restAreaId);
+    }
+    
+    @Override
+    public int hashCode() {
+        return restAreaId != null ? restAreaId.hashCode() : 0;
+    }
 }
 
 
