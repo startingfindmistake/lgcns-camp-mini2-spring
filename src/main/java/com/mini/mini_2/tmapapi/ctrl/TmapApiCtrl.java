@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 
 @RestController
-@RequestMapping("api/v2/mini/tmap")
+@RequestMapping("api/v1/mini/tmap")
 public class TmapApiCtrl {
     
     @Autowired
@@ -58,7 +58,7 @@ public class TmapApiCtrl {
     } 
 
     @PostMapping("poi_of_route")
-    public ResponseEntity<RoutePoiResponseDTO> poi_of_route(@RequestBody RoutePoiRequestDTO request) {
+    public ResponseEntity<List<RestAreaResponseDTO>> poi_of_route(@RequestBody RoutePoiRequestDTO request) {
         // System.out.println("[TMAP DEBUG] request : " + request);
         
         List<RestAreaResponseDTO> responses = routePoiService.poiOfRoute(request);
