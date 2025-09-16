@@ -34,6 +34,7 @@ public class ChatResponseDTO {
     @JsonIgnoreProperties(ignoreUnknown = true) // json에 정의되지 않은 필드는 무시 
     public static class Recommend {
         private String name ;  
+        private String food ;
         private String reason ; 
     }
 }

@@ -57,6 +57,7 @@ public class ChatService {
     String prompt = """
         너는 휴게소 추천 전문가 AI야.
         다음 휴게소들 중에서 가장 추천할 만한 하나를 선택하고, 이유를 자세히 설명해줘.
+        추천할 만한 하나의 휴게소의 대표 음식도 하나 말해줘.
         다른 휴게소는 언급하지 마.
         무조건 JSON 형식으로만 응답해야 해.
 
@@ -67,7 +68,7 @@ public class ChatService {
         {
             "restArea": "<선택된 휴게소명>",
             "recommends": [
-                {"name": "<선택된 휴게소명>", "reason": "<추천 이유>"}
+                {"name": "<선택된 휴게소명>", "food": "<추천 음식>", "reason": "<추천 이유>"}
             ]
         }
         """.formatted(restAreaNames);
