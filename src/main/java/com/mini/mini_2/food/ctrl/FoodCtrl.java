@@ -36,7 +36,7 @@ public class FoodCtrl {
 
     @PostMapping("/create")
     public ResponseEntity<FoodResponseDTO> create(@RequestBody FoodRequestDTO request) {
-        System.out.println("[FoodCtrl] create");
+        System.out.println("[FoodCtrl] create : " + request);
         try {
             FoodResponseDTO response = foodService.create(request);
             return ResponseEntity.status(HttpStatus.CREATED).body(response);
@@ -47,18 +47,18 @@ public class FoodCtrl {
     }
 
     @Operation(
-        summary = "휴게소 음식 전체 조회",
+        summary = "음식 목록 전체 조회",
         description = "휴게소 음식 전체 목록입니다."
     )
 
     @GetMapping("/lists")
     public ResponseEntity<List<FoodResponseDTO>> findAll() {
-        List<FoodResponseDTO> response = foodService.findAll();
-        return ResponseEntity.ok(response);
+        List<FoodResponseDTO> responses = foodService.findAll();
+        return ResponseEntity.ok(responses);
     }
 
     @Operation(
-        summary = "ID 기반 음식 조회",
+        summary = "음식 ID 기반 음식 조회",
         description = "음식 ID를 입력해주세요."
     )
 
@@ -102,44 +102,56 @@ public class FoodCtrl {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
     }
 
-    // 조회(정규표현식)
-    @GetMapping("/search")
-    public ResponseEntity<List<FoodResponseDTO>> searchFoods(@RequestParam("arg0") String keyword) {
+    @Operation(
+        summary = "메뉴 기반 음식 목록 조회",
+        description = "음식 메뉴를 입력해주세요."
+    )
+    
+    @GetMapping("/search/{name}")
+    public ResponseEntity<List<FoodResponseDTO>> searchByName(@RequestParam("arg0") String keyword) {
         if (keyword == null || keyword.isEmpty()) {
             return ResponseEntity.ok(List.of());
         }
 
-        List<FoodResponseDTO> result = foodService.searchFoodsByKeyword(keyword);
+        List<FoodResponseDTO> responses = foodService.searchByName(keyword);
 
-        if (result.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(result);
+        if (responses.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responses);
         }
-        return ResponseEntity.ok(result);
+        return ResponseEntity.ok(responses);
     }
 
-    // 시그니처 유무
-    @GetMapping("/signature/{restAreaId}")
-    public ResponseEntity<List<FoodResponseDTO>> getSignatureFood(
+    @Operation(
+        summary = "휴게소 ID 기반 대표 메뉴 목록 조회",
+        description = "휴게소 ID를 입력해주세요."
+    )
+
+    @GetMapping("/search/signature/{restAreaId}")
+    public ResponseEntity<List<FoodResponseDTO>> searchByRestAreaId(
             @PathVariable("restAreaId") Integer restAreaId) {
 
-        List<FoodResponseDTO> result = foodService.getSignatureFood(restAreaId);
+        List<FoodResponseDTO> responses = foodService.searchByRestAreaId(restAreaId);
 
-        if (result.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(result);
+        if (responses.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responses);
         }
 
-        return ResponseEntity.ok(result);
+        return ResponseEntity.ok(responses);
     }
 
-    // 가격 필터
-    @GetMapping("/search/price")
-    public ResponseEntity<List<FoodResponseDTO>> searchFoodsByPrice(@RequestParam("arg0") double maxPrice) {
-        List<FoodResponseDTO> result = foodService.searchFoodsByPrice(maxPrice);
+    @Operation(
+        summary = "가격 기반 음식 목록 조회",
+        description = "가격을 입력해주세요."
+    )
 
-        if (result.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(result);
+    @GetMapping("/search/{price}")
+    public ResponseEntity<List<FoodResponseDTO>> searchByPrice(@RequestParam("arg0") double maxPrice) {
+        List<FoodResponseDTO> responses = foodService.searchByPrice(maxPrice);
+
+        if (responses.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responses);
         }
 
-        return ResponseEntity.ok(result);
+        return ResponseEntity.ok(responses);
     }
 }

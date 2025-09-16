@@ -110,10 +110,10 @@ public class RestAreaService {
     // 휴게소 삭제
     public boolean delete(Integer restAreaId) {
 
-        RestAreaEntity rest = restRepository.findById(restAreaId)
+        RestAreaEntity entity = restRepository.findById(restAreaId)
                 .orElseThrow(() -> new RuntimeException("휴게소가 존재하지 않습니다. ID: " + restAreaId));
 
-        restRepository.delete(rest);
+        restRepository.delete(entity);
 
         return true;
     }
