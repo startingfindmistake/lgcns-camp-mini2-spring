@@ -54,12 +54,12 @@ public class FoodTest {
                 .isSignature("Y")
                 .build();
 
-        FoodResponseDTO foodResponse = foodService.insert(foodRequest);
+        FoodResponseDTO foodResponse = foodService.create(foodRequest);
         assertNotNull(foodResponse.getFoodId());
         assertEquals("치즈돈가스", foodResponse.getFoodName());
 
         // READ
-        FoodResponseDTO foundFood = foodService.get(foodResponse.getFoodId());
+        FoodResponseDTO foundFood = foodService.findByFoodId(foodResponse.getFoodId());
         assertNotNull(foundFood);
         assertEquals("치즈돈가스", foundFood.getFoodName());
 

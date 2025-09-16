@@ -27,8 +27,9 @@ public class FoodService {
     @Autowired
     private RestAreaRepository restAreaRepository;
 
-    // Create
-    public FoodResponseDTO insert(FoodRequestDTO request) {
+    // 음식 생성
+    public FoodResponseDTO create(FoodRequestDTO request) {
+        System.out.println("[FoodService] create"); 
 
         RestAreaEntity restArea = restAreaRepository.findById(request.getRestAreaId()).get();
         
@@ -40,7 +41,7 @@ public class FoodService {
     }
 
     // 전체 조회
-    public List<FoodResponseDTO> list() {
+    public List<FoodResponseDTO> findAll() {
         return foodRepository.findAll()
                 .stream()
                 .map(FoodResponseDTO::fromEntity)
@@ -48,7 +49,7 @@ public class FoodService {
     }
 
     // 일부 조회
-    public FoodResponseDTO get(Integer foodId) {
+    public FoodResponseDTO findByFoodId(Integer foodId) {
         return foodRepository.findById(foodId)
                 .map(FoodResponseDTO::fromEntity)
                 .orElse(null);

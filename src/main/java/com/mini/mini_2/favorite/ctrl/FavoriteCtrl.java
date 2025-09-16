@@ -35,7 +35,7 @@ public class FavoriteCtrl {
     
     @Operation(
         summary = "즐겨찾기 생성",
-        description = "즐겨찾기 생성"
+        description = "즐겨찾기 추가해주세요."
     )
 
     @ApiResponses(
@@ -63,7 +63,7 @@ public class FavoriteCtrl {
 
     @Operation(
         summary = "즐겨찾기 삭제",
-        description = "."
+        description = "즐겨찾기 ID를 입력해주세요."
     )
     
     @DeleteMapping("delete/{favoriteId}")
@@ -74,12 +74,17 @@ public class FavoriteCtrl {
         
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
     }
+
+    @Operation(
+        summary = "ID 기반 즐겨찾기 조회",
+        description = "회원 ID를 입력해주세요."
+    )
     
-    @GetMapping("get/{userId}")
-    public ResponseEntity<List<FavoriteResponseDTO>> get(@PathVariable("userId") Integer userId) {
+    @GetMapping("lists/{userId}")
+    public ResponseEntity<List<FavoriteResponseDTO>> findByUserId(@PathVariable("userId") Integer userId) {
         System.out.println("[FavoriteCtrl] get favorite by user : " + userId);
         
-        List<FavoriteResponseDTO> responses = favoriteService.findAllById(userId);
+        List<FavoriteResponseDTO> responses = favoriteService.findByUserId(userId);
         
         if (responses != null) {
             return ResponseEntity.status(HttpStatus.OK).body(responses);

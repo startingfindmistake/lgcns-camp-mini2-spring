@@ -25,11 +25,11 @@ public class RestAreaService {
         System.out.println("[RestAreaService] create"); 
         
         String code = request.getCode();
-        Optional<RestAreaEntity> entity = restRepository.findByCode(code);
+        Optional<RestAreaEntity> existData = restRepository.findByCode(code);
         RestAreaEntity entityToSave;
         
-        if (entity.isPresent()) {
-            RestAreaEntity originData = entity.get();
+        if (existData.isPresent()) {
+            RestAreaEntity originData = existData.get();
             originData.setName(request.getName());
             originData.setDirection(request.getDirection());
             originData.setTel(request.getTel());

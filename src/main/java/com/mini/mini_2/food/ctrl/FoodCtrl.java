@@ -18,6 +18,7 @@ import com.mini.mini_2.food.domain.dto.FoodRequestDTO;
 import com.mini.mini_2.food.domain.dto.FoodResponseDTO;
 import com.mini.mini_2.food.service.FoodService;
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
@@ -28,12 +29,16 @@ public class FoodCtrl {
     @Autowired
     private FoodService foodService;
 
-    // Create
+    @Operation(
+        summary = "휴게소 음식 생성",
+        description = "휴게소 음식을 생성해주세요."
+    )
+
     @PostMapping("/create")
     public ResponseEntity<FoodResponseDTO> create(@RequestBody FoodRequestDTO request) {
-        System.out.println("[FoodCtrl] POST create >>> " + request);
+        System.out.println("[FoodCtrl] create");
         try {
-            FoodResponseDTO response = foodService.insert(request);
+            FoodResponseDTO response = foodService.create(request);
             return ResponseEntity.status(HttpStatus.CREATED).body(response);
         } catch (RuntimeException e) {
             e.printStackTrace();
@@ -41,24 +46,36 @@ public class FoodCtrl {
         }
     }
 
-    // 전체 조회
-    @GetMapping("/foods")
-    public ResponseEntity<List<FoodResponseDTO>> foods() {
-        List<FoodResponseDTO> foods = foodService.list();
-        return ResponseEntity.ok(foods);
+    @Operation(
+        summary = "휴게소 음식 전체 조회",
+        description = "휴게소 음식 전체 목록입니다."
+    )
+
+    @GetMapping("/lists")
+    public ResponseEntity<List<FoodResponseDTO>> findAll() {
+        List<FoodResponseDTO> response = foodService.findAll();
+        return ResponseEntity.ok(response);
     }
 
-    // 일부 조회
-    @GetMapping("/foods/{foodId}")
-    public ResponseEntity<FoodResponseDTO> detail(@PathVariable("foodId") Integer foodId) {
-        FoodResponseDTO response = foodService.get(foodId);
+    @Operation(
+        summary = "ID 기반 음식 조회",
+        description = "음식 ID를 입력해주세요."
+    )
+
+    @GetMapping("/lists/{foodId}")
+    public ResponseEntity<FoodResponseDTO> findByFoodId(@PathVariable("foodId") Integer foodId) {
+        FoodResponseDTO response = foodService.findByFoodId(foodId);
         if (response == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
         return ResponseEntity.ok(response);
     }
 
-    // Update
+    @Operation(
+        summary = "음식 정보 수정",
+        description = "음식 ID를 입력해주세요."
+    )
+
     @PostMapping("/update/{foodId}")
     public ResponseEntity<FoodResponseDTO> update(
             @PathVariable("foodId") Integer foodId,
@@ -72,7 +89,11 @@ public class FoodCtrl {
         }
     }
 
-    // Delete
+    @Operation(
+        summary = "음식 정보 삭제",
+        description = "음식 ID를 입력해주세요."
+    )
+    
     @DeleteMapping("/delete/{foodId}")
     public ResponseEntity<Void> delete(
             @PathVariable("foodId") Integer foodId) {

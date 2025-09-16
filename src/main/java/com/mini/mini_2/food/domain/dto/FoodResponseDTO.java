@@ -19,10 +19,10 @@ public class FoodResponseDTO {
 
     private Integer foodId;
     private Integer restAreaId;
-    private String foodName;
-    private String price;
-    private String isSignature;
-    private String description;
+    private String  foodName;
+    private String  price;
+    private String  isSignature;
+    private String  description;
 
     public static FoodResponseDTO fromEntity(FoodEntity entity) {
         return FoodResponseDTO.builder()

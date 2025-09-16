@@ -25,7 +25,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 @RestController
 @RequestMapping("/api/v1/mini/restarea")
 @Tag(name = "RestArea API", description = "휴게소 API")
-
 public class RestAreaCtrl {
 
     @Autowired

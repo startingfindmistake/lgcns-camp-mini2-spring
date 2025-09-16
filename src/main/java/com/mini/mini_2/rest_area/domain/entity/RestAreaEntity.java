@@ -23,7 +23,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Table(name = "restarea")
+@Table(name = "rest_area")
 
 @Builder
 @Setter
@@ -33,7 +33,6 @@ import lombok.ToString;
 @ToString
 
 public class RestAreaEntity {
-
 
         // PK
         @Id

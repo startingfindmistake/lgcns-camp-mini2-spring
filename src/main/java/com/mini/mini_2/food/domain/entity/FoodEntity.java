@@ -1,7 +1,5 @@
 package com.mini.mini_2.food.domain.entity;
 
-
-
 import com.mini.mini_2.rest_area.domain.entity.RestAreaEntity;
 
 import jakarta.persistence.Column;

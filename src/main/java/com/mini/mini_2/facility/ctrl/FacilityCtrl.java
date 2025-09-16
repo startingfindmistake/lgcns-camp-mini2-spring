@@ -35,7 +35,7 @@ public class FacilityCtrl {
 
     @Operation(
         summary = "편의시설 생성",
-        description = "편의시설 생성"
+        description = "편의시설을 생성해주세요."
     )
 
     @ApiResponses(
@@ -62,7 +62,7 @@ public class FacilityCtrl {
     }
 
     @Operation(
-        summary = "휴게소별 시설 조회",
+        summary = "휴게소별 편의시설 조회",
         description = "휴게소 아이디를 입력해주세요."
     )
 

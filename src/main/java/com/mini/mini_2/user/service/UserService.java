@@ -14,15 +14,15 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
     
-    public UserResponseDTO signup(UserRequestDTO request) {
-        System.out.println("[UserService] sign up");
+    public UserResponseDTO create(UserRequestDTO request) {
+        System.out.println("[UserService] create");
         
         UserEntity entity = userRepository.save(request.toEntity());
         return UserResponseDTO.fromEntity(entity);
     }
     
-    public UserResponseDTO signin(UserRequestDTO request) {
-        System.out.println("[UserService] sign in");
+    public UserResponseDTO login(UserRequestDTO request) {
+        System.out.println("[UserService] login");
         
         UserEntity entity = userRepository.findByUserEmailAndPassword(request.getUserEmail(), request.getPassword());
         UserResponseDTO response = UserResponseDTO.fromEntity(entity);
@@ -30,7 +30,7 @@ public class UserService {
         return response;
     }
     
-    public UserResponseDTO updatePassword(UserRequestDTO request) {
+    public UserResponseDTO update(UserRequestDTO request) {
         System.out.println("[UserService] change password");
         
         UserEntity entity = userRepository.findByUserEmail(request.getUserEmail());

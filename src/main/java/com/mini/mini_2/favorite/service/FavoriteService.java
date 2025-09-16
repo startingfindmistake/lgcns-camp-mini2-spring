@@ -45,7 +45,7 @@ public class FavoriteService {
         
     }
     
-    public List<FavoriteResponseDTO> findAllById(Integer userId) {
+    public List<FavoriteResponseDTO> findByUserId(Integer userId) {
         System.out.println("[FavoriteService] find favorites");
 
         List<FavoriteEntity> entities = favoriteRepository.findAllByUser_UserId(userId);

@@ -118,7 +118,7 @@ public class OpenApiCtrl {
                                                        .restAreaId(restarea.getRestAreaId())
                                                        .build();
             System.out.println("[FOOD] : " + foodRequest);
-            foodService.insert(foodRequest);
+            foodService.create(foodRequest);
         }
         
         return null;
