@@ -73,7 +73,7 @@ public class FoodTest {
 
         FoodResponseDTO updateFood = foodService.update(foodResponse.getFoodId(), updateRequest);
         assertEquals("김치돈가스", updateFood.getFoodName());
-        assertEquals(8500, updateFood.getPrice());
+        assertEquals("8500", updateFood.getPrice());
 
         // DELETE
         boolean delete = foodService.delete(foodResponse.getFoodId());

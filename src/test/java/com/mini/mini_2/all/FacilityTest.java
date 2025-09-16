@@ -17,16 +17,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.mini.mini_2.facility.domain.dto.FacilityRequestDTO;
 import com.mini.mini_2.facility.domain.dto.FacilityResponseDTO;
-import com.mini.mini_2.facility.repository.FacilityRepository;
 import com.mini.mini_2.facility.service.FacilityService;
 import com.mini.mini_2.rest_area.domain.dto.RestAreaRequestDTO;
 import com.mini.mini_2.rest_area.domain.dto.RestAreaResponseDTO;
-import com.mini.mini_2.rest_area.domain.entity.RestAreaEntity;
 import com.mini.mini_2.rest_area.repository.RestAreaRepository;
 import com.mini.mini_2.rest_area.service.RestAreaService;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
+
 
 @SpringBootTest
 @Transactional
@@ -60,7 +57,7 @@ public class FacilityTest {
                 .address("충북 어딘가")
                 .routeName("경부고속도로")
                 .build();
-        RestAreaResponseDTO response1 = restAreaService.insert(rest1);
+        RestAreaResponseDTO response1 = restAreaService.create(rest1);
         assertNotNull(response1.getRestAreaId());        
         
 
@@ -74,7 +71,7 @@ public class FacilityTest {
                     .address("강원도 어딘가")
                     .routeName("영동고속도로")
                     .build();
-        RestAreaResponseDTO response2 = restAreaService.insert(rest2);
+        RestAreaResponseDTO response2 = restAreaService.create(rest2);
         assertNotNull(response2.getRestAreaId());              
       
 
@@ -86,7 +83,7 @@ public class FacilityTest {
                 .name("수유실")
                 .description("24시간")
                 .build();
-        FacilityResponseDTO faresponse1 = facilityService.post(facility1);
+        FacilityResponseDTO faresponse1 = facilityService.create(facility1);
         assertNotNull(faresponse1.getFacilityId());
 
         // 금강: 전기차충전
@@ -95,7 +92,7 @@ public class FacilityTest {
                 .name("전기차충전소")
                 .description("급속 2기")
                 .build();
-        FacilityResponseDTO faresponse2 = facilityService.post(facility2);
+        FacilityResponseDTO faresponse2 = facilityService.create(facility2);
         assertNotNull(faresponse2.getFacilityId());
 
         // 여주
@@ -105,11 +102,11 @@ public class FacilityTest {
                 .description("24시간")
                 .build();
     
-        FacilityResponseDTO faresponse3 = facilityService.post(facility3);
+        FacilityResponseDTO faresponse3 = facilityService.create(facility3);
         assertNotNull(faresponse3.getFacilityId());
 
         // 시설명 필터: "수유실" 보유 휴게소만
-        List<RestAreaResponseDTO> onlyType = facilityService.searchRestsByType(Arrays.asList("수유실"));
+        List<RestAreaResponseDTO> onlyType = facilityService.search(Arrays.asList("수유실"));
         assertFalse(onlyType.isEmpty(), "'수유실' 보유 휴게소 검색");
 
         Set<String> onlyNames = onlyType.stream()
@@ -123,7 +120,7 @@ public class FacilityTest {
 
 
         // 다중 필터: 수유실과 전기차충전소 모두 갖춘 휴게소
-        List<RestAreaResponseDTO> both = facilityService.searchRestsByType(
+        List<RestAreaResponseDTO> both = facilityService.search(
                 Arrays.asList("수유실", "전기차충전소"));
         Set<String> bothNames = both.stream()
                         .map(RestAreaResponseDTO::getName)

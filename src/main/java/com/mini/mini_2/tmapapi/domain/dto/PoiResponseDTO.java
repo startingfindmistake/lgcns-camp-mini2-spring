@@ -4,9 +4,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.mini.mini_2.tmapapi.domain.dto.RoutePoiResponseDTO.Poi;
-import com.mini.mini_2.tmapapi.domain.dto.RoutePoiResponseDTO.Pois;
-import com.mini.mini_2.tmapapi.domain.dto.RoutePoiResponseDTO.SearchPoiInfo;
+
 
 import lombok.Data;
 

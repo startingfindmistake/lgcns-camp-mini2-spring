@@ -27,7 +27,7 @@ public class FavoriteService {
     @Autowired
     private RestAreaRepository restAreaRepository;
     
-    public FavoriteResponseDTO post(FavoriteRequestDTO request) {
+    public FavoriteResponseDTO create(FavoriteRequestDTO request) {
         System.out.println("[FavoriteService] post");
         
         Optional<UserEntity> userEntity = userRepository.findById(request.getUserId());

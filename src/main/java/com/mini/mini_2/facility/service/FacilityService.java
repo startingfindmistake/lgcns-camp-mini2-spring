@@ -23,23 +23,20 @@ public class FacilityService {
 
     @Autowired
     private FacilityRepository facilityRepository;
-
+    
     @Autowired
     private RestAreaRepository restAreaRepository;
    
 
-    // POST 시설 생성
+    // Facility 생성
     @Transactional
-    public FacilityResponseDTO post(FacilityRequestDTO request) {
-        System.out.println("[FacilityService] post ");
+    public FacilityResponseDTO create(FacilityRequestDTO request) {
+        System.out.println("[FacilityService] create");
 
-        // rest_area 있는지 확인
-        System.out.println("[facility service] : " + request);
-        System.out.println("[facility service get rest area id] : " + request.getRestAreaId());
         Optional<RestAreaEntity> restArea = restAreaRepository.findById(request.getRestAreaId());
 
         if(restArea.isPresent()) {
-            // facilityEntity에 FK       
+
             FacilityEntity facility = request.toEntity(restArea.get());
             return FacilityResponseDTO.fromEntity(facilityRepository.save(facility));
         }
@@ -48,7 +45,8 @@ public class FacilityService {
         }
     }
     
-    public List<FacilityResponseDTO> find(Integer restAreaId) {
+    // Facility 조회
+    public List<FacilityResponseDTO> list(Integer restAreaId) {
         
         List<FacilityEntity> facilities = facilityRepository.findByRestArea_RestAreaId(restAreaId);
         
@@ -58,10 +56,10 @@ public class FacilityService {
         
     }
 
-    // [추가 - 필터링 작업] 주어진 편의시설을 갖춘 휴게소 정보 반환
-    public List<RestAreaResponseDTO> searchRestsByType(List<String> types) {
+    // 원하는 Facility가 있는 휴게소 검색 
+    public List<RestAreaResponseDTO> search(List<String> types) {
 
-        // 시설 공백이나 중복 필터
+        // 중복 및 공백 제거
         List<String> cleandTypes = (types == null ? List.<String>of() : types)
                 .stream()
                 .filter(Objects::nonNull)
@@ -75,10 +73,6 @@ public class FacilityService {
                 .map(RestAreaResponseDTO::fromEntity)
                 .toList() ;
     }
-
-
-
-    
-    
+  
     
 }

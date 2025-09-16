@@ -22,22 +22,22 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 
 
 @RestController
 @RequestMapping("/api/v1/mini/favorite")
-@Tag(name = "Favorite API", description = "Favorite API Documentation")
+@Tag(name = "Favorite API", description = "즐겨찾기 API")
 public class FavoriteCtrl {
     
     @Autowired
     private FavoriteService favoriteService;
     
     @Operation(
-        summary = "Favorite Post",
-        description = "Favorite Post"
+        summary = "즐겨찾기 생성",
+        description = "즐겨찾기 생성"
     )
+
     @ApiResponses(
         {
             @ApiResponse(responseCode = "200",
@@ -46,10 +46,11 @@ public class FavoriteCtrl {
                          description = "Post Favorite Failed")
         }
     )
-    @PostMapping("create")
+
+    @PostMapping("/create")
     public ResponseEntity create(@RequestBody FavoriteRequestDTO request) {
         System.out.println("[FavoriteCtrl] create : " + request);
-        FavoriteResponseDTO response = favoriteService.post(request);
+        FavoriteResponseDTO response = favoriteService.create(request);
         
         if(response != null) {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
@@ -59,6 +60,11 @@ public class FavoriteCtrl {
             
         }
     }
+
+    @Operation(
+        summary = "즐겨찾기 삭제",
+        description = "."
+    )
     
     @DeleteMapping("delete/{favoriteId}")
     public ResponseEntity<Void> delete(@PathVariable("favoriteId") Integer favoriteId) {

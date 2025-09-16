@@ -23,7 +23,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Table(name = "rest_area")
+@Table(name = "restarea")
 
 @Builder
 @Setter
@@ -58,18 +58,17 @@ public class RestAreaEntity {
         @Column(length = 100)
         private String routeName;
 
-    @Column(length = 100)
-    private String xValue ;
+        @Column(length = 100)
+        private String xValue ;
 
-    @Column(length = 100)
-    private String yValue ;
+        @Column(length = 100)
+        private String yValue ;
 
 
-
-    @OneToMany(mappedBy = "restArea", 
-               orphanRemoval = false) 
-    private List<ReviewEntity> reviews = new ArrayList<>();
-
+        @OneToMany(mappedBy = "restArea", orphanRemoval = false) 
+        private List<ReviewEntity> reviews = new ArrayList<>();
+        
+        
         @OneToMany(mappedBy = "restArea", orphanRemoval = false)
         private List<FavoriteEntity> favorites = new ArrayList<>();
 

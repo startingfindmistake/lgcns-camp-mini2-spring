@@ -12,7 +12,7 @@ import com.mini.mini_2.rest_area.domain.dto.RestAreaResponseDTO;
 import com.mini.mini_2.rest_area.domain.entity.RestAreaEntity;
 import com.mini.mini_2.rest_area.repository.RestAreaRepository;
 
-;
+
 
 @Service
 public class RestAreaService {
@@ -20,15 +20,16 @@ public class RestAreaService {
     @Autowired
     private RestAreaRepository restRepository;
 
-    // INSERT - 생성(등록)
-    public RestAreaResponseDTO insert(RestAreaRequestDTO request){ 
-        System.out.println("[RestAreaService] insert "); 
+    // 휴게소 생성
+    public RestAreaResponseDTO create(RestAreaRequestDTO request){ 
+        System.out.println("[RestAreaService] create"); 
         
         String code = request.getCode();
-        Optional<RestAreaEntity> existData = restRepository.findByCode(code);
+        Optional<RestAreaEntity> entity = restRepository.findByCode(code);
         RestAreaEntity entityToSave;
-        if (existData.isPresent()) {
-            RestAreaEntity originData = existData.get();
+        
+        if (entity.isPresent()) {
+            RestAreaEntity originData = entity.get();
             originData.setName(request.getName());
             originData.setDirection(request.getDirection());
             originData.setTel(request.getTel());
@@ -45,9 +46,9 @@ public class RestAreaService {
         return RestAreaResponseDTO.fromEntity(restArea);
     }
 
-    // LIST - 전체 조회
-    public List<RestAreaResponseDTO> list() {
-        System.out.println("[RestAreaService] list");
+    // 전체 조회
+    public List<RestAreaResponseDTO> findAll() {
+        System.out.println("[RestAreaService] findAll");
 
         List<RestAreaEntity> list = restRepository.findAll();
         return list.stream()
@@ -55,9 +56,9 @@ public class RestAreaService {
                 .toList();
     }
 
-    // FINDREST - 휴게소 일부 조회
-    public RestAreaResponseDTO findRest(Integer restAreaId) {
-        System.out.println("[RestAreaService] findRest ");
+    // ID 기반 휴게소 단건 조회
+    public RestAreaResponseDTO findByRestAreaId(Integer restAreaId) {
+        System.out.println("[RestAreaService] findByRestAreaId");
 
         RestAreaEntity restAreaEntity =
             restRepository.findById(restAreaId)
@@ -67,11 +68,12 @@ public class RestAreaService {
         RestAreaResponseDTO response = 
             RestAreaResponseDTO.fromEntity(restAreaEntity) ;
         return response ;
-        
-        
+          
     }
+
+    // CODE 기반 휴게소 단건 조회
     public RestAreaResponseDTO findByCode(String code){
-        System.out.println("[RestAreaService] findByCode ");
+        System.out.println("[RestAreaService] findByCode");
 
         Optional<RestAreaEntity> restAreaEntity = restRepository.findByCode(code);
         
@@ -84,9 +86,9 @@ public class RestAreaService {
         }
     }
 
-    // update
+    // 휴게소 수정
     public RestAreaResponseDTO update(Integer restAreaId, RestAreaRequestDTO request) {
-        System.out.println("[RestAreaService] updateRest ");
+        System.out.println("[RestAreaService] update");
 
         RestAreaEntity updated = RestAreaEntity.builder()
                 .restAreaId(restAreaId)
@@ -104,7 +106,7 @@ public class RestAreaService {
 
     }
 
-    // delete
+    // 휴게소 삭제
     public boolean delete(Integer restAreaId) {
 
         RestAreaEntity rest = restRepository.findById(restAreaId)
@@ -115,8 +117,8 @@ public class RestAreaService {
         return true;
     }
 
-    // 상하행
-    public List<RestAreaResponseDTO> dircetion(String direction) {
+    // Direction 기반 휴게소 조회
+    public List<RestAreaResponseDTO> findByDirection(String direction) {
         return restRepository.findAll().stream()
                 .filter(rest -> rest.getDirection().equalsIgnoreCase(direction))
                 .map(rest -> new RestAreaResponseDTO(
@@ -131,7 +133,6 @@ public class RestAreaService {
                         rest.getYValue()))
                 .collect(Collectors.toList());
     }
-
 
             
 }

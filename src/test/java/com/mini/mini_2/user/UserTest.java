@@ -7,9 +7,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.test.annotation.Rollback;
 
-import com.mini.mini_2.user.domain.dto.UserRequestDTO;
-import com.mini.mini_2.user.domain.dto.UserResponseDTO;
-import com.mini.mini_2.user.domain.entity.UserEntity;
 import com.mini.mini_2.user.repository.UserRepository;
 
 

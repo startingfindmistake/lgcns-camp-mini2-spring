@@ -14,7 +14,7 @@ import com.mini.mini_2.rest_area.domain.entity.RestAreaEntity;
 @Repository
 public interface FacilityRepository extends JpaRepository<FacilityEntity, Integer> {
 
-    // restAreaId로 해당 휴게소 시설 조회(name, description) 
+    // restAreaId로 휴게소별 편의 시설 조회
     List<FacilityEntity> findByRestArea_RestAreaId(Integer restAreaId);
 
     // 주어진 시설들을 갖춘 휴게소 엔티티 반환(ex 약국이 있는 휴게소만 출력) 
