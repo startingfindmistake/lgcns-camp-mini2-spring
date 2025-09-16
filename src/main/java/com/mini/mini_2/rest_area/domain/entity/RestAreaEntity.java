@@ -8,6 +8,7 @@ import com.mini.mini_2.favorite.domain.entity.FavoriteEntity;
 import com.mini.mini_2.food.domain.entity.FoodEntity;
 import com.mini.mini_2.review.domain.entity.ReviewEntity;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -34,49 +35,49 @@ import lombok.ToString;
 
 public class RestAreaEntity {
 
+    // PK
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer restAreaId;
 
-        // PK
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private Integer restAreaId;
+    @Column(nullable = false, unique = true, length = 50)
+    private String name;
 
-        @Column(nullable = false, unique = true, length = 50)
-        private String name;
+    @Column(nullable = false, length = 50)
+    private String direction;
 
-        @Column(nullable = false, length = 50)
-        private String direction;
+    @Column(nullable = false, unique = true, length = 100)
+    private String code;
 
-        @Column(nullable = false, unique = true, length = 100)
-        private String code;
-
-        @Column(length = 50)
-        private String tel;
-
-        @Column(length = 100)
-        private String address;
-
-        @Column(length = 100)
-        private String routeName;
+    @Column(length = 50)
+    private String tel;
 
     @Column(length = 100)
-    private String xValue ;
+    private String address;
 
     @Column(length = 100)
-    private String yValue ;
+    private String routeName;
 
+    @Column(length = 100)
+    private String xValue;
 
+    @Column(length = 100)
+    private String yValue;
 
-    @OneToMany(mappedBy = "restArea", 
-               orphanRemoval = false) 
+    @OneToMany(mappedBy = "restArea", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
     private List<ReviewEntity> reviews = new ArrayList<>();
 
-        @OneToMany(mappedBy = "restArea", orphanRemoval = false)
-        private List<FavoriteEntity> favorites = new ArrayList<>();
+    @OneToMany(mappedBy = "restArea", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
+    private List<FavoriteEntity> favorites = new ArrayList<>();
 
-        @OneToMany(mappedBy = "restArea", orphanRemoval = false)
-        private List<FacilityEntity> facilities = new ArrayList<>();
+    @OneToMany(mappedBy = "restArea", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
+    private List<FacilityEntity> facilities = new ArrayList<>();
 
-        @OneToMany(mappedBy = "restArea", orphanRemoval = false)
-        private List<FoodEntity> foods = new ArrayList<>();
+    @OneToMany(mappedBy = "restArea", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
+    private List<FoodEntity> foods = new ArrayList<>();
 
 }
