@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import com.mini.mini_2.auth.TokenService;
+import java.util.Map;
 
 
 
@@ -32,6 +34,9 @@ public class UserCtrl {
     
     @Autowired
     private UserService userService;
+    
+    @Autowired
+    private TokenService tokenService;
     
     @Operation(
         summary = "User Create",
@@ -69,13 +74,14 @@ public class UserCtrl {
         }
     )
     @PostMapping("signin")
-    public ResponseEntity<UserResponseDTO> signin(@RequestBody UserRequestDTO request) {
+    public ResponseEntity<?> signin(@RequestBody UserRequestDTO request) {
         System.out.println("[UserCtrl] signin : " + request);
-        
         UserResponseDTO response = userService.signin(request);
-        
         if (response != null) {
-            return ResponseEntity.status(HttpStatus.OK).body(response);
+            // 로그인 성공 시 JWT 토큰 발급
+            String token = tokenService.generateToken(response.getUserId().toString());
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(Map.of("user", response, "token", token));
         } else {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
