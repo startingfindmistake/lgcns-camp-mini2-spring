@@ -28,6 +28,7 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addInterceptor(authInterceptor)
                 .addPathPatterns("/**")
                 .excludePathPatterns(
+                        // "/api/v1/mini/openapi/**",
                         "/api/v1/mini/user/signin",
                         "/api/v1/mini/user/signup",
                         "/api/v1/mini/user/refresh",

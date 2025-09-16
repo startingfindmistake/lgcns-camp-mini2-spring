@@ -12,6 +12,11 @@ import com.mini.mini_2.tmapapi.service.PoiService;
 import com.mini.mini_2.tmapapi.service.RoutePoiService;
 import com.mini.mini_2.tmapapi.service.RouteService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +31,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 @RequestMapping("api/v1/mini/tmap")
+@Tag(name = "TMAP API", description = "TMAP 경로 및 POI 검색 API")
 public class TmapApiCtrl {
     
     @Autowired
@@ -37,6 +43,18 @@ public class TmapApiCtrl {
     @Autowired
     private PoiService poiService;
     
+    @Operation(
+        summary = "경로 검색",
+        description = "출발지와 목적지를 입력하여 경로를 검색합니다."
+    )
+    @ApiResponses(
+        {
+            @ApiResponse(responseCode = "200",
+                         description = "Route Search Success"),
+            @ApiResponse(responseCode = "500",
+                         description = "Route Search Failed")
+        }
+    )
     @PostMapping("route")
     public ResponseEntity<RouteResponseDTO> route(@RequestBody RouteRequestDTO request) {
         System.out.println("[TMAP ROUTE] request");
@@ -55,6 +73,18 @@ public class TmapApiCtrl {
         }
     } 
 
+    @Operation(
+        summary = "경로 상의 휴게소 검색",
+        description = "경로를 따라 이동하며 근처의 휴게소를 검색합니다."
+    )
+    @ApiResponses(
+        {
+            @ApiResponse(responseCode = "200",
+                         description = "POI of Route Search Success"),
+            @ApiResponse(responseCode = "500",
+                         description = "POI of Route Search Failed")
+        }
+    )
     @PostMapping("poi_of_route")
     public ResponseEntity<List<RestAreaResponseDTO>> poi_of_route(@RequestBody RoutePoiRequestDTO request) {
         System.out.println("[TMAP POI OF ROUTE] request ");
@@ -72,6 +102,18 @@ public class TmapApiCtrl {
         }
     } 
     
+    @Operation(
+        summary = "POI 검색",
+        description = "위치 정보를 이용하여 관심 지점(POI)을 검색합니다."
+    )
+    @ApiResponses(
+        {
+            @ApiResponse(responseCode = "200",
+                         description = "POI Search Success"),
+            @ApiResponse(responseCode = "500",
+                         description = "POI Search Failed")
+        }
+    )
     @GetMapping("poi")
     public ResponseEntity<PoiResponseDTO> poi(PoiRequestDTO request) {
         System.out.println("[TMAP POI] request ");
