@@ -14,18 +14,17 @@ import com.mini.mini_2.rest_area.domain.entity.RestAreaEntity;
 @Repository
 public interface FacilityRepository extends JpaRepository<FacilityEntity, Integer> {
 
-    // restAreaId로 휴게소별 편의 시설 조회
+    
     List<FacilityEntity> findByRestArea_RestAreaId(Integer restAreaId);
 
-    // 주어진 시설들을 갖춘 휴게소 엔티티 반환(ex 약국이 있는 휴게소만 출력) 
     @Query("""
            SELECT f.restArea 
            FROM   FacilityEntity f  
-           WHERE  f.name IN :types
+           WHERE  f.name IN :names
            GROUP BY f.restArea
-           HAVING COUNT(DISTINCT f.name) = :#{#types.size()}
+           HAVING COUNT(DISTINCT f.name) = :#{#names.size()}
            """)             
-    List<RestAreaEntity> findRestAreaByTypes(@Param("types") List<String> types); 
+    List<RestAreaEntity> findRestAreaByTypes(@Param("names") List<String> names); 
 
 
 }

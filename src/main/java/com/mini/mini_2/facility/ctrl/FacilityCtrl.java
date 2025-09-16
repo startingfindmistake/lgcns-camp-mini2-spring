@@ -49,7 +49,7 @@ public class FacilityCtrl {
 
     @PostMapping("/create")
     public ResponseEntity<FacilityResponseDTO> create(@RequestBody FacilityRequestDTO request) {
-        System.out.println("[FacilityCtrl] create ");
+        System.out.println("[FacilityCtrl] create : "+ request);
         FacilityResponseDTO response = facilityService.create(request);
         
         if(response != null) {
@@ -62,15 +62,15 @@ public class FacilityCtrl {
     }
 
     @Operation(
-        summary = "휴게소별 편의시설 조회",
-        description = "휴게소 아이디를 입력해주세요."
+        summary = "휴게소ID 기반 편의시설 목록 조회",
+        description = "휴게소 ID를 입력해주세요."
     )
 
-    @GetMapping("list/{restAreaId}")
-    public ResponseEntity<List<FacilityResponseDTO>> list(@PathVariable("restAreaId") Integer restAreaId) {
-        System.out.println("[FacilityCtrl] find all ");
+    @GetMapping("lists/{restAreaId}")
+    public ResponseEntity<List<FacilityResponseDTO>> findByRestAreaId(@PathVariable("restAreaId") Integer restAreaId) {
+        System.out.println("[FacilityCtrl] findByRestAreaId : " + restAreaId);
         
-        List<FacilityResponseDTO> responses = facilityService.list(restAreaId);
+        List<FacilityResponseDTO> responses = facilityService.findByRestAreaId(restAreaId);
         
         if (responses != null) {
             return ResponseEntity.status(HttpStatus.OK).body(responses);
@@ -81,15 +81,15 @@ public class FacilityCtrl {
     }
 
     @Operation(
-        summary = "주어진 시설이 존재하는 휴게소 찾기",
-        description = "원하는 시설의 이름을 입력해주세요."
+        summary = "원하는 편의시설이 있는 휴게소 조회",
+        description = "원하는 편의시설을 입력해주세요."
     )
 
-    @GetMapping("search")
-    public ResponseEntity<List<RestAreaResponseDTO>> search(@RequestParam("types") List<String> types) {
-        System.out.println("[FacilityCtrl] search ");
+    @GetMapping("search/{names}")
+    public ResponseEntity<List<RestAreaResponseDTO>> searchByNames(@RequestParam("names") List<String> names) {
+        System.out.println("[FacilityCtrl] searchByNames : "+ names);
         
-        return ResponseEntity.ok(facilityService.search(types));
+        return ResponseEntity.ok(facilityService.searchByNames(names));
     }
     
     

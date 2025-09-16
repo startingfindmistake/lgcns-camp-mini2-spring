@@ -76,7 +76,7 @@ public class FavoriteCtrl {
     }
 
     @Operation(
-        summary = "ID 기반 즐겨찾기 조회",
+        summary = "회원 ID 기반 즐겨찾기 목록 조회",
         description = "회원 ID를 입력해주세요."
     )
     

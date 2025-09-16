@@ -22,7 +22,7 @@ public class RestAreaService {
 
     // 휴게소 생성
     public RestAreaResponseDTO create(RestAreaRequestDTO request){ 
-        System.out.println("[RestAreaService] create"); 
+        System.out.println("[RestAreaService] create : "+ request); 
         
         String code = request.getCode();
         Optional<RestAreaEntity> existData = restRepository.findByCode(code);
@@ -42,11 +42,11 @@ public class RestAreaService {
             entityToSave = request.toEntity();
         }
 
-        RestAreaEntity restArea = restRepository.save(entityToSave);
-        return RestAreaResponseDTO.fromEntity(restArea);
+        RestAreaEntity entity = restRepository.save(entityToSave);
+        return RestAreaResponseDTO.fromEntity(entity);
     }
 
-    // 전체 조회
+    // 휴게소 전체 조회
     public List<RestAreaResponseDTO> findAll() {
         System.out.println("[RestAreaService] findAll");
 
@@ -58,7 +58,7 @@ public class RestAreaService {
 
     // ID 기반 휴게소 단건 조회
     public RestAreaResponseDTO findByRestAreaId(Integer restAreaId) {
-        System.out.println("[RestAreaService] findByRestAreaId");
+        System.out.println("[RestAreaService] findByRestAreaId : "+ restAreaId);
 
         RestAreaEntity restAreaEntity =
             restRepository.findById(restAreaId)
@@ -73,7 +73,7 @@ public class RestAreaService {
 
     // CODE 기반 휴게소 단건 조회
     public RestAreaResponseDTO findByCode(String code){
-        System.out.println("[RestAreaService] findByCode");
+        System.out.println("[RestAreaService] findByCode : "+ code);
 
         Optional<RestAreaEntity> restAreaEntity = restRepository.findByCode(code);
         
@@ -88,7 +88,8 @@ public class RestAreaService {
 
     // 휴게소 수정
     public RestAreaResponseDTO update(Integer restAreaId, RestAreaRequestDTO request) {
-        System.out.println("[RestAreaService] update");
+        System.out.println("[RestAreaService] update restAreaId : "+ restAreaId);
+        System.out.println("[RestAreaService] update : "+ request);
 
         RestAreaEntity updated = RestAreaEntity.builder()
                 .restAreaId(restAreaId)
@@ -120,17 +121,17 @@ public class RestAreaService {
     // Direction 기반 휴게소 조회
     public List<RestAreaResponseDTO> findByDirection(String direction) {
         return restRepository.findAll().stream()
-                .filter(rest -> rest.getDirection().equalsIgnoreCase(direction))
-                .map(rest -> new RestAreaResponseDTO(
-                        rest.getRestAreaId(),
-                        rest.getName(),
-                        rest.getDirection(),
-                        rest.getCode(),
-                        rest.getTel(),
-                        rest.getAddress(),
-                        rest.getRouteName(),
-                        rest.getXValue(),
-                        rest.getYValue()))
+                .filter(restArea -> restArea.getDirection().equalsIgnoreCase(direction))
+                .map(restArea -> new RestAreaResponseDTO(
+                        restArea.getRestAreaId(),
+                        restArea.getName(),
+                        restArea.getDirection(),
+                        restArea.getCode(),
+                        restArea.getTel(),
+                        restArea.getAddress(),
+                        restArea.getRouteName(),
+                        restArea.getXValue(),
+                        restArea.getYValue()))
                 .collect(Collectors.toList());
     }
 

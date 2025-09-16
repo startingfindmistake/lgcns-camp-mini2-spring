@@ -16,8 +16,6 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-
-// 어느 휴게소의 시설
 public class FacilityRequestDTO {
 
     private Integer restAreaId;

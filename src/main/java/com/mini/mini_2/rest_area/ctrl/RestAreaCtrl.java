@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+
 @RestController
 @RequestMapping("/api/v1/mini/restarea")
 @Tag(name = "RestArea API", description = "휴게소 API")
@@ -37,7 +38,7 @@ public class RestAreaCtrl {
 
     @PostMapping("/create")
     public ResponseEntity<Void> create(@RequestBody RestAreaRequestDTO request) {
-        System.out.println("[RestAreaCtrl] create");
+        System.out.println("[RestAreaCtrl] create : " + request);
 
         RestAreaResponseDTO response = restAreaService.create(request);
         
@@ -50,7 +51,7 @@ public class RestAreaCtrl {
     }
 
     @Operation(
-        summary = "휴게소 전체 조회",
+        summary = "휴게소 전체 목록 조회",
         description = "휴게소 전체 목록입니다."
     )
 
@@ -64,13 +65,13 @@ public class RestAreaCtrl {
     }
 
     @Operation(
-        summary = "ID 기반 휴게소 조회",
+        summary = "휴게소ID 기반 휴게소 목록 조회",
         description = "휴게소 ID를 입력해주세요."
     )
 
     @GetMapping("/lists/{restAreaId}")
     public ResponseEntity<RestAreaResponseDTO> findByRestAreaId(@PathVariable("restAreaId") Integer restAreaId) {
-        System.out.println("[RestAreaCtrl] findByRestAreaId");
+        System.out.println("[RestAreaCtrl] findByRestAreaId : "+ restAreaId);
         
         RestAreaResponseDTO response = restAreaService.findByRestAreaId(restAreaId);
 
@@ -89,8 +90,11 @@ public class RestAreaCtrl {
     @PostMapping("/update/{restAreaId}")
     public ResponseEntity<RestAreaResponseDTO> update(
         @PathVariable("restAreaId") Integer restAreaId,
-            @RequestBody RestAreaRequestDTO request) {
-
+        @RequestBody RestAreaRequestDTO request) {
+        
+        System.out.println("[RestAreaCtrl] update restAreaId : "+ restAreaId);    
+        System.out.println("[RestAreaCtrl] update request : "+ request);  
+    
         try {
             RestAreaResponseDTO response = restAreaService.update(restAreaId, request);
             return ResponseEntity.ok(response); // 200
@@ -106,13 +110,14 @@ public class RestAreaCtrl {
 
     @DeleteMapping("/delete/{restAreaId}")
     public ResponseEntity<Void> delete(@PathVariable("restAreaId") Integer restAreaId) {
+        System.out.println("[RestAreaCtrl] delete : "+ restAreaId);
 
         restAreaService.delete(restAreaId);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
     }
 
     @Operation(
-        summary = "Direction 기반 휴게소 조회",
+        summary = "Direction 기반 휴게소 목록 조회",
         description = "휴게소 Direction을 입력해주세요."
     )
 
@@ -122,8 +127,9 @@ public class RestAreaCtrl {
 
         if (response.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+        } else {
+            return ResponseEntity.ok(response);
         }
-        return ResponseEntity.ok(response);
 
     }
 }

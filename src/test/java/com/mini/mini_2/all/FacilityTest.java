@@ -106,7 +106,7 @@ public class FacilityTest {
         assertNotNull(faresponse3.getFacilityId());
 
         // 시설명 필터: "수유실" 보유 휴게소만
-        List<RestAreaResponseDTO> onlyType = facilityService.search(Arrays.asList("수유실"));
+        List<RestAreaResponseDTO> onlyType = facilityService.searchByNames(Arrays.asList("수유실"));
         assertFalse(onlyType.isEmpty(), "'수유실' 보유 휴게소 검색");
 
         Set<String> onlyNames = onlyType.stream()
@@ -120,7 +120,7 @@ public class FacilityTest {
 
 
         // 다중 필터: 수유실과 전기차충전소 모두 갖춘 휴게소
-        List<RestAreaResponseDTO> both = facilityService.search(
+        List<RestAreaResponseDTO> both = facilityService.searchByNames(
                 Arrays.asList("수유실", "전기차충전소"));
         Set<String> bothNames = both.stream()
                         .map(RestAreaResponseDTO::getName)

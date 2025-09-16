@@ -28,10 +28,10 @@ public class FacilityService {
     private RestAreaRepository restAreaRepository;
    
 
-    // Facility 생성
+    // 편의시설 생성
     @Transactional
     public FacilityResponseDTO create(FacilityRequestDTO request) {
-        System.out.println("[FacilityService] create");
+        System.out.println("[FacilityService] create : "+ request);
 
         Optional<RestAreaEntity> restArea = restAreaRepository.findById(request.getRestAreaId());
 
@@ -45,30 +45,30 @@ public class FacilityService {
         }
     }
     
-    // Facility 조회
-    public List<FacilityResponseDTO> list(Integer restAreaId) {
+    // 휴게소 ID 기반 편의시설 조회
+    public List<FacilityResponseDTO> findByRestAreaId(Integer restAreaId) {
         
-        List<FacilityEntity> facilities = facilityRepository.findByRestArea_RestAreaId(restAreaId);
+        List<FacilityEntity> entities = facilityRepository.findByRestArea_RestAreaId(restAreaId);
         
-        return facilities.stream()
+        return entities.stream()
                          .map(entity -> FacilityResponseDTO.fromEntity(entity))
                          .toList();
         
     }
 
-    // 원하는 Facility가 있는 휴게소 검색 
-    public List<RestAreaResponseDTO> search(List<String> types) {
+    // 원하는 편의시설이 있는 휴게소 조회
+    public List<RestAreaResponseDTO> searchByNames(List<String> names) {
 
-        // 중복 및 공백 제거
-        List<String> cleandTypes = (types == null ? List.<String>of() : types)
+        
+        List<String> cleandNames = (names == null ? List.<String>of() : names)
                 .stream()
                 .filter(Objects::nonNull)
                 .map(String::trim)
                 .distinct()
                 .toList() ;
         
-        if (cleandTypes.isEmpty()) return List.of() ;        
-        return facilityRepository.findRestAreaByTypes(cleandTypes)
+        if (cleandNames.isEmpty()) return List.of() ;        
+        return facilityRepository.findRestAreaByTypes(cleandNames)
                 .stream()
                 .map(RestAreaResponseDTO::fromEntity)
                 .toList() ;

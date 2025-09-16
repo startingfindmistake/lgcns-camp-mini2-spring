@@ -45,7 +45,7 @@ public class UserCtrl {
 
     @PostMapping("/create")
     public ResponseEntity create(@RequestBody UserRequestDTO request) {
-        System.out.println("[UserCtrl] create");
+        System.out.println("[UserCtrl] create : "+ request);
         UserResponseDTO response = userService.create(request);
         
         if(response != null) {
@@ -66,9 +66,10 @@ public class UserCtrl {
                          description = "Login Success")
         }
     )
+
     @PostMapping("/login")
     public ResponseEntity<UserResponseDTO> login(@RequestBody UserRequestDTO request) {
-        System.out.println("[UserCtrl] login");
+        System.out.println("[UserCtrl] login : "+ request);
         
         UserResponseDTO response = userService.login(request);
         
@@ -86,7 +87,7 @@ public class UserCtrl {
     
     @PutMapping("/update")
     public ResponseEntity<UserResponseDTO> update(@RequestBody UserRequestDTO request) {
-        System.out.println("[UserCtrl] update password : " + request);
+        System.out.println("[UserCtrl] update : " + request);
 
         UserResponseDTO response = userService.update(request);
 
