@@ -114,7 +114,7 @@ public class OpenApiCtrl {
                     .build();
             restAreaService.create(restAreaRequest);
         }      
-        return null;
+        return ResponseEntity.status(HttpStatus.OK).body(null);
     }
     
     @Operation(
@@ -150,7 +150,7 @@ public class OpenApiCtrl {
             foodService.create(foodRequest);
         }
         
-        return null;
+        return ResponseEntity.status(HttpStatus.OK).body(null);
     }
     
     @Operation(
@@ -184,7 +184,7 @@ public class OpenApiCtrl {
             facilityService.create(facilityRequest);
         }
         
-        return null;
+        return ResponseEntity.status(HttpStatus.OK).body(null);
     }
     
     
