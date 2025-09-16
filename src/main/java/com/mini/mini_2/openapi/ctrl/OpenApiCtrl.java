@@ -38,7 +38,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 
 @RestController
-@RequestMapping("api/v2/mini/openapi")
+@RequestMapping("api/v1/mini/openapi")
 public class OpenApiCtrl {
     
     @Autowired
