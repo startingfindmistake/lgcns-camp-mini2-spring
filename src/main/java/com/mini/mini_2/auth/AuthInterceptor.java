@@ -17,7 +17,6 @@ public class AuthInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        // Preflight 요청은 통과
         if (HttpMethod.OPTIONS.matches(request.getMethod())) {
             return true;
         }
@@ -34,7 +33,6 @@ public class AuthInterceptor implements HandlerInterceptor {
             return false;
         }
 
-        // 유효하면 userId를 요청 속성에 저장
         String userId = tokenService.getUserIdFromToken(token);
         request.setAttribute("userId", userId);
         return true;
