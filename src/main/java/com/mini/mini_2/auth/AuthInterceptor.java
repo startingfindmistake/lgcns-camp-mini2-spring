@@ -25,6 +25,7 @@ public class AuthInterceptor implements HandlerInterceptor {
 
         String authHeader = request.getHeader("Authorization");
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            System.out.println("Authorization header : " + authHeader);
             System.out.println("Missing or invalid Authorization header");
             unauthorized(response, "Missing or invalid Authorization header");
             return false;
