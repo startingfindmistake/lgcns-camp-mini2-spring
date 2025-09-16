@@ -28,9 +28,6 @@ public class RestAreaResponseDTO {
     private String xValue;
     private String yValue;
 
-    // [편의점, 화장실, ....]
-    // private List<String> facilityTypes ; 
-    
    
     public static RestAreaResponseDTO fromEntity(RestAreaEntity entity) { 
         return RestAreaResponseDTO.builder()

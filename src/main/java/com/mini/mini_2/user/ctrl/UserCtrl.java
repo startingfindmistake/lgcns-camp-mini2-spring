@@ -28,7 +28,7 @@ import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/api/v1/mini/user")
-@Tag(name = "User API", description = "User API Documentation")
+@Tag(name = "User API", description = "회원 API")
 public class UserCtrl {
     
     @Autowired
@@ -38,8 +38,8 @@ public class UserCtrl {
     private TokenService tokenService;
     
     @Operation(
-        summary = "User Create",
-        description = "Sign up"
+        summary = "회원 생성",
+        description = "계정을 생성해주세요."
     )
     @ApiResponses(
         {
@@ -49,10 +49,11 @@ public class UserCtrl {
                          description = "Create User Failed")
         }
     )
-    @PostMapping("signup")
-    public ResponseEntity<Void> signup(@RequestBody UserRequestDTO request) {
-        System.out.println("[UserCtrl] signup : " + request);
-        UserResponseDTO response = userService.signup(request);
+
+    @PostMapping("/create")
+    public ResponseEntity<Void> create(@RequestBody UserRequestDTO request) {
+        System.out.println("[UserCtrl] create : "+ request);
+        UserResponseDTO response = userService.create(request);
         
         if(response != null) {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
@@ -63,8 +64,8 @@ public class UserCtrl {
     }
     
     @Operation(
-        summary = "User Login",
-        description = "Sign in"
+        summary = "회원 로그인",
+        description = "계정을 로그인해주세요."
     )
     @ApiResponses(
         {
@@ -72,10 +73,11 @@ public class UserCtrl {
                          description = "Login Success")
         }
     )
-    @PostMapping("signin")
-    public ResponseEntity<?> signin(@RequestBody UserRequestDTO request) {
-        System.out.println("[UserCtrl] signin : " + request);
-        UserResponseDTO response = userService.signin(request);
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody UserRequestDTO request) {
+        System.out.println("[UserCtrl] login : "+ request);
+        UserResponseDTO response = userService.login(request);
         if (response != null) {
             // 로그인 성공 시 토큰 페어 발급
             String userId = response.getUserId().toString();
@@ -138,12 +140,17 @@ public class UserCtrl {
                 "refreshToken", pair.refreshToken()
         ));
     }
-    
-    @PutMapping("update_password")
-    public ResponseEntity<UserResponseDTO> update_password(@RequestBody UserRequestDTO request) {
-        System.out.println("[UserCtrl] update password : " + request);
 
-        UserResponseDTO response = userService.updatePassword(request);
+    @Operation(
+        summary = "회원 정보 수정",
+        description = "수정할 회원 정보를 입력해주세요."
+    )
+    
+    @PutMapping("/update")
+    public ResponseEntity<UserResponseDTO> update(@RequestBody UserRequestDTO request) {
+        System.out.println("[UserCtrl] update : " + request);
+
+        UserResponseDTO response = userService.update(request);
 
         if (response != null) {
             return ResponseEntity.status(HttpStatus.OK).body(response);
@@ -151,8 +158,13 @@ public class UserCtrl {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
+
+    @Operation(
+        summary = "회원 정보 삭제",
+        description = "삭제할 회원 정보를 입력해주세요."
+    )
     
-    @DeleteMapping("delete")
+    @DeleteMapping("/delete")
     public ResponseEntity<Void> delete(@RequestBody UserRequestDTO request) {
         System.out.println("[UserCtrl] delete : " + request);
         

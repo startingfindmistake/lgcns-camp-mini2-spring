@@ -44,5 +44,5 @@ public class FavoriteEntity {
     @ManyToOne(fetch = FetchType.LAZY,
                optional = false)
     @JoinColumn(name = "rest_area_id")       // 테이블 컬럼 이름
-    private RestAreaEntity restArea;            // UserEntity 의 mappedBy
+    private RestAreaEntity restArea;         // UserEntity 의 mappedBy
 }

@@ -18,14 +18,12 @@ import com.mini.mini_2.openapi.domain.dto.RestAreaLocationApiResponseDTO;
 import com.mini.mini_2.openapi.domain.dto.FacilityApiResponseDTO.FacilityDTO;
 import com.mini.mini_2.openapi.domain.dto.FoodApiResponseDTO.FoodDTO;
 import com.mini.mini_2.openapi.domain.dto.RestAreaInfoApiResponseDTO.RestAreaInfoDTO;
-import com.mini.mini_2.openapi.domain.dto.RestAreaLocationApiResponseDTO.RestAreaLocationDTO;
 import com.mini.mini_2.openapi.service.FacilityApiService;
 import com.mini.mini_2.openapi.service.FoodApiService;
 import com.mini.mini_2.openapi.service.RestAreaInfoApiService;
 import com.mini.mini_2.openapi.service.RestAreaLocationApiService;
 import com.mini.mini_2.rest_area.domain.dto.RestAreaRequestDTO;
 import com.mini.mini_2.rest_area.domain.dto.RestAreaResponseDTO;
-import com.mini.mini_2.rest_area.domain.entity.RestAreaEntity;
 import com.mini.mini_2.rest_area.service.RestAreaService;
 
 
@@ -34,7 +32,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestParam;
+
 
 
 @RestController
@@ -97,7 +95,7 @@ public class OpenApiCtrl {
                     .xValue(xValue)
                     .yValue(yValue)
                     .build();
-            restAreaService.insert(restAreaRequest);
+            restAreaService.create(restAreaRequest);
         }      
         return null;
     }
@@ -120,7 +118,7 @@ public class OpenApiCtrl {
                                                        .restAreaId(restarea.getRestAreaId())
                                                        .build();
             System.out.println("[FOOD] : " + foodRequest);
-            foodService.insert(foodRequest);
+            foodService.create(foodRequest);
         }
         
         return null;
@@ -142,7 +140,7 @@ public class OpenApiCtrl {
                                                                    .restAreaId(restarea.getRestAreaId())
                                                                    .build();
             System.out.println("[FACILITY] : " + facilityRequest);
-            facilityService.post(facilityRequest);
+            facilityService.create(facilityRequest);
         }
         
         return null;

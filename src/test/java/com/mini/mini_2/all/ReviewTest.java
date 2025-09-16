@@ -72,7 +72,7 @@ public class ReviewTest {
                 .rating("4.0")
                 .comment("한우버거 맛있음")
                 .build();
-        ReviewResponseDTO created = reviewService.post(request1);
+        ReviewResponseDTO created = reviewService.create(request1);
         assertNotNull(created.getReviewId());
 
         // 3) 사용자별 조회

@@ -27,9 +27,9 @@ public class ReviewService {
     @Autowired
     private RestAreaRepository restAreaRepository;
     
-    // 생성
-    public ReviewResponseDTO post(ReviewRequestDTO request) {
-        System.out.println("[ReviewService] post");
+    // 리뷰 작성
+    public ReviewResponseDTO create(ReviewRequestDTO request) {
+        System.out.println("[ReviewService] create : "+ request);
         
         Optional<UserEntity> userEntity = userRepository.findById(request.getUserId());
         Optional<RestAreaEntity> restAreaEntity = restAreaRepository.findById(request.getRestAreaId());
@@ -39,11 +39,12 @@ public class ReviewService {
         return ReviewResponseDTO.fromEntity(entity);
     }
 
-    // 정렬(sort): 최신순(기본)/ 평점순(선택) 
+    // ID 기반 리뷰 정렬 조회
     public List<ReviewResponseDTO> findByRestAreaId(Integer restAreaId, String sort) {
-        System.out.println("[ReviewService] findByRestAreaId ");
+        System.out.println("[RestAreaService] findByRestAreaId : "+ restAreaId);
+        System.out.println("[RestAreaService] sort : "+ sort);
         List<ReviewEntity> responses =
-                ("ratingDesc".equalsIgnoreCase(sort))
+                ("평점순".equalsIgnoreCase(sort))
                         ? reviewRepository.findByRestArea_RestAreaIdOrderByRatingDesc(restAreaId)     
                         : reviewRepository.findByRestArea_RestAreaIdOrderByCreatedAtDesc(restAreaId);
         return responses.stream()
@@ -51,7 +52,7 @@ public class ReviewService {
                         .toList();
     }
     
-    // user별 작성한 리뷰 조회
+    // ID 기반 휴게소 단건 조회
     public List<ReviewResponseDTO> findByUserId(Integer userId) {
 
         List<ReviewEntity> responses = reviewRepository.findByUser_userId(userId);
@@ -61,21 +62,22 @@ public class ReviewService {
                 .toList();
     }
 
-    // 수정
+    // 리뷰 수정
     public ReviewResponseDTO update(Integer reviewId, ReviewRequestDTO request) {
-        System.out.println("[ReviewService] update ");
+        System.out.println("[RestAreaService] update reviewId : "+ reviewId);
+        System.out.println("[RestAreaService] update : "+ request);
 
-        ReviewEntity reviewEntity = reviewRepository.findById(reviewId)
+        ReviewEntity entity = reviewRepository.findById(reviewId)
                 .orElseThrow(() -> new RuntimeException("리뷰가 존재하지 않습니다. ID = " + reviewId));
         
-        reviewEntity.setRating(request.getRating());
-        reviewEntity.setComment(request.getComment());
+        entity.setRating(request.getRating());
+        entity.setComment(request.getComment());
 
-        return ReviewResponseDTO.fromEntity(reviewRepository.save(reviewEntity)) ;
+        return ReviewResponseDTO.fromEntity(reviewRepository.save(entity)) ;
 
     }
    
-    // 삭제
+    // 리뷰 삭제
     public Void delete(Integer reviewId) {
         
         reviewRepository.deleteById(reviewId);
