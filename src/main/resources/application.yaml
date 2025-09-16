@@ -8,6 +8,11 @@ spring:
     url: ${SPRING_URL}
     username: ${SPRING_USERNAME}
     password: ${SPRING_PASSWORD}
+    hikari:
+      # 15분
+      max-lifetime: 1500000   
+      # 10
+      idle-timeout: 600000 
   
   jpa:
     hibernate:
