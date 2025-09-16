@@ -17,10 +17,8 @@ import com.mini.mini_2.rest_area.domain.dto.RestAreaRequestDTO;
 import com.mini.mini_2.rest_area.domain.entity.RestAreaEntity;
 import com.mini.mini_2.rest_area.repository.RestAreaRepository;
 
-import lombok.Data;
 
 @SpringBootTest
-@Data
 @Transactional
 public class RestAreaTest {
 
