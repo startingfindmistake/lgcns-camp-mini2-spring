@@ -41,12 +41,12 @@ public class TmapApiCtrl {
     
     @PostMapping("route")
     public ResponseEntity<RouteResponseDTO> route(@RequestBody RouteRequestDTO request) {
-        System.out.println("[TMAP ROUTE] request : " + request);
+        System.out.println("[TMAP ROUTE] request");
+        // System.out.println("[TMAP ROUTE] request : " + request);
         
         RouteResponseDTO response = routeService.route(request);
         
-        // System.out.println("[TMAP DEBUG] result : " + response);
-        // System.out.println("[TMAP DEBUG] result : " + response);
+        // System.out.println("[TMAP ROUTE] result : " + response);
         
         
         if (response != null) {
@@ -59,12 +59,12 @@ public class TmapApiCtrl {
 
     @PostMapping("poi_of_route")
     public ResponseEntity<List<RestAreaResponseDTO>> poi_of_route(@RequestBody RoutePoiRequestDTO request) {
-        // System.out.println("[TMAP DEBUG] request : " + request);
+        System.out.println("[TMAP POI OF ROUTE] request ");
+        // System.out.println("[TMAP POI OF ROUTE] request : " + request);
         
         List<RestAreaResponseDTO> responses = routePoiService.poiOfRoute(request);
         
-        // System.out.println("[TMAP DEBUG] result : " + response);
-        // System.out.println("[TMAP DEBUG] result : " + response);
+        // System.out.println("[TMAP POI OF ROUTE] result : " + responses);
         
         
         if (responses != null) {
@@ -76,11 +76,11 @@ public class TmapApiCtrl {
     
     @GetMapping("poi")
     public ResponseEntity<PoiResponseDTO> poi(PoiRequestDTO request) {
+        System.out.println("[TMAP POI] request ");
         // System.out.println("[TMAP POI] request : " + request);
         
         PoiResponseDTO response = poiService.poi(request);
         
-        // System.out.println("[TMAP POI] result : " + response);
         // System.out.println("[TMAP POI] result : " + response);
         
         

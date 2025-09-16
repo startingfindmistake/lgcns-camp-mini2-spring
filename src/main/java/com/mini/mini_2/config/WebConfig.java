@@ -33,6 +33,7 @@ public class WebConfig implements WebMvcConfigurer {
                         "/api/v1/mini/user/refresh",
                         "/api/v1/mini/tmap/route",
                         "/api/v1/mini/tmap/poi",
+                        // "/api/v1/mini/tmap/poi_of_route",
                         "/v3/api-docs/**",
                         "/swagger-ui/**",
                         "/swagger-resources/**",
