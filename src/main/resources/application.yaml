@@ -22,13 +22,16 @@ spring:
         format_sql: true
   config:
     import: optional:file:.env[.properties]
-        
+    
+  data:
+    redis:
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT}
+      
 server:
   port: ${SPRING_PORT}
   
 jwt:
   secret: ${JWT_SECRET_KEY}
-
-redis:
-  host: localhost
-  port: 6379
+  access-ttl-ms: ${JWT_ACCESS_TTL_MS}
+  refresh-ttl-ms: ${JWT_REFRESH_TTL_MS}

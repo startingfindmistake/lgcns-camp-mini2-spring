@@ -18,11 +18,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import com.mini.mini_2.auth.TokenService;
 import java.util.Map;
+import jakarta.servlet.http.HttpServletRequest;
 
 
 
@@ -51,7 +50,7 @@ public class UserCtrl {
         }
     )
     @PostMapping("signup")
-    public ResponseEntity signup(@RequestBody UserRequestDTO request) {
+    public ResponseEntity<Void> signup(@RequestBody UserRequestDTO request) {
         System.out.println("[UserCtrl] signup : " + request);
         UserResponseDTO response = userService.signup(request);
         
@@ -78,13 +77,66 @@ public class UserCtrl {
         System.out.println("[UserCtrl] signin : " + request);
         UserResponseDTO response = userService.signin(request);
         if (response != null) {
-            // 로그인 성공 시 JWT 토큰 발급
-            String token = tokenService.generateToken(response.getUserId().toString());
+            // 로그인 성공 시 토큰 페어 발급
+            String userId = response.getUserId().toString();
+            String accessToken = tokenService.generateAccessToken(userId);
+            String refreshToken = tokenService.generateRefreshToken(userId);
             return ResponseEntity.status(HttpStatus.OK)
-                    .body(Map.of("user", response, "token", token));
+                    .body(Map.of(
+                            "user", response,
+                            "accessToken", accessToken,
+                            "refreshToken", refreshToken
+                    ));
         } else {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "invalid credentials"));
         }
+    }
+
+    @Operation(
+        summary = "User Logout",
+        description = "Invalidate token"
+    )
+    @ApiResponses(
+        {
+            @ApiResponse(responseCode = "200",
+                         description = "Logout Success")
+        }
+    )
+    @PostMapping("logout")
+    public ResponseEntity<?> logout(HttpServletRequest request) {
+        String authHeader = request.getHeader("Authorization");
+        if (authHeader != null && authHeader.startsWith("Bearer ")) {
+            String token = authHeader.substring(7);
+            tokenService.invalidateAccessToken(token);
+        }
+        return ResponseEntity.ok().build();
+    }
+
+    @Operation(
+        summary = "Refresh Access Token",
+        description = "Issue new access/refresh token pair by refresh token (rotation)"
+    )
+    @ApiResponses(
+        {
+            @ApiResponse(responseCode = "200", description = "Refresh Success"),
+            @ApiResponse(responseCode = "401", description = "Invalid refresh token")
+        }
+    )
+    @PostMapping("refresh")
+    public ResponseEntity<?> refresh(@RequestBody Map<String, String> body) {
+        String refreshToken = body.get("refreshToken");
+        if (refreshToken == null || refreshToken.isBlank()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("error", "refreshToken is required"));
+        }
+
+        var pair = tokenService.refreshWithRotation(refreshToken);
+        if (pair == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "invalid refresh token"));
+        }
+        return ResponseEntity.ok(Map.of(
+                "accessToken", pair.accessToken(),
+                "refreshToken", pair.refreshToken()
+        ));
     }
     
     @PutMapping("update_password")
