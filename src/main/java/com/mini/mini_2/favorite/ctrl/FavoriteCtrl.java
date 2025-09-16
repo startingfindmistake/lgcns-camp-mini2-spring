@@ -48,7 +48,7 @@ public class FavoriteCtrl {
     )
 
     @PostMapping("/create")
-    public ResponseEntity create(@RequestBody FavoriteRequestDTO request) {
+    public ResponseEntity<Void> create(@RequestBody FavoriteRequestDTO request) {
         System.out.println("[FavoriteCtrl] create : " + request);
         FavoriteResponseDTO response = favoriteService.create(request);
         
