@@ -95,8 +95,8 @@ public class UserCtrl {
     }
 
     @Operation(
-        summary = "User Logout",
-        description = "Invalidate token"
+        summary = "회원 로그아웃",
+        description = "계정에서 로그아웃 해주세요."
     )
     @ApiResponses(
         {
@@ -115,8 +115,8 @@ public class UserCtrl {
     }
 
     @Operation(
-        summary = "Refresh Access Token",
-        description = "Issue new access/refresh token pair by refresh token (rotation)"
+        summary = "토큰 리프레쉬",
+        description = "인증 토큰을 리프레쉬합니다."
     )
     @ApiResponses(
         {
