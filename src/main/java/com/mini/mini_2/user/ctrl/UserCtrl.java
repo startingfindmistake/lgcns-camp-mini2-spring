@@ -18,24 +18,28 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import com.mini.mini_2.auth.TokenService;
+import java.util.Map;
+import jakarta.servlet.http.HttpServletRequest;
 
 
 
 
 @RestController
 @RequestMapping("/api/v1/mini/user")
-@Tag(name = "User API", description = "User API Documentation")
+@Tag(name = "User API", description = "회원 API")
 public class UserCtrl {
     
     @Autowired
     private UserService userService;
     
+    @Autowired
+    private TokenService tokenService;
+    
     @Operation(
-        summary = "User Create",
-        description = "Sign up"
+        summary = "회원 생성",
+        description = "계정을 생성해주세요."
     )
     @ApiResponses(
         {
@@ -45,10 +49,11 @@ public class UserCtrl {
                          description = "Create User Failed")
         }
     )
-    @PostMapping("signup")
-    public ResponseEntity signup(@RequestBody UserRequestDTO request) {
-        System.out.println("[UserCtrl] signup : " + request);
-        UserResponseDTO response = userService.signup(request);
+
+    @PostMapping("/create")
+    public ResponseEntity<Void> create(@RequestBody UserRequestDTO request) {
+        System.out.println("[UserCtrl] create : "+ request);
+        UserResponseDTO response = userService.create(request);
         
         if(response != null) {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
@@ -59,8 +64,8 @@ public class UserCtrl {
     }
     
     @Operation(
-        summary = "User Login",
-        description = "Sign in"
+        summary = "회원 로그인",
+        description = "계정을 로그인해주세요."
     )
     @ApiResponses(
         {
@@ -68,33 +73,98 @@ public class UserCtrl {
                          description = "Login Success")
         }
     )
-    @PostMapping("signin")
-    public ResponseEntity<UserResponseDTO> signin(@RequestBody UserRequestDTO request) {
-        System.out.println("[UserCtrl] signin : " + request);
-        
-        UserResponseDTO response = userService.signin(request);
-        
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody UserRequestDTO request) {
+        System.out.println("[UserCtrl] login : "+ request);
+        UserResponseDTO response = userService.login(request);
+        if (response != null) {
+            // 로그인 성공 시 토큰 페어 발급
+            String userId = response.getUserId().toString();
+            String accessToken = tokenService.generateAccessToken(userId);
+            String refreshToken = tokenService.generateRefreshToken(userId);
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(Map.of(
+                            "user", response,
+                            "accessToken", accessToken,
+                            "refreshToken", refreshToken
+                    ));
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "invalid credentials"));
+        }
+    }
+
+    @Operation(
+        summary = "회원 로그아웃",
+        description = "계정에서 로그아웃 해주세요."
+    )
+    @ApiResponses(
+        {
+            @ApiResponse(responseCode = "200",
+                         description = "Logout Success")
+        }
+    )
+    @PostMapping("logout")
+    public ResponseEntity<?> logout(HttpServletRequest request) {
+        String authHeader = request.getHeader("Authorization");
+        if (authHeader != null && authHeader.startsWith("Bearer ")) {
+            String token = authHeader.substring(7);
+            tokenService.invalidateAccessToken(token);
+        }
+        return ResponseEntity.ok().build();
+    }
+
+    @Operation(
+        summary = "토큰 리프레쉬",
+        description = "인증 토큰을 리프레쉬합니다."
+    )
+    @ApiResponses(
+        {
+            @ApiResponse(responseCode = "200", description = "Refresh Success"),
+            @ApiResponse(responseCode = "401", description = "Invalid refresh token")
+        }
+    )
+    @PostMapping("refresh")
+    public ResponseEntity<?> refresh(@RequestBody Map<String, String> body) {
+        String refreshToken = body.get("refreshToken");
+        if (refreshToken == null || refreshToken.isBlank()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("error", "refreshToken is required"));
+        }
+
+        var pair = tokenService.refreshWithRotation(refreshToken);
+        if (pair == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "invalid refresh token"));
+        }
+        return ResponseEntity.ok(Map.of(
+                "accessToken", pair.accessToken(),
+                "refreshToken", pair.refreshToken()
+        ));
+    }
+
+    @Operation(
+        summary = "회원 정보 수정",
+        description = "수정할 회원 정보를 입력해주세요."
+    )
+    
+    @PutMapping("/update")
+    public ResponseEntity<UserResponseDTO> update(@RequestBody UserRequestDTO request) {
+        System.out.println("[UserCtrl] update : " + request);
+
+        UserResponseDTO response = userService.update(request);
+
         if (response != null) {
             return ResponseEntity.status(HttpStatus.OK).body(response);
         } else {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
-    
-    @PutMapping("update_password")
-    public ResponseEntity<UserResponseDTO> update_password(@RequestBody UserRequestDTO request) {
-        System.out.println("[UserCtrl] update password : " + request);
 
-        UserResponseDTO response = userService.updatePassword(request);
-
-        if (response != null) {
-            return ResponseEntity.status(HttpStatus.OK).body(response);
-        } else {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-        }
-    }
+    @Operation(
+        summary = "회원 정보 삭제",
+        description = "삭제할 회원 정보를 입력해주세요."
+    )
     
-    @DeleteMapping("delete")
+    @DeleteMapping("/delete")
     public ResponseEntity<Void> delete(@RequestBody UserRequestDTO request) {
         System.out.println("[UserCtrl] delete : " + request);
         

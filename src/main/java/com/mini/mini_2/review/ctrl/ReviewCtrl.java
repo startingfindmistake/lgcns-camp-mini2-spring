@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mini.mini_2.review.domain.dto.ReviewRequestDTO;
@@ -27,15 +28,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 @RestController
 @RequestMapping("/api/v1/mini/review")
-@Tag(name = "Review API", description = "Review API Documentation")
+@Tag(name = "Review API", description = "리뷰 API")
 public class ReviewCtrl {
     
     @Autowired
     private ReviewService reviewService;
     
     @Operation(
-        summary = "Review Post",
-        description = "Review Post"
+        summary = "리뷰 작성",
+        description = "리뷰를 작성해주세요."
     )
     @ApiResponses(
         {
@@ -45,25 +46,33 @@ public class ReviewCtrl {
                          description = "Post Review Failed")
         }
     )
-    @PostMapping("create")
-    public ResponseEntity create(@RequestBody ReviewRequestDTO request) {
-        System.out.println("[ReviewCtrl] post : " + request);
-        ReviewResponseDTO response = reviewService.post(request);
+    @PostMapping("/create")
+    public ResponseEntity<ReviewResponseDTO> create(@RequestBody ReviewRequestDTO request) {
+        System.out.println("[ReviewCtrl] create : " + request);
+        ReviewResponseDTO response = reviewService.create(request);
         
         if(response != null) {
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+            return ResponseEntity.status(HttpStatus.OK).body(response);
         }
         else {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
             
         }
     }
+
+    @Operation(
+        summary = "휴게소 ID 기반 리뷰 목록 조회",
+        description = "휴게소 ID와 정렬방법(최신순 or 평점순)을 입력해주세요."
+    )
     
-    @GetMapping("reviewsByRestAreaId/{restAreaId}")
-    public ResponseEntity<List<ReviewResponseDTO>> reviewsByRestAreaId(@PathVariable("restAreaId") Integer restAreaId) {
-        System.out.println("[ReviewCtrl] reviewsByRestAreaId : id -> " + restAreaId);
-        
-        List<ReviewResponseDTO> responses = reviewService.findByRestAreaId(restAreaId);
+    @GetMapping("lists/{restAreaId}")
+    public ResponseEntity<List<ReviewResponseDTO>> findByRestAreaId(
+            @PathVariable("restAreaId") Integer restAreaId,
+            @RequestParam(name= "sort", defaultValue = "최신순") String sort) {
+        System.out.println("[ReviewCtrl] findByRestAreaId : " + restAreaId);
+        System.out.println("[ReviewCtrl] sort : " + sort);        
+
+        List<ReviewResponseDTO> responses = reviewService.findByRestAreaId(restAreaId, sort);
         
         if (responses != null) {
             return ResponseEntity.status(HttpStatus.OK).body(responses);
@@ -73,9 +82,14 @@ public class ReviewCtrl {
         }
     }
     
-    @GetMapping("reviewsByUserId/{userId}")
-    public ResponseEntity<List<ReviewResponseDTO>> reviewsByUserId(@PathVariable("userId") Integer userId) {
-        System.out.println("[ReviewCtrl] reviewsByUserId : id -> " + userId);
+    @Operation(
+        summary = "회원 ID 기반 리뷰 목록 조회",
+        description = "회원 ID를 입력해주세요."
+    )
+
+    @GetMapping("/lists/user/{userId}")
+    public ResponseEntity<List<ReviewResponseDTO>> findByUserId(@PathVariable("userId") Integer userId) {
+        System.out.println("[ReviewCtrl] reviewsByUserId : " + userId);
         
         List<ReviewResponseDTO> responses = reviewService.findByUserId(userId);
         
@@ -86,10 +100,37 @@ public class ReviewCtrl {
 
         }
     }
+
+    @Operation(
+        summary = "리뷰 정보 수정",
+        description = "리뷰 ID를 입력해주세요."
+    )
+
+    @PostMapping("/update/{reviewId}")
+    public ResponseEntity<ReviewResponseDTO> update(
+            @PathVariable("reviewId") Integer reviewId,
+            @RequestBody ReviewRequestDTO request) {
+
+        System.out.println("[ReviewCtrl] update reviewId : "+ reviewId);    
+        System.out.println("[ReviewCtrl] update request : "+ request);
+
+        try {
+            ReviewResponseDTO response = reviewService.update(reviewId, request) ;
+            return ResponseEntity.status(HttpStatus.OK).body(response);
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+    }
+
+    @Operation(
+        summary = "리뷰 정보 삭제",
+        description = "리뷰 ID를 입력해주세요."
+    )
     
-    @DeleteMapping("delete/{reviewId}")
+    @DeleteMapping("/delete/{reviewId}")
     public ResponseEntity<Void> delete(@PathVariable("reviewId") Integer reviewId) {
-        System.out.println("[ReviewCtrl] reviewsByUserId : id -> " + reviewId);
+        System.out.println("[ReviewCtrl] delete : " + reviewId);
         
         reviewService.delete(reviewId);
 

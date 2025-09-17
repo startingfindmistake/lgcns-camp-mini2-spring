@@ -7,6 +7,7 @@ import com.mini.mini_2.rest_area.domain.dto.RestAreaRequestDTO;
 import com.mini.mini_2.rest_area.domain.dto.RestAreaResponseDTO;
 import com.mini.mini_2.rest_area.service.RestAreaService;
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,22 +22,26 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+
 @RestController
 @RequestMapping("/api/v1/mini/restarea")
 @Tag(name = "RestArea API", description = "휴게소 API")
-
 public class RestAreaCtrl {
 
     @Autowired
     private RestAreaService restAreaService;
 
-    // 생성(CREATE)
+    @Operation(
+        summary = "휴게소 생성",
+        description = "휴게소를 생성해주세요."
+    )
+
     @PostMapping("/create")
     public ResponseEntity<Void> create(@RequestBody RestAreaRequestDTO request) {
+        System.out.println("[RestAreaCtrl] create : " + request);
 
-        System.out.println("[RestAreaCtrl] POST /create >>> ");
-
-        RestAreaResponseDTO response = restAreaService.insert(request);
+        RestAreaResponseDTO response = restAreaService.create(request);
+        
         if (response != null) {
             return ResponseEntity.status(HttpStatus.CREATED).body(null);
         } else {
@@ -45,61 +50,86 @@ public class RestAreaCtrl {
 
     }
 
-    // 휴게소 전체 조회(RESTS)
-    @GetMapping("/rests")
-    public ResponseEntity<List<RestAreaResponseDTO>> rests() {
-        System.out.println("[RestAreaCtrl] /rests ");
+    @Operation(
+        summary = "휴게소 전체 목록 조회",
+        description = "휴게소 전체 목록입니다."
+    )
 
-        List<RestAreaResponseDTO> list = restAreaService.list();
+    @GetMapping("/lists")
+    public ResponseEntity<List<RestAreaResponseDTO>> findAll() {
+        System.out.println("[RestAreaCtrl] findAll");
 
-        return new ResponseEntity<List<RestAreaResponseDTO>>(list, HttpStatus.OK);
+        List<RestAreaResponseDTO> response = restAreaService.findAll();
+
+        return new ResponseEntity<List<RestAreaResponseDTO>>(response, HttpStatus.OK);
     }
 
-    // 휴게소 일부 조회(READ)
-    @GetMapping("/rests/{restAreaId}")
-    public ResponseEntity<RestAreaResponseDTO> read(@PathVariable("restAreaId") Integer restAreaId) {
-        System.out.println("[RestAreaCtrl] /read ");
-        RestAreaResponseDTO response = restAreaService.findRest(restAreaId);
+    @Operation(
+        summary = "휴게소ID 기반 휴게소 목록 조회",
+        description = "휴게소 ID를 입력해주세요."
+    )
+
+    @GetMapping("/lists/restarea/{restAreaId}")
+    public ResponseEntity<RestAreaResponseDTO> findByRestAreaId(@PathVariable("restAreaId") Integer restAreaId) {
+        System.out.println("[RestAreaCtrl] findByRestAreaId : "+ restAreaId);
+        
+        RestAreaResponseDTO response = restAreaService.findByRestAreaId(restAreaId);
 
         if (response != null) {
-            return new ResponseEntity<>(response, HttpStatus.OK); // 200
+            return new ResponseEntity<>(response, HttpStatus.OK); 
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND); // 404
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND); 
         }
     }
 
-    // 휴게소 업데이트
-    @PostMapping("update/{restAreaId}")
-    public ResponseEntity<RestAreaResponseDTO> update(
-            @PathVariable("restAreaId") Integer restAreaId,
-            @RequestBody RestAreaRequestDTO request) {
+    @Operation(
+        summary = "휴게소 정보 수정",
+        description = "휴게소 ID를 입력해주세요."
+    )
 
+    @PostMapping("/update/{restAreaId}")
+    public ResponseEntity<RestAreaResponseDTO> update(
+        @PathVariable("restAreaId") Integer restAreaId,
+        @RequestBody RestAreaRequestDTO request) {
+        
+        System.out.println("[RestAreaCtrl] update restAreaId : "+ restAreaId);    
+        System.out.println("[RestAreaCtrl] update request : "+ request);  
+    
         try {
             RestAreaResponseDTO response = restAreaService.update(restAreaId, request);
-            return ResponseEntity.ok(response); // 200 OK
+            return ResponseEntity.ok(response); // 200
         } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null); // 404 Not Found
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null); // 404 
         }
     }
 
-    // 휴게소 삭제
+    @Operation(
+        summary = "휴게소 정보 삭제",
+        description = "휴게소 ID를 입력해주세요."
+    )
+
     @DeleteMapping("/delete/{restAreaId}")
-    public ResponseEntity<Void> delete(
-            @PathVariable("restAreaId") Integer restAreaId) {
+    public ResponseEntity<Void> delete(@PathVariable("restAreaId") Integer restAreaId) {
+        System.out.println("[RestAreaCtrl] delete : "+ restAreaId);
 
         restAreaService.delete(restAreaId);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
     }
 
-    // 상하행
-    @GetMapping("/rests/direction/{direction}")
-    public ResponseEntity<List<RestAreaResponseDTO>> direction(@PathVariable("direction") String direction) {
-        List<RestAreaResponseDTO> list = restAreaService.dircetion(direction);
+    @Operation(
+        summary = "Direction 기반 휴게소 목록 조회",
+        description = "휴게소 Direction(상행 or 하행)을 입력해주세요."
+    )
 
-        if (list.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(list);
+    @GetMapping("/lists/direction/{direction}")
+    public ResponseEntity<List<RestAreaResponseDTO>> findByDirection(@PathVariable("direction") String direction) {
+        List<RestAreaResponseDTO> response = restAreaService.findByDirection(direction);
+
+        if (response.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+        } else {
+            return ResponseEntity.ok(response);
         }
-        return ResponseEntity.ok(list);
 
     }
 }

@@ -21,8 +21,8 @@ public class FoodRequestDTO {
     private Integer restAreaId;  
     private String  foodName;     
     private String  price;
-    private String isSignature;
-    private String description;
+    private String  isSignature;
+    private String  description;
 
     public FoodEntity toEntity(RestAreaEntity restArea) {
         return FoodEntity.builder()

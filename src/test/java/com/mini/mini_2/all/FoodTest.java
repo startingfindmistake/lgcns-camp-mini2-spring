@@ -54,12 +54,12 @@ public class FoodTest {
                 .isSignature("Y")
                 .build();
 
-        FoodResponseDTO foodResponse = foodService.insert(foodRequest);
+        FoodResponseDTO foodResponse = foodService.create(foodRequest);
         assertNotNull(foodResponse.getFoodId());
         assertEquals("치즈돈가스", foodResponse.getFoodName());
 
         // READ
-        FoodResponseDTO foundFood = foodService.get(foodResponse.getFoodId());
+        FoodResponseDTO foundFood = foodService.findByFoodId(foodResponse.getFoodId());
         assertNotNull(foundFood);
         assertEquals("치즈돈가스", foundFood.getFoodName());
 
@@ -73,7 +73,7 @@ public class FoodTest {
 
         FoodResponseDTO updateFood = foodService.update(foodResponse.getFoodId(), updateRequest);
         assertEquals("김치돈가스", updateFood.getFoodName());
-        assertEquals(8500, updateFood.getPrice());
+        assertEquals("8500", updateFood.getPrice());
 
         // DELETE
         boolean delete = foodService.delete(foodResponse.getFoodId());
@@ -86,19 +86,19 @@ public class FoodTest {
     
     @Test
     public void testSignatureFood() {
-        List<FoodResponseDTO> signatureFoods = foodService.getSignatureFood(281);
+        List<FoodResponseDTO> signatureFoods = foodService.searchByRestAreaId(281);
         System.out.println("시그니처 음식 목록: " + signatureFoods);
     }
 
     @Test
     public void testPriceFilter() {
-        List<FoodResponseDTO> cheapFoods = foodService.searchFoodsByPrice(8000);
+        List<FoodResponseDTO> cheapFoods = foodService.searchByPrice(8000);
         System.out.println("8000원 이하 음식 목록: " + cheapFoods);
     }
     
     @Test
     public void foodFilter(){
-        List<FoodResponseDTO> result = foodService.searchFoodsByKeyword("돈가스");
+        List<FoodResponseDTO> result = foodService.searchByName("돈가스");
         System.out.println("검색 결과: " + result);
     }
 }

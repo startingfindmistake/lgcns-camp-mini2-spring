@@ -32,7 +32,7 @@ import lombok.ToString;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
+@ToString(exclude = {"restArea"})
 public class ReviewEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,10 +46,9 @@ public class ReviewEntity {
     @ManyToOne(fetch = FetchType.LAZY,
                optional = false)
     @JoinColumn(name = "rest_area_id")       // 테이블 컬럼 이름
-    private RestAreaEntity restArea;            // UserEntity 의 mappedBy
+    private RestAreaEntity restArea;         // UserEntity 의 mappedBy
     
-    @Column(nullable = false, 
-            length = 10)
+    @Column(nullable = false)               
     private String rating;
     
     @Column(nullable = false, 

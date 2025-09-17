@@ -28,9 +28,6 @@ public class RestAreaResponseDTO {
     private String xValue;
     private String yValue;
 
-    // [편의점, 화장실, ....]
-    // private List<String> facilityTypes ; 
-    
    
     public static RestAreaResponseDTO fromEntity(RestAreaEntity entity) { 
         return RestAreaResponseDTO.builder()
@@ -44,6 +41,21 @@ public class RestAreaResponseDTO {
                                   .xValue(entity.getXValue())
                                   .yValue(entity.getYValue())
                                   .build() ; 
+    }
+    
+    
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        
+        RestAreaResponseDTO that = (RestAreaResponseDTO) o;
+        return restAreaId != null && restAreaId.equals(that.restAreaId);
+    }
+    
+    @Override
+    public int hashCode() {
+        return restAreaId != null ? restAreaId.hashCode() : 0;
     }
 }
 

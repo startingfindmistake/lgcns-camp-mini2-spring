@@ -18,27 +18,30 @@ import com.mini.mini_2.openapi.domain.dto.RestAreaLocationApiResponseDTO;
 import com.mini.mini_2.openapi.domain.dto.FacilityApiResponseDTO.FacilityDTO;
 import com.mini.mini_2.openapi.domain.dto.FoodApiResponseDTO.FoodDTO;
 import com.mini.mini_2.openapi.domain.dto.RestAreaInfoApiResponseDTO.RestAreaInfoDTO;
-import com.mini.mini_2.openapi.domain.dto.RestAreaLocationApiResponseDTO.RestAreaLocationDTO;
 import com.mini.mini_2.openapi.service.FacilityApiService;
 import com.mini.mini_2.openapi.service.FoodApiService;
 import com.mini.mini_2.openapi.service.RestAreaInfoApiService;
 import com.mini.mini_2.openapi.service.RestAreaLocationApiService;
 import com.mini.mini_2.rest_area.domain.dto.RestAreaRequestDTO;
 import com.mini.mini_2.rest_area.domain.dto.RestAreaResponseDTO;
-import com.mini.mini_2.rest_area.domain.entity.RestAreaEntity;
 import com.mini.mini_2.rest_area.service.RestAreaService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestParam;
+
 
 
 @RestController
-@RequestMapping("api/v2/mini/openapi")
+@RequestMapping("api/v1/mini/openapi")
+@Tag(name = "Open API", description = "외부 데이터 연동 및 관리 API")
 public class OpenApiCtrl {
     
     @Autowired
@@ -57,6 +60,18 @@ public class OpenApiCtrl {
     @Autowired
     public FacilityService facilityService;
     
+    @Operation(
+        summary = "휴게소 정보 업데이트",
+        description = "외부 API로부터 휴게소 정보를 가져와 데이터베이스를 업데이트합니다."
+    )
+    @ApiResponses(
+        {
+            @ApiResponse(responseCode = "200",
+                         description = "RestArea Update Success"),
+            @ApiResponse(responseCode = "500",
+                         description = "RestArea Update Failed")
+        }
+    )
     @GetMapping("restarea_update")
     public ResponseEntity<Void> restarea_update(@ModelAttribute RestAreaInfoApiRequestDTO request) {
         RestAreaInfoApiResponseDTO responses = restAreaInfoApiService.info(request);
@@ -82,10 +97,13 @@ public class OpenApiCtrl {
 
             String xValue = null;
             String yValue = null;
-            if (responseforLocation.getList() != null && !responseforLocation.getList().isEmpty()) {
-                xValue = responseforLocation.getList().get(0).getXValue();
-                yValue = responseforLocation.getList().get(0).getYValue();
+            if (responseforLocation.getList() == null || responseforLocation.getList().isEmpty()) {
+                continue;
+                // xValue = responseforLocation.getList().get(0).getXValue();
+                // yValue = responseforLocation.getList().get(0).getYValue();
             }
+            xValue = responseforLocation.getList().get(0).getXValue();
+            yValue = responseforLocation.getList().get(0).getYValue();
 
             RestAreaRequestDTO restAreaRequest = RestAreaRequestDTO.builder()
                     .name(name)
@@ -97,11 +115,23 @@ public class OpenApiCtrl {
                     .xValue(xValue)
                     .yValue(yValue)
                     .build();
-            restAreaService.insert(restAreaRequest);
+            restAreaService.create(restAreaRequest);
         }      
-        return null;
+        return ResponseEntity.status(HttpStatus.OK).body(null);
     }
     
+    @Operation(
+        summary = "음식 정보 업데이트",
+        description = "외부 API로부터 음식 정보를 가져와 데이터베이스를 업데이트합니다."
+    )
+    @ApiResponses(
+        {
+            @ApiResponse(responseCode = "200",
+                         description = "Food Update Success"),
+            @ApiResponse(responseCode = "500",
+                         description = "Food Update Failed")
+        }
+    )
     @GetMapping("food_update")
     public ResponseEntity<Void> food_update(@ModelAttribute FoodApiRequestDTO request) {
         FoodApiResponseDTO responses = foodApiService.food(request);
@@ -120,12 +150,24 @@ public class OpenApiCtrl {
                                                        .restAreaId(restarea.getRestAreaId())
                                                        .build();
             System.out.println("[FOOD] : " + foodRequest);
-            foodService.insert(foodRequest);
+            foodService.create(foodRequest);
         }
         
-        return null;
+        return ResponseEntity.status(HttpStatus.OK).body(null);
     }
     
+    @Operation(
+        summary = "편의시설 정보 업데이트",
+        description = "외부 API로부터 편의시설 정보를 가져와 데이터베이스를 업데이트합니다."
+    )
+    @ApiResponses(
+        {
+            @ApiResponse(responseCode = "200",
+                         description = "Facility Update Success"),
+            @ApiResponse(responseCode = "500",
+                         description = "Facility Update Failed")
+        }
+    )
     @GetMapping("facility_update")
     public ResponseEntity<Void> facility_update(@ModelAttribute FacilityApiRequestDTO request) {
         FacilityApiResponseDTO responses = facilityApiService.facility(request);
@@ -142,15 +184,27 @@ public class OpenApiCtrl {
                                                                    .restAreaId(restarea.getRestAreaId())
                                                                    .build();
             System.out.println("[FACILITY] : " + facilityRequest);
-            facilityService.post(facilityRequest);
+            facilityService.create(facilityRequest);
         }
         
-        return null;
+        return ResponseEntity.status(HttpStatus.OK).body(null);
     }
     
     
     
     
+    @Operation(
+        summary = "휴게소 정보 조회",
+        description = "외부 API에서 휴게소 기본 정보를 조회합니다."
+    )
+    @ApiResponses(
+        {
+            @ApiResponse(responseCode = "200",
+                         description = "RestArea Info Search Success"),
+            @ApiResponse(responseCode = "500",
+                         description = "RestArea Info Search Failed")
+        }
+    )
     @GetMapping("info")
     public ResponseEntity<RestAreaInfoApiResponseDTO> restarea(@ModelAttribute RestAreaInfoApiRequestDTO request) {
         RestAreaInfoApiResponseDTO response = restAreaInfoApiService.info(request);
@@ -164,6 +218,18 @@ public class OpenApiCtrl {
         }
     }
     
+    @Operation(
+        summary = "휴게소 위치 정보 조회",
+        description = "외부 API에서 휴게소 위치 좌표 정보를 조회합니다."
+    )
+    @ApiResponses(
+        {
+            @ApiResponse(responseCode = "200",
+                         description = "RestArea Location Search Success"),
+            @ApiResponse(responseCode = "500",
+                         description = "RestArea Location Search Failed")
+        }
+    )
     @GetMapping("location")
     public ResponseEntity<RestAreaLocationApiResponseDTO> restarea(@ModelAttribute RestAreaLocationApiRequestDTO request) {
         RestAreaLocationApiResponseDTO response = restAreaLocationApiService.location(request);
@@ -177,6 +243,18 @@ public class OpenApiCtrl {
         }
     }
     
+    @Operation(
+        summary = "음식 정보 조회",
+        description = "외부 API에서 휴게소별 음식 정보를 조회합니다."
+    )
+    @ApiResponses(
+        {
+            @ApiResponse(responseCode = "200",
+                         description = "Food Info Search Success"),
+            @ApiResponse(responseCode = "500",
+                         description = "Food Info Search Failed")
+        }
+    )
     @GetMapping("food")
     public ResponseEntity<FoodApiResponseDTO> food(@ModelAttribute FoodApiRequestDTO request) {
         
@@ -191,6 +269,18 @@ public class OpenApiCtrl {
         }
     }
     
+    @Operation(
+        summary = "편의시설 정보 조회",
+        description = "외부 API에서 휴게소별 편의시설 정보를 조회합니다."
+    )
+    @ApiResponses(
+        {
+            @ApiResponse(responseCode = "200",
+                         description = "Facility Info Search Success"),
+            @ApiResponse(responseCode = "500",
+                         description = "Facility Info Search Failed")
+        }
+    )
     @GetMapping("facility")
     public ResponseEntity<FacilityApiResponseDTO> facility(@ModelAttribute FacilityApiRequestDTO request) {
 

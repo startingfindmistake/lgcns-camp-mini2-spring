@@ -14,23 +14,25 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
     
-    public UserResponseDTO signup(UserRequestDTO request) {
-        System.out.println("[UserService] sign up");
+    // 회원 가입
+    public UserResponseDTO create(UserRequestDTO request) {
+        System.out.println("[UserService] create : " +request);
         
         UserEntity entity = userRepository.save(request.toEntity());
         return UserResponseDTO.fromEntity(entity);
     }
     
-    public UserResponseDTO signin(UserRequestDTO request) {
-        System.out.println("[UserService] sign in");
+    // 회원 로그인
+    public UserResponseDTO login(UserRequestDTO request) {
+        System.out.println("[UserService] login");
         
         UserEntity entity = userRepository.findByUserEmailAndPassword(request.getUserEmail(), request.getPassword());
-        UserResponseDTO response = UserResponseDTO.fromEntity(entity);
-        
-        return response;
+        if (entity == null) return null;
+        return UserResponseDTO.fromEntity(entity);
     }
     
-    public UserResponseDTO updatePassword(UserRequestDTO request) {
+    // 회원 정보 수정
+    public UserResponseDTO update(UserRequestDTO request) {
         System.out.println("[UserService] change password");
         
         UserEntity entity = userRepository.findByUserEmail(request.getUserEmail());
@@ -41,6 +43,7 @@ public class UserService {
         return UserResponseDTO.fromEntity(userRepository.save(entity));
     }
     
+    // 회원 정보 삭제
     public Integer delete(UserRequestDTO request) {
         System.out.println("[UserService] delete user");
         

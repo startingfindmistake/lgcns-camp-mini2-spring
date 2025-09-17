@@ -22,6 +22,6 @@ public class RoutePoiRequestDTO {
     private String userY;
     private String radius;
     private String searchType;
-    private String searchKeyword;
+    private String searchCategory;
     private String lineString;
 }

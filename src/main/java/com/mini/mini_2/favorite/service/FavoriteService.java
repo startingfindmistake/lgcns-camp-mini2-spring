@@ -27,8 +27,9 @@ public class FavoriteService {
     @Autowired
     private RestAreaRepository restAreaRepository;
     
-    public FavoriteResponseDTO post(FavoriteRequestDTO request) {
-        System.out.println("[FavoriteService] post");
+    // 즐겨찾기 생성
+    public FavoriteResponseDTO create(FavoriteRequestDTO request) {
+        System.out.println("[FavoriteService] create : " +request);
         
         Optional<UserEntity> userEntity = userRepository.findById(request.getUserId());
         Optional<RestAreaEntity> restAreaEntity = restAreaRepository.findById(request.getRestAreaId());
@@ -38,15 +39,17 @@ public class FavoriteService {
         return FavoriteResponseDTO.fromEntity(entity);
     }
     
+    // 즐겨찾기 삭제
     public void delete(Integer favoriteId) {
-        System.out.println("[FavoriteService] delete");
+        System.out.println("[FavoriteService] delete : "+ favoriteId);
         
         favoriteRepository.deleteById(favoriteId);
         
     }
-    
-    public List<FavoriteResponseDTO> findAllById(Integer userId) {
-        System.out.println("[FavoriteService] find favorites");
+
+    // ID 기반 즐겨찾기 단건 조회
+    public List<FavoriteResponseDTO> findByUserId(Integer userId) {
+        System.out.println("[FavoriteService] findByUserId : "+ userId);
 
         List<FavoriteEntity> entities = favoriteRepository.findAllByUser_UserId(userId);
         

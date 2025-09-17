@@ -59,11 +59,13 @@ public class UserEntity {
     @OneToMany(orphanRemoval = true,
                cascade = CascadeType.ALL,
                mappedBy = "user")
+    @Builder.Default
     private List<FavoriteEntity> favorites = new ArrayList<>();
 
-    @OneToMany(orphanRemoval = false,
+    @OneToMany(orphanRemoval = true,
                cascade = CascadeType.ALL,
                mappedBy = "user")
+    @Builder.Default
     private List<ReviewEntity> reviews = new ArrayList<>();
 
 

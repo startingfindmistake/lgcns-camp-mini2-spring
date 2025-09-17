@@ -1,7 +1,5 @@
 package com.mini.mini_2.food.domain.entity;
 
-
-
 import com.mini.mini_2.rest_area.domain.entity.RestAreaEntity;
 
 import jakarta.persistence.Column;
@@ -28,7 +26,7 @@ import lombok.ToString;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
+@ToString(exclude = {"restArea"})
 public class FoodEntity {
     
     // PK

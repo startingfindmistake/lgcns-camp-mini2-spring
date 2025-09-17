@@ -34,7 +34,7 @@ import com.mini.mini_2.user.repository.UserRepository;
 
 @SpringBootTest
 @Transactional
-@Rollback(true)
+@Rollback
 public class TestAllTables {
     
     @Autowired
@@ -55,9 +55,9 @@ public class TestAllTables {
         
         // user
         UserRequestDTO userRequest = UserRequestDTO.builder()
-                                            .userEmail("minu@naver.com123")
-                                            .userNickname("holymol123y")
-                                            .password("1234")
+                                            .userEmail("hnn@naver.com")
+                                            .userNickname("hna12")
+                                            .password("23125")
                                             .build();
                                             
         System.out.println("user request : " + userRequest);
@@ -72,12 +72,12 @@ public class TestAllTables {
         
         // restarea
         RestAreaRequestDTO restAreaRequest = RestAreaRequestDTO.builder()
-                                                               .name("서울휴게소")
+                                                               .name("덕평휴게소")
                                                                .direction("상행")
-                                                               .code("123456789")
-                                                               .tel("01012345678")
-                                                               .address("경기도 어쩌구 저쩌구")
-                                                               .routeName("비내리는 호남선")
+                                                               .code("000015")
+                                                               .tel("01012345679")
+                                                               .address("경기도 어딘가")
+                                                               .routeName("영동고속도로")
                                                                .build();
                                                                
         System.out.println("rest area request : " + restAreaRequest);
