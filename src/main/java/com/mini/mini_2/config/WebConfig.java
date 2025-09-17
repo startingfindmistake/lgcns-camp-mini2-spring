@@ -29,8 +29,8 @@ public class WebConfig implements WebMvcConfigurer {
                 .addPathPatterns("/**")
                 .excludePathPatterns(
                         // "/api/v1/mini/openapi/**",
-                        "/api/v1/mini/user/signin",
-                        "/api/v1/mini/user/signup",
+                        "/api/v1/mini/user/create",
+                        "/api/v1/mini/user/login",
                         "/api/v1/mini/user/refresh",
                         "/api/v1/mini/tmap/route",
                         "/api/v1/mini/tmap/poi",
