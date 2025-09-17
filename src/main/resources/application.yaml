@@ -42,6 +42,6 @@ jwt:
   refresh-ttl-ms: ${JWT_REFRESH_TTL_MS}
 
 openai:
-    api-key: ${OPEN_AI_KEY}
-    url: ${OPEN_AI_URL}
-    model: ${OPEN_AI_MODEL}
+  api-key: ${OPEN_AI_KEY}
+  url: ${OPEN_AI_URL}
+  model: ${OPEN_AI_MODEL}
