@@ -31,8 +31,7 @@ import lombok.ToString;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
-
+@ToString(exclude = {"reviews", "favorites", "facilities", "foods"})
 public class RestAreaEntity {
 
     // PK
