@@ -76,6 +76,7 @@ public class ChatService {
         무조건 JSON 형식으로만 응답해야 해.
         만약 foodNames의 값이 없는 휴게소가 있으면 추천 순위를 미루고 값이 없는 휴게소만 있으면
         출력 예시2의 형태로 출력을 해.
+        그리고 백틱이 들어가면 json parsing 이 제대로 안되는거 같으니까 백틱은 절대로 사용하지마.
 
         조건:
         - 휴게소 목록: %s
@@ -117,8 +118,8 @@ public class ChatService {
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-        System.out.println(">>>> request json ");
-        System.out.println(json);
+        // System.out.println(">>>> request json ");
+        // System.out.println(json);
 
         // 요청
         Request request = new Request.Builder()

@@ -39,8 +39,7 @@ public class ChatCtrl {
         }
     )
     @PostMapping("/chat")
-    public ResponseEntity<ChatResponseDTO> chat(
-            @RequestParam(name = "codes") List<String> codes) {
+    public ResponseEntity<ChatResponseDTO> chat(@RequestParam(name = "codes") List<String> codes) {
         System.out.println(">>>> chat ctrl path POST ");
         System.out.println(">>>> codes " + codes);
 
