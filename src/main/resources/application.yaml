@@ -19,7 +19,7 @@ spring:
     # create, create-drop, update, none
       ddl-auto: none
     # 콘솔출력
-    show-sql: true
+    # show-sql: true
     properties:
       hibernate:
         # mariadb
