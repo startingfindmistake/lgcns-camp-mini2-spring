@@ -28,7 +28,7 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addInterceptor(authInterceptor)
                 .addPathPatterns("/**")
                 .excludePathPatterns(
-                        // "/api/v1/mini/openapi/**",
+                        "/api/v1/mini/openapi/**",
                         "/api/v1/mini/restarea/lists",
                         "/api/v1/mini/food/lists",
                         "/api/v1/mini/facility/lists/**",

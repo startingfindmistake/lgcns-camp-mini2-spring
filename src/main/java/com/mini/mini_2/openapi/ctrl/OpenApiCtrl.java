@@ -97,10 +97,13 @@ public class OpenApiCtrl {
 
             String xValue = null;
             String yValue = null;
-            if (responseforLocation.getList() != null && !responseforLocation.getList().isEmpty()) {
-                xValue = responseforLocation.getList().get(0).getXValue();
-                yValue = responseforLocation.getList().get(0).getYValue();
+            if (responseforLocation.getList() == null || responseforLocation.getList().isEmpty()) {
+                continue;
+                // xValue = responseforLocation.getList().get(0).getXValue();
+                // yValue = responseforLocation.getList().get(0).getYValue();
             }
+            xValue = responseforLocation.getList().get(0).getXValue();
+            yValue = responseforLocation.getList().get(0).getYValue();
 
             RestAreaRequestDTO restAreaRequest = RestAreaRequestDTO.builder()
                     .name(name)
