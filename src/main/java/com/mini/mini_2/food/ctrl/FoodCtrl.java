@@ -144,7 +144,7 @@ public class FoodCtrl {
         description = "가격을 입력해주세요."
     )
 
-    @GetMapping("/search/{price}")
+    @GetMapping("/search/price/{price}")
     public ResponseEntity<List<FoodResponseDTO>> searchByPrice(@RequestParam("arg0") double maxPrice) {
         List<FoodResponseDTO> responses = foodService.searchByPrice(maxPrice);
 
