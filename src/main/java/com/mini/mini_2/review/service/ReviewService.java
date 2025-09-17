@@ -55,7 +55,7 @@ public class ReviewService {
     // ID 기반 휴게소 단건 조회
     public List<ReviewResponseDTO> findByUserId(Integer userId) {
 
-        List<ReviewEntity> responses = reviewRepository.findByUser_userId(userId);
+        List<ReviewEntity> responses = reviewRepository.findByUser_UserId(userId);
 
         return responses.stream()
                 .map(entity -> ReviewResponseDTO.fromEntity(entity))

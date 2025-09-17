@@ -69,7 +69,7 @@ public class RestAreaCtrl {
         description = "휴게소 ID를 입력해주세요."
     )
 
-    @GetMapping("/lists/{restAreaId}")
+    @GetMapping("/lists/restarea/{restAreaId}")
     public ResponseEntity<RestAreaResponseDTO> findByRestAreaId(@PathVariable("restAreaId") Integer restAreaId) {
         System.out.println("[RestAreaCtrl] findByRestAreaId : "+ restAreaId);
         
@@ -118,10 +118,10 @@ public class RestAreaCtrl {
 
     @Operation(
         summary = "Direction 기반 휴게소 목록 조회",
-        description = "휴게소 Direction을 입력해주세요."
+        description = "휴게소 Direction(상행 or 하행)을 입력해주세요."
     )
 
-    @GetMapping("/lists/{direction}")
+    @GetMapping("/lists/direction/{direction}")
     public ResponseEntity<List<RestAreaResponseDTO>> findByDirection(@PathVariable("direction") String direction) {
         List<RestAreaResponseDTO> response = restAreaService.findByDirection(direction);
 
