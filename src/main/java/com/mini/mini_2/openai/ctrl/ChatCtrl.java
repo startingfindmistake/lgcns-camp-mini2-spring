@@ -14,7 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @RestController
-@RequestMapping("/api/v2/inspire/ai")
+@RequestMapping("/api/v1/mini/ai")
 public class ChatCtrl {
 
     @Autowired

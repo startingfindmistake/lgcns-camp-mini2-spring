@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mini.mini_2.food.domain.entity.FoodEntity;
 import com.mini.mini_2.openai.domain.dto.ChatResponseDTO;
 import com.mini.mini_2.rest_area.domain.entity.RestAreaEntity;
 import com.mini.mini_2.rest_area.repository.RestAreaRepository;
@@ -54,15 +56,30 @@ public class ChatService {
             .map(RestAreaEntity::getName)
             .toList();
 
+    Map<String, List<String>> foodNames = restAreas.stream()
+        .collect(Collectors.toMap(
+                RestAreaEntity::getName,     
+                f -> f.getFoods().stream()
+                        .map(FoodEntity::getFoodName)
+                        .toList()
+        ));
+    
+
     String prompt = """
         너는 휴게소 추천 전문가 AI야.
         다음 휴게소들 중에서 가장 추천할 만한 하나를 선택하고, 이유를 자세히 설명해줘.
-        추천할 만한 하나의 휴게소의 대표 음식도 하나 말해줘.
+        추천할 만한 하나의 휴게소의 대표 음식도 하나 말해줘. 
+        음식에 관한 정보는 내가 보내준 foodNames에 있는 정보를 토대로 대답을 해.
+        이유에는 음식에 관한 설명과 휴게소의 관한 설명이 
+        절반 정도의 비율을 가지고 설명해주면 좋겠어.
         다른 휴게소는 언급하지 마.
         무조건 JSON 형식으로만 응답해야 해.
+        만약 foodNames의 값이 없는 휴게소가 있으면 추천 순위를 미루고 값이 없는 휴게소만 있으면
+        출력 예시2의 형태로 출력을 해.
 
         조건:
         - 휴게소 목록: %s
+        - 음식 목록: %s
 
         출력 예시:
         {
@@ -71,7 +88,14 @@ public class ChatService {
                 {"name": "<선택된 휴게소명>", "food": "<추천 음식>", "reason": "<추천 이유>"}
             ]
         }
-        """.formatted(restAreaNames);
+            출력 예시2:
+        {
+            "restArea": "<선택된 휴게소명>",
+            "recommends": [
+                {"name": "<선택된 휴게소명>", "reason": "<추천 이유>"}
+            ]
+        }
+        """.formatted(restAreaNames, foodNames);
 
         // messages 생성
         Map<String, Object> systemMsg = new HashMap<>();
