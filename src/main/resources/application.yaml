@@ -40,3 +40,8 @@ jwt:
   secret: ${JWT_SECRET_KEY}
   access-ttl-ms: ${JWT_ACCESS_TTL_MS}
   refresh-ttl-ms: ${JWT_REFRESH_TTL_MS}
+
+openai:
+    api-key: ${OPEN_AI_KEY}
+    url: ${OPEN_AI_URL}
+    model: ${OPEN_AI_MODEL}
