@@ -75,7 +75,7 @@ public class OpenApiCtrl {
     @GetMapping("restarea_update")
     public ResponseEntity<Void> restarea_update(@ModelAttribute RestAreaInfoApiRequestDTO request) {
         RestAreaInfoApiResponseDTO responses = restAreaInfoApiService.info(request);
-        // System.out.println("[UPDATE TEST] request : " + response);
+        System.out.println("[UPDATE TEST] request : " + responses.getCount());
         
         for (RestAreaInfoDTO restarea : responses.getList()) {
             String name = restarea.getSvarNm();
@@ -234,7 +234,7 @@ public class OpenApiCtrl {
     public ResponseEntity<RestAreaLocationApiResponseDTO> restarea(@ModelAttribute RestAreaLocationApiRequestDTO request) {
         RestAreaLocationApiResponseDTO response = restAreaLocationApiService.location(request);
         
-        System.out.println("[OPENAPI LOCATION] result : " + response);
+        // System.out.println("[OPENAPI LOCATION] result : " + response.getCount());
 
         if (response != null) {
             return ResponseEntity.status(HttpStatus.OK).body(response);
