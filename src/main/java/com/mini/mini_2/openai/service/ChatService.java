@@ -13,6 +13,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mini.mini_2.food.domain.entity.FoodEntity;
+import com.mini.mini_2.openai.domain.dto.ChatRequestDTO;
 import com.mini.mini_2.openai.domain.dto.ChatResponseDTO;
 import com.mini.mini_2.rest_area.domain.entity.RestAreaEntity;
 import com.mini.mini_2.rest_area.repository.RestAreaRepository;
@@ -41,15 +42,15 @@ public class ChatService {
         this.restAreaRepository = restAreaRepository;
     }
 
-    public ChatResponseDTO recommend(List<String> codes) {
+    public ChatResponseDTO recommend(ChatRequestDTO request) {
     System.out.println(">>> service recommend");
 
     List<RestAreaEntity> restAreas = restAreaRepository.findAll().stream()
-            .filter(r -> codes.contains(r.getCode()))
+            .filter(r -> request.getRestareaCodes().contains(r.getCode()))
             .toList();
 
     if (restAreas.isEmpty()) {
-        throw new RuntimeException("해당 코드의 휴게소가 존재하지 않습니다: " + codes);
+        throw new RuntimeException("해당 코드의 휴게소가 존재하지 않습니다: " + request.getRestareaCodes());
     }
 
     List<String> restAreaNames = restAreas.stream()
@@ -64,7 +65,7 @@ public class ChatService {
                         .toList()
         ));
     
-
+    System.out.println(">>> service recommend request : " + request);
     String prompt = """
         너는 휴게소 추천 전문가 AI야.
         다음 휴게소들 중에서 가장 추천할 만한 하나를 선택하고, 이유를 자세히 설명해줘.
@@ -73,6 +74,7 @@ public class ChatService {
         이유에는 음식에 관한 설명과 휴게소의 관한 설명이 
         절반 정도의 비율을 가지고 설명해주면 좋겠어.
         다른 휴게소는 언급하지 마.
+        사용자 요청이 자세한 경우 그걸 우선으로 처리하도록 해.
         무조건 JSON 형식으로만 응답해야 해.
         만약 foodNames의 값이 없는 휴게소가 있으면 추천 순위를 미루고 값이 없는 휴게소만 있으면
         출력 예시2의 형태로 출력을 해.
@@ -81,6 +83,7 @@ public class ChatService {
         조건:
         - 휴게소 목록: %s
         - 음식 목록: %s
+        - 사용자 요청: %s
 
         출력 예시:
         {
@@ -96,7 +99,7 @@ public class ChatService {
                 {"name": "<선택된 휴게소명>", "reason": "<추천 이유>"}
             ]
         }
-        """.formatted(restAreaNames, foodNames);
+        """.formatted(restAreaNames, foodNames, request.getUserRequest());
 
         // messages 생성
         Map<String, Object> systemMsg = new HashMap<>();
@@ -122,7 +125,7 @@ public class ChatService {
         // System.out.println(json);
 
         // 요청
-        Request request = new Request.Builder()
+        Request aiRequest = new Request.Builder()
                 .url(url)
                 .header("Authorization", "Bearer " + key)
                 .header("Content-Type", "application/json")
@@ -131,7 +134,7 @@ public class ChatService {
 
         String responseJson = null;
         try {
-            Response response = client.newCall(request).execute();
+            Response response = client.newCall(aiRequest).execute();
             System.out.println(">>>>> response");
 
             responseJson = response.body().string();
