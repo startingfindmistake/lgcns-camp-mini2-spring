@@ -87,7 +87,7 @@ public class ReviewCtrl {
         description = "회원 ID를 입력해주세요."
     )
 
-    @GetMapping("/lists/{userId}")
+    @GetMapping("/lists/user/{userId}")
     public ResponseEntity<List<ReviewResponseDTO>> findByUserId(@PathVariable("userId") Integer userId) {
         System.out.println("[ReviewCtrl] reviewsByUserId : " + userId);
         

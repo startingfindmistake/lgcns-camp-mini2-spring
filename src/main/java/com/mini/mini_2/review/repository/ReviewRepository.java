@@ -14,7 +14,7 @@ public interface ReviewRepository extends JpaRepository<ReviewEntity, Integer> {
     
     // 기본 조회
     List<ReviewEntity> findByRestArea_RestAreaId(Integer restAreaId);
-    List<ReviewEntity> findByUser_userId(Integer userId);
+    List<ReviewEntity> findByUser_UserId(Integer userId);
 
     // 최신순(정렬)
     List<ReviewEntity> findByRestArea_RestAreaIdOrderByCreatedAtDesc(Integer restAreaId);
