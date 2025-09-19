@@ -68,7 +68,7 @@ public class FacilityCtrl {
 
     @GetMapping("lists/{restAreaId}")
     public ResponseEntity<List<FacilityResponseDTO>> findByRestAreaId(@PathVariable("restAreaId") Integer restAreaId) {
-        System.out.println("[FacilityCtrl] findByRestAreaId : " + restAreaId);
+        // System.out.println("[FacilityCtrl] findByRestAreaId : " + restAreaId);
         
         List<FacilityResponseDTO> responses = facilityService.findByRestAreaId(restAreaId);
         
